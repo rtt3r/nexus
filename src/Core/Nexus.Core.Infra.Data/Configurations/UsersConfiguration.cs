@@ -12,10 +12,11 @@ internal sealed class UsersConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
+            .HasMaxLength(64)
             .IsRequired();
 
         builder.Property(p => p.Email)
-            .HasMaxLength(32)
+            .HasMaxLength(128)
             .IsRequired();
 
         builder.Property(p => p.Name)
@@ -24,5 +25,7 @@ internal sealed class UsersConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(p => p.Avatar)
             .HasMaxLength(256);
+
+        builder.HasIndex(p => p.Email).IsUnique();
     }
 }

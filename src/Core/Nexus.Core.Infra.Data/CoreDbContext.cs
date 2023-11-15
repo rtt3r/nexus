@@ -7,7 +7,7 @@ namespace Nexus.Core.Infra.Data;
 
 public abstract class CoreDbContext : DbContext
 {
-    // public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected CoreDbContext(DbContextOptions options)
         : base(options)
@@ -16,6 +16,6 @@ public abstract class CoreDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        // modelBuilder.ApplyConfiguration(new UsersConfiguration());
+        modelBuilder.ApplyConfiguration(new UsersConfiguration());
     }
 }
