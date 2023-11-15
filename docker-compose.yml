@@ -1,0 +1,111 @@
+version: "3.8"
+
+name: nexus
+
+services:
+  ravendb:
+    image: ravendb/ravendb:4.2-ubuntu-latest
+    container_name: ravendb.nexus.ritter.co
+    ports:
+      - 8080:8080
+      - 38888:38888
+    environment:
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+      - RAVEN_Setup_Mode=None
+      - RAVEN_License_Eula_Accepted=true
+    volumes:
+      - ravendb-data:/opt/RavenDB/Server/RavenData
+
+  rabbitmq:
+    hostname: "mabbit"
+    image: rabbitmq:latest
+    container_name: rabbitmq.nexus.ritter.co
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/
+      - rabbitmq-mnesia:/var/lib/rabbitmq/mnesia/
+
+  seq:
+    image: datalust/seq:latest
+    container_name: seq.nexus.ritter.co
+    ports:
+      - 81:80
+      - 5341:5341
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=${SEQ_PWD_HASH}
+    volumes:
+      - seq-data:/var/lib/seq/data/
+
+  mysql:
+    image: "mysql:8.2.0"
+    container_name: mysql.nexus.ritter.co
+    hostname: mysql.ritter.co
+    user: root
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-vol:/var/lib/mysql
+
+  keycloak:
+    image: "quay.io/keycloak/keycloak:latest"
+    container_name: keycloak.nexus.ritter.co
+    hostname: keycloak.ritter.co
+    user: root
+    ports:
+      - "8081:8080"
+    command: start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=${KC_ADMIN_PWD}
+      - KC_DB=mysql
+      - KC_DB_USERNAME=${KC_DB_USERNAME}
+      - KC_DB_PASSWORD=${KC_DB_PASSWORD}
+      - KC_DB_URL=jdbc:mysql://mysql:3306/keycloak
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+
+  core-api:
+    image: ${REGISTRY:-ritter.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-api.nexus.ritter.co
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Core/Nexus.Core.Api/Dockerfile
+    ports:
+      - "8002:80"
+      - "4432:443"
+
+  core-worker:
+    image: ${REGISTRY:-ritter.co}/nexus/core-worker:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-worker.nexus.ritter.co
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Core/Nexus.Core.Worker/Dockerfile
+    ports:
+      - "8003:80"
+      - "4433:443"
+
+volumes:
+  mysql-vol:
+    name: ritter.co-nexus-mysql-vol
+  ravendb-config:
+    name: ritter.co-nexus-ravendb-config-vol
+  ravendb-data:
+    name: ritter.co-nexus-ravendb-data-vol
+  seq-data:
+    name: ritter.co-nexus-seq-vol
+  keycloak-data:
+    name: ritter.co-nexus-keycloak-vol
+  rabbitmq-data:
+    name: ritter.co-nexus-rabbitmq-data-vol
+  rabbitmq-mnesia:
+    name: ritter.co-nexus-rabbitmq-mnesia-vol

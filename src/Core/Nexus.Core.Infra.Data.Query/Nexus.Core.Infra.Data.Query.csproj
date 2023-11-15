@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infra\Nexus.Infra.Data.Query\Nexus.Infra.Data.Query.csproj" />
+	  <ProjectReference Include="..\Nexus.Core.Model\Nexus.Core.Model.csproj" />
+	</ItemGroup>
+</Project>

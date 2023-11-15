@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nexus.Core.Application\Nexus.Core.Application.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Domain\Nexus.Core.Domain.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data.Query\Nexus.Core.Infra.Data.Query.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data.SqlServer\Nexus.Core.Infra.Data.SqlServer.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data.MySql\Nexus.Core.Infra.Data.MySql.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data.Npgsql\Nexus.Core.Infra.Data.Npgsql.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data\Nexus.Core.Infra.Data.csproj" />
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="RavenDB.DependencyInjection" Version="4.0.2" />
+		<PackageReference Include="Goal.Seedwork.Infra.Http" Version="0.3.15" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "Nexus",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "core-app": "StartDebugging",
+        "core-worker": "StartDebugging",
+        "mysql": "StartWithoutDebugging",
+        "keycloak": "StartWithoutDebugging",
+        "seq": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "ravendb": "StartWithoutDebugging"
+      }
+    }
+  }
+}
