@@ -8,8 +8,10 @@ public sealed class AppUser
     public AppUser(ClaimsPrincipal principal)
     {
         Email = principal.GetEmail();
-        UserName = principal.GetUserName();
+        Username = principal.GetUsername();
+        Name = principal.GetName();
         GivenName = principal.GetGivenName();
+        FamilyName = principal.GetFamilyName();
         UserId = principal.GetUserId();
         ClientId = principal.GetClientId();
         Roles = principal.GetRoles();
@@ -17,8 +19,10 @@ public sealed class AppUser
 
     public string UserId { get; }
     public string Email { get; }
-    public string UserName { get; }
+    public string Username { get; }
+    public string Name { get; }
     public string GivenName { get; }
+    public string FamilyName { get; }
     public string ClientId { get; }
     public IEnumerable<string> Roles { get; }
 }

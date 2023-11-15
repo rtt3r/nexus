@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Nexus.Core.Worker.Consumers.Users;
 
 namespace Nexus.Core.Worker;
 
@@ -28,6 +29,7 @@ public static class HostingExtensions
             x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
             x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
             x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
+            x.AddConsumer<UserRegisteredEventConsumer>(typeof(UserRegisteredEventConsumer.ConsumerDefinition));
 
             x.SetKebabCaseEndpointNameFormatter();
 
@@ -78,7 +80,7 @@ public static class HostingExtensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nexus Nexus Core Worker v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nexus Core Worker v1");
                 c.DisplayRequestDuration();
                 c.RoutePrefix = string.Empty;
             });

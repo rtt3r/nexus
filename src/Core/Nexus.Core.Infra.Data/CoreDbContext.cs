@@ -1,4 +1,3 @@
-using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Nexus.Core.Domain.Users.Aggregates;

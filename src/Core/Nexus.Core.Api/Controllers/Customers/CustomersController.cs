@@ -36,13 +36,13 @@ public class CustomersController : ApiControllerBase
     public async Task<ActionResult<PagedResponse<Customer>>> Get([FromQuery] PageSearchRequest request)
         => Paged(await customerQueryRepository.QueryAsync(request.ToPageSearch()));
 
-    [HttpGet("{customerId}", Name = nameof(GetById))]
+    [HttpGet("{id}", Name = $"{nameof(CustomersController)}_{nameof(GetById)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<Customer>> GetById([FromRoute] string customerId)
+    public async Task<ActionResult<Customer>> GetById([FromRoute] string id)
     {
-        Customer customer = await customerQueryRepository.LoadAsync(customerId);
+        Customer customer = await customerQueryRepository.LoadAsync(id);
 
         return customer is null
             ? NotFound()
@@ -67,39 +67,39 @@ public class CustomersController : ApiControllerBase
         return !result.IsSucceeded
             ? CommandFailure(result)
             : CreatedAtRoute(
-                nameof(GetById),
-                new { customerId = result.Data.CustomerId },
+                $"{nameof(CustomersController)}_{nameof(GetById)}",
+                new { id = result.Data.CustomerId },
                 ApiResponse.FromCommand(result));
     }
 
-    [HttpPatch("{customerId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<ApiResponse<Customer>>> Patch([FromRoute] string customerId, [FromBody] UpdateCustomerRequest request)
+    public async Task<ActionResult<ApiResponse<Customer>>> Patch([FromRoute] string id, [FromBody] UpdateCustomerRequest request)
     {
         ICommandResult result = await mediator.Send(
             new UpdateCustomerCommand(
-                customerId,
+                id,
                 request.Name,
                 request.Birthdate));
 
         return result.IsSucceeded
-            ? AcceptedAtAction(nameof(GetById), new { customerId }, null)
+            ? AcceptedAtAction($"{nameof(CustomersController)}_{nameof(GetById)}", new { id }, null)
             : CommandFailure(result);
     }
 
-    [HttpDelete("{customerId}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string customerId)
+    public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string id)
     {
-        ICommandResult result = await mediator.Send(new RemoveCustomerCommand(customerId));
+        ICommandResult result = await mediator.Send(new RemoveCustomerCommand(id));
 
         return result.IsSucceeded
             ? Accepted()

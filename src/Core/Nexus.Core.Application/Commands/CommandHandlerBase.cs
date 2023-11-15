@@ -8,7 +8,7 @@ using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
 
-namespace Nexus.Core.Application.Commands.Customers;
+namespace Nexus.Core.Application.Commands;
 
 public class CommandHandlerBase
 {

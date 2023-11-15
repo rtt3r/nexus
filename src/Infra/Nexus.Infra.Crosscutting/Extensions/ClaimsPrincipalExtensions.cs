@@ -65,11 +65,17 @@ public static class ClaimsPrincipalExtensions
     public static string GetEmail(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.Email, ClaimTypes.Email);
 
-    public static string GetUserName(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.Name, JwtClaimTypes.PreferredUserName, ClaimTypes.Name);
+    public static string GetName(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.Name, ClaimTypes.Name);
+
+    public static string GetUsername(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.PreferredUserName);
 
     public static string GetGivenName(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.GivenName, ClaimTypes.GivenName);
+
+    public static string GetFamilyName(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.FamilyName);
 
     public static IEnumerable<string> GetRoles(this ClaimsPrincipal principal)
         => principal?.GetClaimValues(JwtClaimTypes.Role, ClaimTypes.Role);

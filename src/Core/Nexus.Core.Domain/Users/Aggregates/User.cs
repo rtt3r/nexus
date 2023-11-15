@@ -4,9 +4,9 @@ namespace Nexus.Core.Domain.Users.Aggregates
 {
     public class User : Entity<string>
     {
-        public User(string name, string email)
+        public User(string id, string name, string email)
         {
-            Id = Guid.NewGuid().ToString();
+            Id = id;
             Name = name;
             Email = email;
         }
