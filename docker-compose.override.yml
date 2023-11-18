@@ -1,50 +1,49 @@
 version: "3.8"
 
 services:
-
   core-api:
     environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_DbProvider=MySql
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
-        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-        - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
-        - ASPNETCORE_URLS=https://+;http://+
-        - ASPNETCORE_HTTPS_PORT=4432
-        - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-        - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
-        - ASPNETCORE_RavenSettings__CertFilePath=
-        - ASPNETCORE_RavenSettings__CertPassword=
-        - ASPNETCORE_Keycloak__Realm=nexus
-        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
-        - ASPNETCORE_Keycloak__SslRequired=none
-        - ASPNETCORE_Keycloak__Resource=core-api
-        - ASPNETCORE_Keycloak__VerifyTokenAudience=true
-        - ASPNETCORE_Keycloak__Credentials__Secret=8OrwdHIXI9nK0xMCkoA09sZSZegIecei
-        - ASPNETCORE_Keycloak__ConfidentialPort=0
-        - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
-        - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-        - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_DbProvider=MySql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
+      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=4432
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
+      - ASPNETCORE_RavenSettings__CertFilePath=
+      - ASPNETCORE_RavenSettings__CertPassword=
+      - ASPNETCORE_Keycloak__Realm=nexus
+      - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
+      - ASPNETCORE_Keycloak__SslRequired=none
+      - ASPNETCORE_Keycloak__Resource=core-api
+      - ASPNETCORE_Keycloak__VerifyTokenAudience=true
+      - ASPNETCORE_Keycloak__Credentials__Secret=8OrwdHIXI9nK0xMCkoA09sZSZegIecei
+      - ASPNETCORE_Keycloak__ConfidentialPort=0
+      - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   core-worker:
     environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_URLS=https://+;http://+
-        - ASPNETCORE_HTTPS_PORT=4433
-        - ASPNETCORE_DbProvider=MySql
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
-        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-        - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
-        - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-        - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
-        - ASPNETCORE_RavenSettings__CertFilePath=
-        - ASPNETCORE_RavenSettings__CertPassword=
-        - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200
-        - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-        - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=4433
+      - ASPNETCORE_DbProvider=MySql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
+      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
+      - ASPNETCORE_RavenSettings__CertFilePath=
+      - ASPNETCORE_RavenSettings__CertPassword=
+      - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

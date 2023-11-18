@@ -7,6 +7,8 @@ using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
+using Goal.Seedwork.Application.Extensions;
+using Goal.Seedwork.Infra.Crosscutting.Collections;
 
 namespace Nexus.Core.Application.Commands;
 
@@ -125,5 +127,44 @@ public class CommandHandlerBase
         await notificationHandler.HandleAsync(
             notification,
             cancellationToken);
+    }
+
+    protected TProjection ProjectAs<TProjection>(object source)
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAs<TProjection>(source);
+    }
+
+    protected TProjection ProjectAs<TSource, TProjection>(TSource source)
+        where TSource : class
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAs<TSource, TProjection>(source);
+    }
+
+    protected ICollection<TProjection> ProjectAsCollection<TProjection>(IEnumerable<object> source)
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAsCollection<TProjection>(source);
+    }
+
+    protected ICollection<TProjection> ProjectAsCollection<TSource, TProjection>(IEnumerable<TSource> source)
+        where TSource : class
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAsCollection<TSource, TProjection>(source);
+    }
+
+    protected IPagedCollection<TProjection> ProjectAsPagedCollection<TProjection>(IPagedCollection<object> source)
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAsPagedCollection<TProjection>(source);
+    }
+
+    protected IPagedCollection<TProjection> ProjectAsPagedCollection<TSource, TProjection>(IPagedCollection<TSource> source)
+        where TSource : class
+        where TProjection : class, new()
+    {
+        return typeAdapter.ProjectAsPagedCollection<TSource, TProjection>(source);
     }
 }

@@ -3,9 +3,9 @@ using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
-public class UsersRepository : Repository<User, string>, IUsersRepository
+public class UserProfileRepository : Repository<UserProfile, string>, IUserProfileRepository
 {
-    public UsersRepository(CoreDbContext context)
+    public UserProfileRepository(CoreDbContext context)
         : base(context)
     {
     }

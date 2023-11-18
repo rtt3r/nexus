@@ -2,7 +2,7 @@ using Nexus.Core.Domain.Customers.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Nexus.Core.Infra.Data.Configurations;
+namespace Nexus.Core.Infra.Data.Configurations.Customers;
 
 internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {

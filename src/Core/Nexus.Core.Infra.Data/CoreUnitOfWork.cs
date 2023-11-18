@@ -9,13 +9,13 @@ public sealed class CoreUnitOfWork : UnitOfWork, ICoreUnitOfWork
     public CoreUnitOfWork(
         CoreDbContext context,
         ICustomerRepository customerRepository,
-        IUsersRepository usersRepository)
+        IUserProfileRepository userProfileRepository)
         : base(context)
     {
         Customers = customerRepository;
-        Users = usersRepository;
+        UserProfiles = userProfileRepository;
     }
 
     public ICustomerRepository Customers { get; }
-    public IUsersRepository Users { get; set; }
+    public IUserProfileRepository UserProfiles { get; set; }
 }

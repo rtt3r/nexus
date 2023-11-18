@@ -1,5 +1,5 @@
-using Nexus.Core.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Nexus.Core.Infra.Data.Configurations.EventSourcing;
 
 namespace Nexus.Core.Infra.Data.EventSourcing;
 
@@ -7,7 +7,7 @@ public abstract class EventSourcingDbContext : DbContext
 {
     public DbSet<StoredEvent> StoredEvents { get; set; }
 
-    public EventSourcingDbContext(DbContextOptions options)
+    protected EventSourcingDbContext(DbContextOptions options)
         : base(options)
     { }
 

@@ -7,5 +7,5 @@ namespace Nexus.Core.Infra.Data;
 public interface ICoreUnitOfWork : IUnitOfWork
 {
     ICustomerRepository Customers { get; }
-    IUsersRepository Users { get; }
+    IUserProfileRepository UserProfiles { get; }
 }

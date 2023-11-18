@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Nexus.Core.Infra.Data.Configurations;
+namespace Nexus.Core.Infra.Data.Configurations.EventSourcing;
 
 internal sealed class StoredEventConfiguration : IEntityTypeConfiguration<StoredEvent>
 {

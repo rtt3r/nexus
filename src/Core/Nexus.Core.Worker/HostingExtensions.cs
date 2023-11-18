@@ -29,7 +29,7 @@ public static class HostingExtensions
             x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
             x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
             x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
-            x.AddConsumer<UserRegisteredEventConsumer>(typeof(UserRegisteredEventConsumer.ConsumerDefinition));
+            x.AddConsumer<UserProfileCreatedEventConsumer>(typeof(UserProfileCreatedEventConsumer.ConsumerDefinition));
 
             x.SetKebabCaseEndpointNameFormatter();
 
