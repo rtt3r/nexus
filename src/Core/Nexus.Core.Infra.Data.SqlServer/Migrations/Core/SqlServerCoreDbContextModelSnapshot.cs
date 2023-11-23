@@ -33,6 +33,11 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -40,7 +45,7 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("UserAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserProfile", b =>
@@ -61,11 +66,6 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Headline")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 

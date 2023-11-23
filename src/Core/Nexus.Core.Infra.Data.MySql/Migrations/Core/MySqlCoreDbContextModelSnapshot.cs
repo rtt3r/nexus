@@ -30,6 +30,11 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -37,7 +42,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("UserAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserProfile", b =>
@@ -58,11 +63,6 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Headline")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 

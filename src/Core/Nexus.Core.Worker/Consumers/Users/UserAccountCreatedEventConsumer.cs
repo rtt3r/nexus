@@ -28,10 +28,8 @@ public class UserAccountCreatedEventConsumer : EventConsumer<UserAccountCreatedE
                 Id = @event.AggregateId,
                 Email = @event.Email,
                 Username = @event.Username,
-                Profile = new UserProfile
-                {
-                    Name = @event.Name
-                }
+                Name = @event.Name,
+                Profile = new()
             },
             cancellationToken);
     }

@@ -15,10 +15,6 @@ internal sealed class UserProfilesConfiguration : IEntityTypeConfiguration<UserP
             .HasMaxLength(64)
             .IsRequired();
 
-        builder.Property(p => p.Name)
-            .HasMaxLength(128)
-            .IsRequired();
-
         builder.Property(p => p.Avatar)
             .HasMaxLength(256);
 

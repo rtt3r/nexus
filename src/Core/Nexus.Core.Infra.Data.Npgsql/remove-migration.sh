@@ -1,2 +1,2 @@
 export ASPNETCORE_ENVIRONMENT=Migrations
-dotnet ef migrations remove --startup-project ../Nexus.Core.Api/Nexus.Core.Api.csproj --context NpgsqlCoreDbContext
+dotnet ef migrations remove --startup-project ../Nexus.Core.Api/Nexus.Core.Api.csproj --context Npgsql${2:-Core}DbContext

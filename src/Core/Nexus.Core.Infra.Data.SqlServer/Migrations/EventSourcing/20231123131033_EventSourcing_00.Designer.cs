@@ -8,11 +8,11 @@ using Nexus.Core.Infra.Data.SqlServer;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
+namespace Nexus.Core.Infra.Data.SqlServer.Migrations.EventSourcing
 {
-    [DbContext(typeof(SqlServerCoreDbContext))]
-    [Migration("20231115045118_Migration_000")]
-    partial class Migration_000
+    [DbContext(typeof(SqlServerEventSourcingDbContext))]
+    [Migration("20231123131033_EventSourcing_00")]
+    partial class EventSourcing_00
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

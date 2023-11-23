@@ -24,7 +24,7 @@ public class SqlEventStore : IEventStore
            JsonSerializer.Serialize(@event),
            appState.User.UserId);
 
-        dbContext.StoredEvents.Add(storedEvent);
+        dbContext.Set<StoredEvent>().Add(storedEvent);
         dbContext.SaveChanges();
     }
 }

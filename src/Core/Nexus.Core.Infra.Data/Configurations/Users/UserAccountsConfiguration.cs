@@ -4,11 +4,11 @@ using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Configurations.Users;
 
-public class UsersConfiguration : IEntityTypeConfiguration<UserAccount>
+public class UserAccountsConfiguration : IEntityTypeConfiguration<UserAccount>
 {
     public void Configure(EntityTypeBuilder<UserAccount> builder)
     {
-        builder.ToTable("Users");
+        builder.ToTable("UserAccounts");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -16,6 +16,10 @@ public class UsersConfiguration : IEntityTypeConfiguration<UserAccount>
             .IsRequired();
 
         builder.Property(p => p.Email)
+            .HasMaxLength(128)
+            .IsRequired();
+
+        builder.Property(p => p.Name)
             .HasMaxLength(128)
             .IsRequired();
 

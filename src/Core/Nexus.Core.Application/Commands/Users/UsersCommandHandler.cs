@@ -31,7 +31,7 @@ public class UsersCommandHandler : CommandHandlerBase,
             return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
         }
 
-        userAccount = UserAccountFactory.CreateNewAccount(
+        userAccount = new UserAccount(
             command.Id,
             command.Name,
             command.Email,
@@ -42,7 +42,7 @@ public class UsersCommandHandler : CommandHandlerBase,
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserAccountCreatedEvent(userAccount.Id, userAccount.Email, userAccount.Profile.Name, userAccount.Username),
+                new UserAccountCreatedEvent(userAccount.Id, userAccount.Email, userAccount.Name, userAccount.Username),
                 cancellationToken);
 
             return CommandResult.Success(
