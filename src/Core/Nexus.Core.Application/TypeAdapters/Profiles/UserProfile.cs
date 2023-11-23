@@ -8,7 +8,6 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserProfileEntity, UserProfileModel>()
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+        CreateMap<UserProfileEntity, UserProfileModel>();
     }
 }

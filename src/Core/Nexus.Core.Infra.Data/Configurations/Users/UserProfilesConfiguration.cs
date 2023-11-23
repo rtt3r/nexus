@@ -15,13 +15,17 @@ internal sealed class UserProfilesConfiguration : IEntityTypeConfiguration<UserP
             .HasMaxLength(64)
             .IsRequired();
 
+        builder.Property(p => p.Name)
+            .HasMaxLength(128)
+            .IsRequired();
+
         builder.Property(p => p.Avatar)
             .HasMaxLength(256);
 
         builder.Property(p => p.Biography)
             .HasMaxLength(1024);
 
-        builder.Property(p => p.Role)
+        builder.Property(p => p.Headline)
             .HasMaxLength(128);
     }
 }

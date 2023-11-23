@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Core.Infra.Data.MySql;
 
@@ -10,9 +11,11 @@ using Nexus.Core.Infra.Data.MySql;
 namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
 {
     [DbContext(typeof(MySqlCoreDbContext))]
-    partial class MySqlCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231123015845_Migration_003")]
+    partial class Migration_003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

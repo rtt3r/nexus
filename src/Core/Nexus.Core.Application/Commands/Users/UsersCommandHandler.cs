@@ -6,12 +6,12 @@ using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
-using UserProfileModel = Nexus.Core.Model.Users.UserProfile;
+using UserAccountModel = Nexus.Core.Model.Users.UserAccount;
 
 namespace Nexus.Core.Application.Commands.Users;
 
 public class UsersCommandHandler : CommandHandlerBase,
-    ICommandHandler<CreateUserProfileCommand, ICommandResult<UserProfileModel>>
+    ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>
 {
     public UsersCommandHandler(
         ICoreUnitOfWork uow,
@@ -22,29 +22,33 @@ public class UsersCommandHandler : CommandHandlerBase,
         : base(uow, publishEndpoint, notificationHandler, typeAdapter, appState)
     { }
 
-    public async Task<ICommandResult<UserProfileModel>> Handle(CreateUserProfileCommand command, CancellationToken cancellationToken)
+    public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
-        var profile = await uow.UserProfiles.LoadAsync(command.Id, cancellationToken);
+        var userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
 
-        if (profile != null)
+        if (userAccount != null)
         {
-            return CommandResult.Success(ProjectAs<UserProfileModel>(profile));
+            return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
         }
 
-        profile = new UserProfile(command.Id);
+        userAccount = UserAccountFactory.CreateNewAccount(
+            command.Id,
+            command.Name,
+            command.Email,
+            command.Username);
 
-        await uow.UserProfiles.AddAsync(profile, cancellationToken);
+        await uow.UserAccounts.AddAsync(userAccount, cancellationToken);
 
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserProfileCreatedEvent(profile.Id),
+                new UserAccountCreatedEvent(userAccount.Id, userAccount.Email, userAccount.Profile.Name, userAccount.Username),
                 cancellationToken);
 
             return CommandResult.Success(
-                ProjectAs<UserProfileModel>(profile));
+                ProjectAs<UserAccountModel>(userAccount));
         }
 
-        return CommandResult.Failure<UserProfileModel>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<UserAccountModel>(default, notificationHandler.GetNotifications());
     }
 }

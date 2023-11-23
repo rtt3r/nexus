@@ -4,15 +4,23 @@ namespace Nexus.Core.Domain.Users.Aggregates
 {
     public class UserProfile : Entity<string>
     {
-        public UserProfile(string id)
+        public UserProfile(UserAccount user, string name)
+            : this()
         {
-            Id = id;
+            Id = user.Id;
+            User = user;
+            Name = name;
         }
 
-        public string Avatar { get; set; }
-        public string Biography { get; set; }
-        public DateTime? Birthdate { get; set; }
-        public string Role { get; set; }
-        public UserStatus Status { get; set; } = UserStatus.Online;
+        protected UserProfile()
+            : base()
+        { }
+
+        public string Name { get; private set; }
+        public string Avatar { get; private set; }
+        public string Biography { get; private set; }
+        public DateTime? Birthdate { get; private set; }
+        public string Headline { get; private set; }
+        public UserAccount User { get; private set; }
     }
 }

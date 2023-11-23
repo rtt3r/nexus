@@ -1,2 +1,2 @@
 export ASPNETCORE_ENVIRONMENT=Migrations
-dotnet ef migrations remove --startup-project ../Nexus.Core.$1/Nexus.Core.$1.csproj --context MySql$2DbContext
+dotnet ef migrations remove --startup-project ../Nexus.Core.Api/Nexus.Core.Api.csproj --context MySqlCoreDbContext

@@ -22,6 +22,27 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", (string)null);
+                });
+
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserProfile", b =>
                 {
                     b.Property<string>("Id")
@@ -39,16 +60,34 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                     b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Headline")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
                     b.ToTable("UserProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserProfile", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.Users.Aggregates.UserAccount", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Nexus.Core.Domain.Users.Aggregates.UserProfile", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
+                {
+                    b.Navigation("Profile");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,9 +20,9 @@ public static class ClaimsPrincipalExtensions
         return claimValues;
     }
 
-    public static Guid GetClaimValueAsGuid(this ClaimsPrincipal principal, string claimName)
+    public static Guid GetClaimValueAsGuid(this ClaimsPrincipal principal, params string[] claimTypes)
     {
-        string claimValue = principal.GetClaimValue(claimName);
+        string claimValue = principal.GetClaimValue(claimTypes);
 
         if (string.IsNullOrEmpty(claimValue))
         {
@@ -34,7 +34,7 @@ public static class ClaimsPrincipalExtensions
             : Guid.Empty;
     }
 
-    public static T GetClaimValueAs<T>(this ClaimsPrincipal principal, string claimName)
+    public static T GetClaimValueAs<T>(this ClaimsPrincipal principal, params string[] claimTypes)
         where T : struct
     {
         if (principal is null)
@@ -42,7 +42,7 @@ public static class ClaimsPrincipalExtensions
             return default;
         }
 
-        string claimValue = principal.GetClaimValue(claimName);
+        string claimValue = principal.GetClaimValue(claimTypes);
 
         if (claimValue is null)
         {
@@ -85,6 +85,12 @@ public static class ClaimsPrincipalExtensions
 
     public static string GetClientId(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.ClientId, JwtClaimTypes.AuthorizedParty);
+
+    public static long GetExpiration(this ClaimsPrincipal principal)
+        => (principal?.GetClaimValueAs<long>(JwtClaimTypes.Expiration, ClaimTypes.Expiration)).GetValueOrDefault();
+
+    public static long GetIssuedAt(this ClaimsPrincipal principal)
+        => (principal?.GetClaimValueAs<long>(JwtClaimTypes.IssuedAt)).GetValueOrDefault();
 
     public static void AddClaim(this IIdentity identity, Claim claim)
     {

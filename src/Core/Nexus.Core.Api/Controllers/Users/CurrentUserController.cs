@@ -5,9 +5,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nexus.Infra.Crosscutting;
-using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using Nexus.Core.Model.Users;
 using Nexus.Core.Application.Commands.Users;
+using Nexus.Core.Infra.Data.Query.Repositories.Users.Profiles;
+using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
 
 namespace Nexus.Core.Api.Controllers.Users;
 
@@ -15,39 +16,42 @@ namespace Nexus.Core.Api.Controllers.Users;
 [ApiVersion("1")]
 [Authorize]
 [Route("v{version:apiVersion}/users/current")]
-public class CurrentUserProfileController : ApiControllerBase
+public class CurrentUserController : ApiControllerBase
 {
-    private readonly IUserProfileQueryRepository userProfileQueryRepository;
+    private readonly IUserAccountQueryRepository userAccountQueryRepository;
     private readonly IMediator mediator;
     private readonly AppState appState;
 
-    public CurrentUserProfileController(
-        IUserProfileQueryRepository userProfileQueryRepository,
+    public CurrentUserController(
+        IUserAccountQueryRepository userAccountQueryRepository,
         IMediator mediator,
         AppState appState)
     {
-        this.userProfileQueryRepository = userProfileQueryRepository;
+        this.userAccountQueryRepository = userAccountQueryRepository;
         this.mediator = mediator;
         this.appState = appState;
     }
 
-    [HttpGet("profile")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<UserProfile>> Get()
+    public async Task<ActionResult<UserAccount>> Get()
     {
-        var user = await userProfileQueryRepository.LoadAsync(appState.User.UserId);
+        var user = await userAccountQueryRepository.LoadAsync(appState.User.UserId);
 
         if (user is not null)
             return Ok(user);
 
-        var command = new CreateUserProfileCommand
+        var command = new CreateUserAccountCommand
         {
-            Id = appState.User.UserId
+            Id = appState.User.UserId,
+            Email = appState.User.Email,
+            Name = appState.User.Name,
+            Username = appState.User.Username
         };
 
-        ICommandResult<UserProfile> result = await mediator.Send(command);
+        ICommandResult<UserAccount> result = await mediator.Send(command);
 
         return !result.IsSucceeded
             ? CommandFailure(result)
