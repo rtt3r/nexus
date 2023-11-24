@@ -26,5 +26,11 @@ public partial class ApplicationConstants
         public const string PERSON_LAST_NAME_MAXIMUM_LENGTH = "Customer last name length must be less then or equals to 50 characters";
         public const string PERSON_CPF_REQUIRED = "Person cpf is required";
         public const string PERSON_CPF_INVALID = "Person cpf is invalid";
+
+        // USER
+        public const string USER_NOT_FOUND = "User was not found";
+        public const string USER_ID_REQUIRED = "User id is required";
+        public const string USER_BIOGRAPHY_MAXIMUM_LENGTH = "User biography length must be less then or equals to 1024 characters";
+        public const string USER_HEADLINE_MAXIMUM_LENGTH = "User headline length must be less then or equals to 128 characters";
     }
 }

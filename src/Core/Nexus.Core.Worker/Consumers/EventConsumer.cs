@@ -8,8 +8,8 @@ namespace Nexus.Core.Worker.Consumers;
 public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
     where TEvent : class, IEvent
 {
-    private readonly IEventStore eventStore;
-    private readonly ILogger logger;
+    protected readonly IEventStore eventStore;
+    protected readonly ILogger logger;
 
     protected virtual string ConsumerName { get; } = TypeMetadataCache<TEvent>.ShortName;
 

@@ -17,7 +17,7 @@ namespace Nexus.Core.Api.Controllers.Users;
 [ApiController]
 [ApiVersion("1")]
 [Authorize]
-[Route("v{version:apiVersion}/user-accounts")]
+[Route("v{version:apiVersion}/users")]
 public class UserAccountsController : ApiControllerBase
 {
     private readonly AppState appState;
@@ -40,16 +40,29 @@ public class UserAccountsController : ApiControllerBase
     public async Task<ActionResult<PagedResponse<UserAccount>>> Get([FromQuery] PageSearchRequest request)
         => Paged(await userAccountQueryRepository.QueryAsync(request.ToPageSearch()));
 
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
+    public async Task<ActionResult<UserAccount>> GetById([FromRoute] string id)
+    {
+        var userAccount = await userAccountQueryRepository.LoadAsync(id);
+
+        return userAccount is null
+            ? NotFound()
+            : Ok(userAccount);
+    }
+
     [HttpGet("me")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<UserAccount>> Get()
+    public async Task<ActionResult<UserAccount>> GetMe()
     {
-        var user = await userAccountQueryRepository.LoadAsync(appState.User.UserId);
+        var userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId);
 
-        if (user is not null)
-            return Ok(user);
+        if (userAccount is not null)
+            return Ok(userAccount);
 
         var command = new CreateUserAccountCommand
         {
@@ -64,5 +77,28 @@ public class UserAccountsController : ApiControllerBase
         return !result.IsSucceeded
             ? CommandFailure(result)
             : Ok(result.Data);
+    }
+
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Patch([FromRoute] string id, [FromBody] UpdateUserProfileRequest request)
+    {
+        var command = new UpdateUserProfileCommand
+        {
+            Id = id,
+            Biography = request.Biography,
+            Birthdate = request.Birthdate,
+            Headline = request.Headline
+        };
+
+        ICommandResult result = await mediator.Send(command);
+
+        return result.IsSucceeded
+            ? AcceptedAtAction($"{nameof(UserAccountsController)}_{nameof(GetById)}", new { id }, null)
+            : CommandFailure(result);
     }
 }

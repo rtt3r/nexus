@@ -37,7 +37,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
         Customer customer = await uow.Customers.GetByEmail(command.Email);
 
-        if (customer != null)
+        if (customer is not null)
         {
             await HandleDomainViolationAsync(
                 nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
@@ -89,7 +89,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
         Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
 
-        if (existingCustomer != null && existingCustomer != customer)
+        if (existingCustomer is not null && existingCustomer != customer)
         {
             await HandleDomainViolationAsync(
                 nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),

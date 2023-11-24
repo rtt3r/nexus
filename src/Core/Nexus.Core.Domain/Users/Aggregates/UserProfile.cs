@@ -20,5 +20,14 @@ namespace Nexus.Core.Domain.Users.Aggregates
         public DateTime? Birthdate { get; private set; }
         public string Headline { get; private set; }
         public UserAccount User { get; private set; }
+
+        public void UpdateBiography(string biography)
+            => Biography = biography;
+
+        public void UpdateBirthdate(DateTime? birthdate)
+            => Birthdate = birthdate;
+
+        public void UpdateHeadline(string headline)
+            => Headline = headline;
     }
 }
