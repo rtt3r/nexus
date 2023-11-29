@@ -33,6 +33,9 @@
         "ASPNETCORE_Keycloak__VerifyTokenAudience": "true",
         "ASPNETCORE_Keycloak__Scopes": "email profile nexus-ui-client-scope",
         "ASPNETCORE_Keycloak__ConfidentialPort": "0",
+        "ASPNETCORE_UiAvatars__BaseAddress": "https://ui-avatars.com/api",
+        "ASPNETCORE_UiAvatars__DefaultBackground": "0D8ABC",
+        "ASPNETCORE_UiAvatars__DefaultColor": "FFF",
         "ASPNETCORE_Cors__Origins": "https://localhost:4432;http://localhost:8002;http://localhost:4200;http://localhost:5193",
         "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
         "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx"

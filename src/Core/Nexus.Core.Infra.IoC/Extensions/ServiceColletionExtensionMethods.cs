@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.DependencyInjection;
+using Nexus.Core.Domain.Users.Services;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -32,6 +33,8 @@ public static class ServiceColletionExtensionMethods
         services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
         services.AddScoped<AppState>();
 
+        services.Configure<UiAvatarsOptions>(configuration.GetSection("UiAvatars"));
+
         services.AddAutoMapperTypeAdapter();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 
@@ -40,6 +43,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreDbContext(configuration);
         services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
+        services.AddScoped<IGenerateUserProfileAvatarDomainService, GenerateUserProfileAvatarDomainService>();
         services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 

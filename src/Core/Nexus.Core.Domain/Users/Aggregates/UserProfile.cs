@@ -29,5 +29,8 @@ namespace Nexus.Core.Domain.Users.Aggregates
 
         public void UpdateHeadline(string headline)
             => Headline = headline;
+
+        public void UpdateAvatar(string avatar)
+            => Avatar = avatar;
     }
 }

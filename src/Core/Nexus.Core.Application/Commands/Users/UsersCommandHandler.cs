@@ -9,7 +9,7 @@ using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
 using UserAccountModel = Nexus.Core.Model.Users.UserAccount;
-using UserProfileModel = Nexus.Core.Model.Users.UserProfile;
+using Nexus.Core.Domain.Users.Services;
 
 namespace Nexus.Core.Application.Commands.Users;
 
@@ -17,14 +17,19 @@ public class UsersCommandHandler : CommandHandlerBase,
     ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>,
     ICommandHandler<UpdateUserProfileCommand, ICommandResult>
 {
+    private readonly IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService;
+
     public UsersCommandHandler(
         ICoreUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,
         ITypeAdapter typeAdapter,
-        AppState appState)
+        AppState appState,
+        IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService)
         : base(uow, publishEndpoint, notificationHandler, typeAdapter, appState)
-    { }
+    {
+        this.generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
+    }
 
     public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
@@ -37,9 +42,11 @@ public class UsersCommandHandler : CommandHandlerBase,
 
         userAccount = new UserAccount(
             command.Id,
-            command.Name,
             command.Email,
+            command.Name,
             command.Username);
+
+        generateUserProfileAvatarDomainService.GenerateTemporaryAvatar(userAccount);
 
         await uow.UserAccounts.AddAsync(userAccount, cancellationToken);
 
