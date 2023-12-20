@@ -12,7 +12,7 @@ using Goal.Seedwork.Infra.Crosscutting.Collections;
 
 namespace Nexus.Core.Application.Commands;
 
-public class CommandHandlerBase
+public abstract class CommandHandlerBase
 {
     protected readonly ICoreUnitOfWork uow;
     protected readonly IPublishEndpoint publishEndpoint;
@@ -132,39 +132,39 @@ public class CommandHandlerBase
     protected TProjection ProjectAs<TProjection>(object source)
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAs<TProjection>(source);
+        return typeAdapter.Adapt<TProjection>(source);
     }
 
     protected TProjection ProjectAs<TSource, TProjection>(TSource source)
         where TSource : class
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAs<TSource, TProjection>(source);
+        return typeAdapter.Adapt<TSource, TProjection>(source);
     }
 
     protected ICollection<TProjection> ProjectAsCollection<TProjection>(IEnumerable<object> source)
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAsCollection<TProjection>(source);
+        return typeAdapter.AdaptList<TProjection>(source);
     }
 
     protected ICollection<TProjection> ProjectAsCollection<TSource, TProjection>(IEnumerable<TSource> source)
         where TSource : class
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAsCollection<TSource, TProjection>(source);
+        return typeAdapter.AdaptList<TSource, TProjection>(source);
     }
 
-    protected IPagedCollection<TProjection> ProjectAsPagedCollection<TProjection>(IPagedCollection<object> source)
+    protected IPagedList<TProjection> ProjectAsPagedCollection<TProjection>(IPagedList<object> source)
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAsPagedCollection<TProjection>(source);
+        return typeAdapter.AdaptPagedList<TProjection>(source);
     }
 
-    protected IPagedCollection<TProjection> ProjectAsPagedCollection<TSource, TProjection>(IPagedCollection<TSource> source)
+    protected IPagedList<TProjection> ProjectAsPagedCollection<TSource, TProjection>(IPagedList<TSource> source)
         where TSource : class
         where TProjection : class, new()
     {
-        return typeAdapter.ProjectAsPagedCollection<TSource, TProjection>(source);
+        return typeAdapter.AdaptPagedList<TSource, TProjection>(source);
     }
 }

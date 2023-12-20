@@ -2,19 +2,8 @@
 
 namespace Nexus.Core.Infra.Data.EventSourcing;
 
-public class StoredEvent : Event
+public record StoredEvent(string AggregateId, string Data, string User)
+    : Event(AggregateId, nameof(StoredEvent))
 {
-    public StoredEvent(IEvent @event, string data, string user)
-    {
-        AggregateId = @event.AggregateId;
-        EventType = @event.EventType;
-        Data = data;
-        User = user;
-    }
-
-    protected StoredEvent() { }
-
-    public string Id { get; protected set; } = Guid.NewGuid().ToString();
-    public string Data { get; protected set; }
-    public string User { get; protected set; }
+    public string Id { get; init; } = Guid.NewGuid().ToString();
 }

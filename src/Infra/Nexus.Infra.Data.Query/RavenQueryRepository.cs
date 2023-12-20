@@ -6,16 +6,11 @@ using Raven.Client.Documents.Session;
 
 namespace Nexus.Infra.Data.Query;
 
-public abstract class RavenQueryRepository<TEntity> : QueryRepository<TEntity, string>
+public abstract class RavenQueryRepository<TEntity>(IAsyncDocumentSession dbSession) : QueryRepository<TEntity, string>
     where TEntity : class
 {
-    protected IAsyncDocumentSession dbSession;
+    protected IAsyncDocumentSession dbSession = dbSession;
     private bool disposed;
-
-    protected RavenQueryRepository(IAsyncDocumentSession dbSession)
-    {
-        this.dbSession = dbSession;
-    }
 
     public override async Task<TEntity> LoadAsync(string id, CancellationToken cancellationToken = new CancellationToken())
     {
@@ -30,7 +25,7 @@ public abstract class RavenQueryRepository<TEntity> : QueryRepository<TEntity, s
             .ToListAsync(cancellationToken);
     }
 
-    public override async Task<IPagedCollection<TEntity>> QueryAsync(IPageSearch pageSearch, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<IPagedList<TEntity>> QueryAsync(IPageSearch pageSearch, CancellationToken cancellationToken = new CancellationToken())
     {
         return await dbSession
             .Query<TEntity>()

@@ -18,21 +18,15 @@ namespace Nexus.Core.Api.Controllers.Users;
 [ApiVersion("1")]
 [Authorize]
 [Route("v{version:apiVersion}/users")]
-public class UserAccountsController : ApiControllerBase
+public class UserAccountsController(
+    AppState appState,
+    IMediator mediator,
+    IUserAccountQueryRepository userAccountQueryRepository)
+    : ApiControllerBase
 {
-    private readonly AppState appState;
-    private readonly IMediator mediator;
-    private readonly IUserAccountQueryRepository userAccountQueryRepository;
-
-    public UserAccountsController(
-        AppState appState,
-        IMediator mediator,
-        IUserAccountQueryRepository userAccountQueryRepository)
-    {
-        this.userAccountQueryRepository = userAccountQueryRepository;
-        this.mediator = mediator;
-        this.appState = appState;
-    }
+    private readonly AppState appState = appState;
+    private readonly IMediator mediator = mediator;
+    private readonly IUserAccountQueryRepository userAccountQueryRepository = userAccountQueryRepository;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -40,7 +34,7 @@ public class UserAccountsController : ApiControllerBase
     public async Task<ActionResult<PagedResponse<UserAccount>>> Get([FromQuery] PageSearchRequest request)
         => Paged(await userAccountQueryRepository.QueryAsync(request.ToPageSearch()));
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = $"{nameof(UserAccountsController)}_{nameof(GetById)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
@@ -53,7 +47,7 @@ public class UserAccountsController : ApiControllerBase
             : Ok(userAccount);
     }
 
-    [HttpGet("me")]
+    [HttpGet("me", Name = $"{nameof(UserAccountsController)}_{nameof(GetMe)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
@@ -64,13 +58,12 @@ public class UserAccountsController : ApiControllerBase
         if (userAccount is not null)
             return Ok(userAccount);
 
-        var command = new CreateUserAccountCommand
-        {
-            Id = appState.User.UserId,
-            Email = appState.User.Email,
-            Name = appState.User.Name,
-            Username = appState.User.Username
-        };
+        var command = new CreateUserAccountCommand(
+            appState.User.UserId,
+            appState.User.Email,
+            appState.User.Name,
+            appState.User.Username
+        );
 
         ICommandResult<UserAccount> result = await mediator.Send(command);
 
@@ -85,15 +78,13 @@ public class UserAccountsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult> Patch([FromRoute] string id, [FromBody] UpdateUserProfileRequest request)
+    public async Task<ActionResult<ApiResponse>> Patch([FromRoute] string id, [FromBody] UpdateUserProfileRequest request)
     {
-        var command = new UpdateUserProfileCommand
-        {
-            Id = id,
-            Biography = request.Biography,
-            Birthdate = request.Birthdate,
-            Headline = request.Headline
-        };
+        var command = new UpdateUserProfileCommand(
+            id,
+            request.Biography,
+            request.Birthdate,
+            request.Headline);
 
         ICommandResult result = await mediator.Send(command);
 

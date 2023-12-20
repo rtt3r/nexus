@@ -4,14 +4,10 @@ using Nexus.Core.Infra.Data.Configurations.Users;
 
 namespace Nexus.Core.Infra.Data;
 
-public abstract class CoreDbContext : DbContext
+public abstract class CoreDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<UserAccount> UserAccounts { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
-
-    protected CoreDbContext(DbContextOptions options)
-        : base(options)
-    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,9 +2,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.Npgsql;
 
-public class NpgsqlCoreDbContext : CoreDbContext
+public class NpgsqlCoreDbContext(DbContextOptions options) : CoreDbContext(options)
 {
-    public NpgsqlCoreDbContext(DbContextOptions options)
-        : base(options)
-    { }
 }

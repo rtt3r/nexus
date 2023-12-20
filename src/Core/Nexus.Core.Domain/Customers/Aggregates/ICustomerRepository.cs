@@ -4,5 +4,5 @@ namespace Nexus.Core.Domain.Customers.Aggregates;
 
 public interface ICustomerRepository : IRepository<Customer, string>
 {
-    Task<Customer> GetByEmail(string email);
+    Task<Customer?> GetByEmail(string email);
 }

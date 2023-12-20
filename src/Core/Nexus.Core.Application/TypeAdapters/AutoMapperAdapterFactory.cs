@@ -3,14 +3,9 @@ using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
 namespace Nexus.Core.Application.TypeAdapters;
 
-public class AutoMapperAdapterFactory : ITypeAdapterFactory
+public class AutoMapperAdapterFactory(IMapper mapper) : ITypeAdapterFactory
 {
-    private readonly IMapper mapper;
-
-    public AutoMapperAdapterFactory(IMapper mapper)
-    {
-        this.mapper = mapper;
-    }
+    private readonly IMapper mapper = mapper;
 
     public ITypeAdapter Create()
         => new AutoMapperAdapter(mapper);

@@ -6,22 +6,16 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nexus.Core.Api.Swagger;
 
-public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
+public class ConfigureApiSwaggerOptions(
+    IConfiguration configuration) : ConfigureSwaggerOptions()
 {
-    protected readonly IConfiguration configuration;
-
-    public ConfigureApiSwaggerOptions(
-        IConfiguration configuration)
-        : base()
-    {
-        this.configuration = configuration;
-    }
+    protected readonly IConfiguration configuration = configuration;
 
     public override void Configure(SwaggerGenOptions options)
     {
         base.Configure(options);
 
-        KeycloakSettings keycloakOptions = configuration
+        KeycloakSettings? keycloakOptions = configuration
             .GetSection(KeycloakSettings.Section)
             .Get<KeycloakSettings>();
 
@@ -35,7 +29,7 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
             {
                 Password = new OpenApiOAuthFlow
                 {
-                    TokenUrl = new Uri($"{keycloakOptions.AuthenticationOptions.KeycloakUrlRealm}/protocol/openid-connect/token"),
+                    TokenUrl = new Uri($"{keycloakOptions?.AuthenticationOptions.KeycloakUrlRealm}/protocol/openid-connect/token"),
                     Scopes = new Dictionary<string, string>()
                 }
             }

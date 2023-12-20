@@ -30,7 +30,7 @@ public static class ServiceColletionExtensionMethods
     public static IServiceCollection ConfigureApiServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         services.AddHttpContextAccessor();
-        services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
+        services.AddScoped(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.User);
         services.AddScoped<AppState>();
 
         services.Configure<UiAvatarsOptions>(configuration.GetSection("UiAvatars"));
@@ -53,7 +53,7 @@ public static class ServiceColletionExtensionMethods
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         services.AddHttpContextAccessor();
-        services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
+        services.AddScoped(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.User);
         services.AddScoped<AppState>();
 
         services.AddAutoMapperTypeAdapter();
@@ -71,11 +71,11 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
     {
-        KeycloakSettings keycloakOptions = configuration
+        KeycloakSettings? keycloakOptions = configuration
             .GetSection(KeycloakSettings.Section)
             .Get<KeycloakSettings>();
 
-        services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
+        services.AddKeycloakAuthentication(keycloakOptions!.AuthenticationOptions);
         services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
         services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
 
@@ -92,8 +92,8 @@ public static class ServiceColletionExtensionMethods
 
     private static IServiceCollection AddCoreDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
+        string? dbProvider = configuration.GetValue("DbProvider", "SqlServer");
+        string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (dbProvider == "SqlServer")
         {
@@ -136,8 +136,8 @@ public static class ServiceColletionExtensionMethods
 
     private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
+        string? dbProvider = configuration.GetValue("DbProvider", "SqlServer");
+        string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (dbProvider == "SqlServer")
         {
@@ -184,11 +184,11 @@ public static class ServiceColletionExtensionMethods
 
         services.AddRavenDbDocStore(opts =>
         {
-            string urls = configuration["RavenSettings:Urls"];
+            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
             opts.Settings = new RavenSettings
             {
                 Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
-                DatabaseName = configuration["RavenSettings:DatabaseName"],
+                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
                 CertFilePath = configuration["RavenSettings:CertFilePath"],
                 CertPassword = configuration["RavenSettings:CertPassword"],
             };

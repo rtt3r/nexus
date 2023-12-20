@@ -18,7 +18,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 
     private static string GetXmlCommentsFile()
     {
-        string xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name}.xml";
+        string xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
         return Path.Combine(AppContext.BaseDirectory, xmlFile);
     }
 }

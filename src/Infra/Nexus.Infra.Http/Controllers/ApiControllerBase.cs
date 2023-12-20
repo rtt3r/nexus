@@ -8,22 +8,22 @@ public class ApiControllerBase : ApiController
 {
     protected override ActionResult CommandFailure(ICommandResult result)
     {
-        if (result.HasInputValidation())
+        if (result.HasInputValidation)
         {
             return BadRequest(ApiResponse.FromCommand(result));
         }
 
-        if (result.HasResourceNotFound())
+        if (result.HasResourceNotFound)
         {
             return NotFound(ApiResponse.FromCommand(result));
         }
 
-        if (result.HasDomainViolation())
+        if (result.HasDomainViolation)
         {
             return UnprocessableEntity(ApiResponse.FromCommand(result));
         }
 
-        if (result.HasExternalError())
+        if (result.HasExternalError)
         {
             return ServiceUnavailable(ApiResponse.FromCommand(result));
         }

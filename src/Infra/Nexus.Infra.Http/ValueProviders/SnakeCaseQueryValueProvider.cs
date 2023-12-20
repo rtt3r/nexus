@@ -5,15 +5,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Nexus.Infra.Http.ValueProviders;
 
-public class SnakeCaseQueryValueProvider : QueryStringValueProvider, IValueProvider
+public class SnakeCaseQueryValueProvider(
+    BindingSource bindingSource,
+    IQueryCollection values,
+    CultureInfo culture) : QueryStringValueProvider(bindingSource, values, culture), IValueProvider
 {
-    public SnakeCaseQueryValueProvider(
-        BindingSource bindingSource,
-        IQueryCollection values,
-        CultureInfo culture)
-        : base(bindingSource, values, culture)
-    {
-    }
 
     public override bool ContainsPrefix(string prefix)
         => base.ContainsPrefix(prefix.ToSnakeCase());

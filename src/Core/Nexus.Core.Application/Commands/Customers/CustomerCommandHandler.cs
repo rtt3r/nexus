@@ -5,7 +5,6 @@ using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Constants;
 using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Application.Extensions;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
@@ -13,29 +12,25 @@ using CustomerModel = Nexus.Core.Model.Customers.Customer;
 
 namespace Nexus.Core.Application.Commands.Customers;
 
-public class CustomerCommandHandler : CommandHandlerBase,
+public class CustomerCommandHandler(
+    ICoreUnitOfWork uow,
+    IPublishEndpoint publishEndpoint,
+    IDefaultNotificationHandler notificationHandler,
+    ITypeAdapter typeAdapter,
+    AppState appState)
+    : CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
     ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
-    public CustomerCommandHandler(
-        ICoreUnitOfWork uow,
-        IPublishEndpoint publishEndpoint,
-        IDefaultNotificationHandler notificationHandler,
-        ITypeAdapter typeAdapter,
-        AppState appState)
-        : base(uow, publishEndpoint, notificationHandler, typeAdapter, appState)
-    {
-    }
-
     public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
     {
         if (!await ValidateCommandAsync<RegisterNewCustomerCommandValidator, RegisterNewCustomerCommand>(command, cancellationToken))
         {
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.GetByEmail(command.Email);
+        Customer? customer = await uow.Customers.GetByEmail(command.Email);
 
         if (customer is not null)
         {
@@ -62,7 +57,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
                 cancellationToken);
 
             return CommandResult.Success(
-                typeAdapter.ProjectAs<CustomerModel>(customer));
+                typeAdapter.Adapt<CustomerModel>(customer));
         }
 
         return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
@@ -75,7 +70,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
@@ -87,7 +82,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
+        Customer? existingCustomer = await uow.Customers.GetByEmail(customer.Email);
 
         if (existingCustomer is not null && existingCustomer != customer)
         {
@@ -102,7 +97,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
         customer.UpdateName(command.Name);
         customer.UpdateBirthdate(command.Birthdate);
 
-        uow.Customers.Update(existingCustomer);
+        uow.Customers.Update(customer);
 
         if (await SaveChangesAsync(cancellationToken))
         {
@@ -124,10 +119,10 @@ public class CustomerCommandHandler : CommandHandlerBase,
     {
         if (!await ValidateCommandAsync<RemoveCustomerCommandValidator, RemoveCustomerCommand>(command, cancellationToken))
         {
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
@@ -136,7 +131,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
                 ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
                 cancellationToken);
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
         }
 
         uow.Customers.Remove(customer);

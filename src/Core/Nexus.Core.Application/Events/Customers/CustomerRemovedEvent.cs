@@ -1,11 +1,9 @@
 using Goal.Seedwork.Domain.Events;
+using MediatR;
 
 namespace Nexus.Core.Application.Events.Customers;
 
-public class CustomerRemovedEvent : Event
+public record CustomerRemovedEvent(string AggregateId)
+    : Event(AggregateId, nameof(CustomerRemovedEvent)), INotification
 {
-    public CustomerRemovedEvent(string aggregateId)
-    {
-        AggregateId = aggregateId;
-    }
 }

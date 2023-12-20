@@ -1,20 +1,5 @@
 ﻿namespace Nexus.Infra.Http.Controllers;
 
-public class ApiResponseMessage
+public record ApiResponseMessage(string Code, string Message, string? Param = null)
 {
-    public string Code { get; protected set; }
-    public string Message { get; protected set; }
-    public string Param { get; protected set; }
-
-    public ApiResponseMessage(string code, string message)
-    {
-        Code = code;
-        Message = message;
-    }
-
-    public ApiResponseMessage(string code, string message, string param)
-        : this(code, message)
-    {
-        Param = param;
-    }
 }

@@ -3,10 +3,7 @@ using Nexus.Core.Model.Users;
 
 namespace Nexus.Core.Application.Commands.Users;
 
-public class CreateUserAccountCommand : Command<ICommandResult<UserAccount>>
+public record CreateUserAccountCommand(string Id, string Name, string Email, string Username)
+    : Command<ICommandResult<UserAccount>>
 {
-    public required string Id { get; set; }
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-    public required string Username { get; set; }
 }

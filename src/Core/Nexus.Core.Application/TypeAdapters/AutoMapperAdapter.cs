@@ -3,18 +3,13 @@ using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
 namespace Nexus.Core.Application.TypeAdapters;
 
-public class AutoMapperAdapter : ITypeAdapter
+public class AutoMapperAdapter(IMapper mapper) : ITypeAdapter
 {
-    private readonly IMapper mapper;
-
-    public AutoMapperAdapter(IMapper mapper)
-    {
-        this.mapper = mapper;
-    }
+    private readonly IMapper mapper = mapper;
 
     public TTarget Adapt<TSource, TTarget>(TSource source)
-        where TSource : class
-        where TTarget : class, new() => mapper.Map<TSource, TTarget>(source);
+        => mapper.Map<TSource, TTarget>(source);
 
-    public TTarget Adapt<TTarget>(object source) where TTarget : class, new() => mapper.Map<TTarget>(source);
+    public TTarget Adapt<TTarget>(object source)
+        => mapper.Map<TTarget>(source);
 }

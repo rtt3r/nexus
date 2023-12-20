@@ -4,14 +4,8 @@ using Nexus.Core.Model.Users;
 
 namespace Nexus.Core.Application.Events.Users
 {
-    public class UserProfileUpdatedEvent: Event, INotification
-{
-    public UserProfileUpdatedEvent(UserAccount userAccount)
+    public record UserProfileUpdatedEvent(UserAccount UserAccount)
+        : Event(UserAccount.Id, nameof(UserProfileUpdatedEvent)), INotification
     {
-        AggregateId = userAccount.Id;
-        UserAccount = userAccount;
     }
-
-    public UserAccount UserAccount { get; private set; }
-}
 }

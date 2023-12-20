@@ -1,9 +1,5 @@
 namespace Nexus.Infra.Crosscutting.Exceptions;
 
-public class NotFoundException : ApplicationException
+public class NotFoundException(string message) : ApplicationException(message)
 {
-    public NotFoundException(string message)
-        : base(message)
-    {
-    }
 }

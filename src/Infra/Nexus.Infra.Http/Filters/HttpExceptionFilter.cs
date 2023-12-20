@@ -6,14 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Nexus.Infra.Http.Filters;
 
-public class HttpExceptionFilter : IExceptionFilter
+public class HttpExceptionFilter(ILogger<HttpExceptionFilter> logger) : IExceptionFilter
 {
-    private readonly ILogger<HttpExceptionFilter> logger;
-
-    public HttpExceptionFilter(ILogger<HttpExceptionFilter> logger)
-    {
-        this.logger = logger;
-    }
+    private readonly ILogger<HttpExceptionFilter> logger = logger;
 
     public void OnException(ExceptionContext context)
     {

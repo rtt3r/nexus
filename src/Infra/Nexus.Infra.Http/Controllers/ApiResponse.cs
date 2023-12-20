@@ -3,21 +3,12 @@ using Goal.Seedwork.Infra.Crosscutting.Notifications;
 
 namespace Nexus.Infra.Http.Controllers;
 
-public class ApiResponse
+public record ApiResponse(bool IsSucceeded, params ApiResponseMessage[] Messages)
 {
-    public ApiResponse(bool isSucceeded, params ApiResponseMessage[] messages)
-    {
-        IsSucceeded = isSucceeded;
-        Messages = messages ?? Array.Empty<ApiResponseMessage>();
-    }
-
-    public ApiResponse(bool isSucceeded, params Notification[] notifications)
-        : this(isSucceeded, MapNotificationsToMessageArray(notifications))
+    public ApiResponse(bool IsSucceeded, params Notification[] notifications)
+        : this(IsSucceeded, MapNotificationsToMessageArray(notifications))
     {
     }
-
-    public bool IsSucceeded { get; protected set; }
-    public IEnumerable<ApiResponseMessage> Messages { get; protected set; }
 
     public static ApiResponse Success()
         => new(true, Array.Empty<ApiResponseMessage>());
@@ -45,7 +36,7 @@ public class ApiResponse
 
     protected static ApiResponseMessage[] MapNotificationsToMessageArray(IEnumerable<Notification> notifications)
     {
-        return (notifications ?? Enumerable.Empty<Notification>())
+        return (notifications ?? [])
             .Select(n => new ApiResponseMessage(n.Code, n.Message, n.ParamName))
             .ToArray();
     }

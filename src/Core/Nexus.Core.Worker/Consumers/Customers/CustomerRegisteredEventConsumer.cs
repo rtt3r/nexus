@@ -6,18 +6,12 @@ using MassTransit;
 
 namespace Nexus.Core.Worker.Consumers.Customers;
 
-public class CustomerRegisteredEventConsumer : EventConsumer<CustomerRegisteredEvent>
+public class CustomerRegisteredEventConsumer(
+    ICustomerQueryRepository customerRepository,
+    IEventStore eventStore,
+    ILogger<CustomerRegisteredEventConsumer> logger) : EventConsumer<CustomerRegisteredEvent>(eventStore, logger)
 {
-    private readonly ICustomerQueryRepository customerRepository;
-
-    public CustomerRegisteredEventConsumer(
-        ICustomerQueryRepository customerRepository,
-        IEventStore eventStore,
-        ILogger<CustomerRegisteredEventConsumer> logger)
-        : base(eventStore, logger)
-    {
-        this.customerRepository = customerRepository;
-    }
+    private readonly ICustomerQueryRepository customerRepository = customerRepository;
 
     protected override async Task HandleEvent(CustomerRegisteredEvent @event, CancellationToken cancellationToken = default)
     {
@@ -35,7 +29,7 @@ public class CustomerRegisteredEventConsumer : EventConsumer<CustomerRegisteredE
 
     public class ConsumerDefinition : ConsumerDefinition<CustomerRegisteredEventConsumer>
     {
-        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<CustomerRegisteredEventConsumer> consumerConfigurator)
+        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<CustomerRegisteredEventConsumer> consumerConfigurator, IRegistrationContext context)
             => consumerConfigurator.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(3)));
     }
 }

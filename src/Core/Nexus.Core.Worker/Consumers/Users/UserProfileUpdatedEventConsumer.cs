@@ -5,18 +5,12 @@ using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
 
 namespace Nexus.Core.Worker.Consumers.Users;
 
-public class UserProfileUpdatedEventConsumer : EventConsumer<UserProfileUpdatedEvent>
+public class UserProfileUpdatedEventConsumer(
+    IUserAccountQueryRepository userAccountRepository,
+    IEventStore eventStore,
+    ILogger<UserProfileUpdatedEventConsumer> logger) : EventConsumer<UserProfileUpdatedEvent>(eventStore, logger)
 {
-    private readonly IUserAccountQueryRepository userAccountRepository;
-
-    public UserProfileUpdatedEventConsumer(
-        IUserAccountQueryRepository userAccountRepository,
-        IEventStore eventStore,
-        ILogger<UserProfileUpdatedEventConsumer> logger)
-        : base(eventStore, logger)
-    {
-        this.userAccountRepository = userAccountRepository;
-    }
+    private readonly IUserAccountQueryRepository userAccountRepository = userAccountRepository;
 
     protected override async Task HandleEvent(UserProfileUpdatedEvent @event, CancellationToken cancellationToken = default)
     {
@@ -28,7 +22,7 @@ public class UserProfileUpdatedEventConsumer : EventConsumer<UserProfileUpdatedE
 
     public class ConsumerDefinition : ConsumerDefinition<UserProfileUpdatedEventConsumer>
     {
-        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<UserProfileUpdatedEventConsumer> consumerConfigurator)
+        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<UserProfileUpdatedEventConsumer> consumerConfigurator, IRegistrationContext context)
             => consumerConfigurator.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(3)));
     }
 }

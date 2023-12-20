@@ -18,9 +18,9 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         options.OperationFilter<SnakeCaseQueryOperationFilter>();
     }
 
-    private static string GetApiTitle()
-        => Assembly.GetEntryAssembly().GetName().Name.Replace(".", " ");
+    private static string? GetApiTitle()
+        => Assembly.GetEntryAssembly()?.GetName().Name?.Replace(".", " ");
 
     private static string GetXmlCommentsFile()
-        => Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetEntryAssembly().GetName().Name}.xml");
+        => Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml");
 }

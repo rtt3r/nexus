@@ -17,18 +17,13 @@ namespace Nexus.Core.Api.Controllers.Customers;
 [ApiVersion("1")]
 [Authorize(Roles = "Administrator")]
 [Route("v{version:apiVersion}/[controller]")]
-public class CustomersController : ApiControllerBase
+public class CustomersController(
+    ICustomerQueryRepository customerQueryRepository,
+    IMediator mediator)
+    : ApiControllerBase
 {
-    private readonly ICustomerQueryRepository customerQueryRepository;
-    private readonly IMediator mediator;
-
-    public CustomersController(
-        ICustomerQueryRepository customerQueryRepository,
-        IMediator mediator)
-    {
-        this.customerQueryRepository = customerQueryRepository;
-        this.mediator = mediator;
-    }
+    private readonly ICustomerQueryRepository customerQueryRepository = customerQueryRepository;
+    private readonly IMediator mediator = mediator;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -68,7 +63,7 @@ public class CustomersController : ApiControllerBase
             ? CommandFailure(result)
             : CreatedAtRoute(
                 $"{nameof(CustomersController)}_{nameof(GetById)}",
-                new { id = result.Data.CustomerId },
+                new { id = result.Data!.CustomerId },
                 ApiResponse.FromCommand(result));
     }
 

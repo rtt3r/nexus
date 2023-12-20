@@ -13,23 +13,17 @@ using Nexus.Core.Domain.Users.Services;
 
 namespace Nexus.Core.Application.Commands.Users;
 
-public class UsersCommandHandler : CommandHandlerBase,
+public class UsersCommandHandler(
+    ICoreUnitOfWork uow,
+    IPublishEndpoint publishEndpoint,
+    IDefaultNotificationHandler notificationHandler,
+    ITypeAdapter typeAdapter,
+    AppState appState,
+    IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService) : CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
     ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>,
     ICommandHandler<UpdateUserProfileCommand, ICommandResult>
 {
-    private readonly IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService;
-
-    public UsersCommandHandler(
-        ICoreUnitOfWork uow,
-        IPublishEndpoint publishEndpoint,
-        IDefaultNotificationHandler notificationHandler,
-        ITypeAdapter typeAdapter,
-        AppState appState,
-        IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService)
-        : base(uow, publishEndpoint, notificationHandler, typeAdapter, appState)
-    {
-        this.generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
-    }
+    private readonly IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
     public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {

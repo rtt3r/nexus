@@ -3,14 +3,14 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Application.Commands.Customers.Validators;
 
-public class RemoveCustomerCommandValidator : CustomerValidator<RemoveCustomerCommand>
+public class RemoveCustomerCommandValidator : AbstractValidator<RemoveCustomerCommand>
 {
     public RemoveCustomerCommandValidator()
     {
         ValidateId();
     }
 
-    protected void ValidateId()
+    private void ValidateId()
     {
         RuleFor(c => c.CustomerId)
             .NotEmpty()

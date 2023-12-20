@@ -2,14 +2,7 @@ using Goal.Seedwork.Application.Commands;
 
 namespace Nexus.Core.Application.Commands.Customers;
 
-public class UpdateCustomerCommand : CustomerCommand<ICommandResult>
+public record UpdateCustomerCommand(string CustomerId, string Name, DateTime Birthdate)
+    : CustomerCommand<ICommandResult>
 {
-    public string CustomerId { get; set; }
-
-    public UpdateCustomerCommand(string customerId, string name, DateTime birthDate)
-    {
-        CustomerId = customerId;
-        Name = name;
-        Birthdate = birthDate;
-    }
 }

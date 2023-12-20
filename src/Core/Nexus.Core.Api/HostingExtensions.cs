@@ -148,7 +148,8 @@ public static class HostingExtensions
 
         app.UseCors(builder =>
         {
-            string[] origins = app.Configuration["Cors:Origins"].Split(';', StringSplitOptions.RemoveEmptyEntries);
+            string[] origins = (app.Configuration["Cors:Origins"] ?? string.Empty)
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
 
             builder
                 .WithOrigins(origins)

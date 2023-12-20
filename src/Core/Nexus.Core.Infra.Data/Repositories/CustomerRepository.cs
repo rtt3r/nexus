@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
-public class CustomerRepository : Repository<Customer, string>, ICustomerRepository
+public class CustomerRepository(CoreDbContext context) : Repository<Customer, string>(context), ICustomerRepository
 {
-    public CustomerRepository(CoreDbContext context)
-        : base(context)
-    {
-    }
-
-    public async Task<Customer> GetByEmail(string email)
+    public async Task<Customer?> GetByEmail(string email)
     {
         return await Context
             .Set<Customer>()

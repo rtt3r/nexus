@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.MySql;
 
-public class MySqlEventSourcingDbContext : EventSourcingDbContext
+public class MySqlEventSourcingDbContext(DbContextOptions options) : EventSourcingDbContext(options)
 {
-    public MySqlEventSourcingDbContext(DbContextOptions options)
-        : base(options)
-    { }
 }

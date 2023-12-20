@@ -1,5 +1,3 @@
-using Keycloak.AuthServices.Sdk.Admin.Models;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Nexus.Core.Domain.Users.Aggregates;
@@ -7,14 +5,9 @@ using Nexus.Infra.Crosscutting.Settings;
 
 namespace Nexus.Core.Domain.Users.Services
 {
-    public class GenerateUserProfileAvatarDomainService : IGenerateUserProfileAvatarDomainService
+    public class GenerateUserProfileAvatarDomainService(IOptions<UiAvatarsOptions> uiAvatarsOptions) : IGenerateUserProfileAvatarDomainService
     {
-        private readonly UiAvatarsOptions uiAvatarsOptions;
-
-        public GenerateUserProfileAvatarDomainService(IOptions<UiAvatarsOptions> uiAvatarsOptions)
-        {
-            this.uiAvatarsOptions = uiAvatarsOptions.Value;
-        }
+        private readonly UiAvatarsOptions uiAvatarsOptions = uiAvatarsOptions.Value;
 
         public void GenerateTemporaryAvatar(UserAccount account)
             => GenerateTemporaryAvatar(account, uiAvatarsOptions.DefaultBackground);

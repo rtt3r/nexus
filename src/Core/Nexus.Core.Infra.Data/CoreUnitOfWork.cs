@@ -4,21 +4,13 @@ using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Infra.Data;
 
-public sealed class CoreUnitOfWork : UnitOfWork, ICoreUnitOfWork
+public sealed class CoreUnitOfWork(
+    CoreDbContext context,
+    ICustomerRepository customerRepository,
+    IUserAccountRepository userAccountRepository,
+    IUserProfileRepository userProfileRepository) : UnitOfWork(context), ICoreUnitOfWork
 {
-    public CoreUnitOfWork(
-        CoreDbContext context,
-        ICustomerRepository customerRepository,
-        IUserAccountRepository userAccountRepository,
-        IUserProfileRepository userProfileRepository)
-        : base(context)
-    {
-        Customers = customerRepository;
-        UserAccounts = userAccountRepository;
-        UserProfiles = userProfileRepository;
-    }
-
-    public ICustomerRepository Customers { get; }
-    public IUserAccountRepository UserAccounts { get; set; }
-    public IUserProfileRepository UserProfiles { get; set; }
+    public ICustomerRepository Customers { get; } = customerRepository;
+    public IUserAccountRepository UserAccounts { get; set; } = userAccountRepository;
+    public IUserProfileRepository UserProfiles { get; set; } = userProfileRepository;
 }

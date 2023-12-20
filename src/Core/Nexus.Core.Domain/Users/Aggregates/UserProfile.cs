@@ -15,11 +15,11 @@ namespace Nexus.Core.Domain.Users.Aggregates
             : base()
         { }
 
-        public string Avatar { get; private set; }
-        public string Biography { get; private set; }
+        public string? Avatar { get; private set; }
+        public string? Biography { get; private set; }
         public DateTime? Birthdate { get; private set; }
-        public string Headline { get; private set; }
-        public UserAccount User { get; private set; }
+        public string? Headline { get; private set; }
+        public UserAccount User { get; private set; } = null!;
 
         public void UpdateBiography(string biography)
             => Biography = biography;

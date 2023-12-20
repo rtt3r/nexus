@@ -2,9 +2,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.SqlServer;
 
-public class SqlServerCoreDbContext : CoreDbContext
+public class SqlServerCoreDbContext(DbContextOptions options) : CoreDbContext(options)
 {
-    public SqlServerCoreDbContext(DbContextOptions options)
-        : base(options)
-    { }
 }

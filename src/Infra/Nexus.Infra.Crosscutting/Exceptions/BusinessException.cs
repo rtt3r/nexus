@@ -1,12 +1,7 @@
 namespace Nexus.Infra.Crosscutting.Exceptions;
 
-public class BusinessException : ApplicationException
+public class BusinessException(params string[] messages) : ApplicationException("An business error occurs.")
 {
-    public BusinessException(params string[] messages)
-        : base("An business error occurs.")
-    {
-        Messages = messages;
-    }
 
-    public string[] Messages { get; }
+    public string[] Messages { get; } = messages;
 }

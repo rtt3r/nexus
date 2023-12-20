@@ -26,23 +26,24 @@ public static class HostingExtensions
         builder.Services.AddMassTransit(x =>
         {
             x.AddDelayedMessageScheduler();
-            x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
-            x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
-            x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
+            x.AddConsumer<CustomerRegisteredEventConsumer, CustomerRegisteredEventConsumer.ConsumerDefinition>();
+            x.AddConsumer<CustomerRemovedEventConsumer, CustomerRemovedEventConsumer.ConsumerDefinition>();
+            x.AddConsumer<CustomerUpdatedEventConsumer, CustomerUpdatedEventConsumer.ConsumerDefinition>();
 
-            x.AddConsumer<UserAccountCreatedEventConsumer>(typeof(UserAccountCreatedEventConsumer.ConsumerDefinition));
+            x.AddConsumer<UserAccountCreatedEventConsumer, UserAccountCreatedEventConsumer.ConsumerDefinition>();
+            x.AddConsumer<UserProfileUpdatedEventConsumer, UserProfileUpdatedEventConsumer.ConsumerDefinition>();
 
-            x.SetKebabCaseEndpointNameFormatter();
+            x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "dev", includeNamespace: false));
 
-            x.UsingRabbitMq((ctx, cfg) =>
+            x.UsingRabbitMq((context, configurator) =>
             {
-                cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
-                cfg.UseDelayedMessageScheduler();
-                cfg.ServiceInstance(instance =>
+                configurator.Host(builder.Configuration.GetConnectionString("RabbitMq"));
+                configurator.UseDelayedMessageScheduler();
+                configurator.ServiceInstance(instance =>
                 {
                     instance.ConfigureJobServiceEndpoints();
-                    instance.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
                 });
+                configurator.ConfigureEndpoints(context);
             });
         });
 

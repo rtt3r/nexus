@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.Npgsql;
 
-public class NpgsqlEventSourcingDbContext : EventSourcingDbContext
+public class NpgsqlEventSourcingDbContext(DbContextOptions options) : EventSourcingDbContext(options)
 {
-    public NpgsqlEventSourcingDbContext(DbContextOptions options)
-        : base(options)
-    { }
 }
