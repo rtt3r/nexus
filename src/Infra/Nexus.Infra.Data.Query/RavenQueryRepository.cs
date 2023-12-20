@@ -9,8 +9,9 @@ namespace Nexus.Infra.Data.Query;
 public abstract class RavenQueryRepository<TEntity>(IAsyncDocumentSession dbSession) : QueryRepository<TEntity, string>
     where TEntity : class
 {
-    protected IAsyncDocumentSession dbSession = dbSession;
     private bool disposed;
+
+    protected IAsyncDocumentSession dbSession = dbSession;
 
     public override async Task<TEntity> LoadAsync(string id, CancellationToken cancellationToken = new CancellationToken())
     {
@@ -57,7 +58,6 @@ public abstract class RavenQueryRepository<TEntity>(IAsyncDocumentSession dbSess
             if (disposing)
             {
                 dbSession.Dispose();
-                dbSession = null;
             }
 
             disposed = true;
