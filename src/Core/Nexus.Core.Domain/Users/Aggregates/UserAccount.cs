@@ -19,8 +19,8 @@ public class UserAccount : Entity<string>
         Profile = new(this);
     }
 
-    public string Email { get; private set; }
-    public string Name { get; private set; }
-    public string Username { get; private set; }
+    public string Email { get; private set; } = null!;
+    public string Name { get; private set; } = null!;
+    public string Username { get; private set; } = null!;
     public UserProfile Profile { get; private set; }
 }

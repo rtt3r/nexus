@@ -16,7 +16,7 @@ public class SqlEventStore(
         var storedEvent = new StoredEvent(
            @event.AggregateId,
            JsonSerializer.Serialize(@event),
-           appState.User.UserId);
+           appState.User.UserId!);
 
         dbContext.Set<StoredEvent>().Add(storedEvent);
         dbContext.SaveChanges();

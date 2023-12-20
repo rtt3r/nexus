@@ -53,16 +53,16 @@ public class UserAccountsController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<UserAccount>> GetMe()
     {
-        var userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId);
+        var userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId!);
 
         if (userAccount is not null)
             return Ok(userAccount);
 
         var command = new CreateUserAccountCommand(
-            appState.User.UserId,
-            appState.User.Email,
-            appState.User.Name,
-            appState.User.Username
+            appState.User.UserId!,
+            appState.User.Email!,
+            appState.User.Name!,
+            appState.User.Username!
         );
 
         ICommandResult<UserAccount> result = await mediator.Send(command);

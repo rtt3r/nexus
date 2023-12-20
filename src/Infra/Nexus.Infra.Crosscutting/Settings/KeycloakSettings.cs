@@ -9,9 +9,9 @@ public class KeycloakSettings
 {
     public const string Section = ConfigurationConstants.ConfigurationPrefix;
 
-    private KeycloakAdminClientOptions adminClientOptions;
-    private KeycloakAuthenticationOptions authenticationOptions;
-    private KeycloakProtectionClientOptions protectionClientOptions;
+    private KeycloakAdminClientOptions? adminClientOptions;
+    private KeycloakAuthenticationOptions? authenticationOptions;
+    private KeycloakProtectionClientOptions? protectionClientOptions;
 
     public string AuthServerUrl { get; set; } = default!;
     public string Realm { get; set; } = string.Empty;
