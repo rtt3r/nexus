@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net7.0/Nexus.Core.Api.dll",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net8.0/Nexus.Core.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
