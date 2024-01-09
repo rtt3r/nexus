@@ -7,14 +7,14 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj",
+        "${workspaceFolder}/Nexus.sln",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "publish",
+      "label": "publish-api",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -26,7 +26,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "watch",
+      "label": "watch-api",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -34,6 +34,30 @@
         "run",
         "--project",
         "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish-worker",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch-worker",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

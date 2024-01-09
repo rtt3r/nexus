@@ -52,10 +52,6 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        services.AddHttpContextAccessor();
-        services.AddScoped(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.User);
-        services.AddScoped<AppState>();
-
         services.AddAutoMapperTypeAdapter();
 
         services.AddDefaultNotificationHandler();

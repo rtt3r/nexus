@@ -4,7 +4,8 @@ using Nexus.Core.Infra.Data.Configurations.Users;
 
 namespace Nexus.Core.Infra.Data;
 
-public abstract class CoreDbContext(DbContextOptions options) : DbContext(options)
+public abstract class CoreDbContext(DbContextOptions options)
+    : DbContext(options)
 {
     public DbSet<UserAccount> UserAccounts { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
