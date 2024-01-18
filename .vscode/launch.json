@@ -5,7 +5,7 @@
       "name": ".NET Core Launch (api)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "debug",
       "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net8.0/Nexus.Core.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Api",
@@ -23,12 +23,11 @@
       },
       "sourceFileMap": {}
     },
-
     {
       "name": ".NET Core Launch (worker)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "debug",
       "program": "${workspaceFolder}/src/Core/Nexus.Core.Worker/bin/Debug/net8.0/Nexus.Core.Worker.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Worker",
