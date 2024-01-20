@@ -1,4 +1,4 @@
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
+using Goal.Infra.Crosscutting.Notifications;
 
 namespace Nexus.Infra.Http.Controllers;
 

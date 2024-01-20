@@ -1,5 +1,5 @@
 using AutoMapper;
-using Goal.Seedwork.Infra.Crosscutting.Adapters;
+using Goal.Infra.Crosscutting.Adapters;
 
 namespace Nexus.Core.Application.TypeAdapters;
 

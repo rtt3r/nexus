@@ -1,4 +1,4 @@
-using Goal.Seedwork.Domain.Services;
+using Goal.Domain.Services;
 using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Domain.Users.Services

@@ -3,12 +3,12 @@ using FluentValidation.Results;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Constants;
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Crosscutting.Adapters;
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
+using Goal.Application.Commands;
+using Goal.Infra.Crosscutting.Adapters;
+using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
-using Goal.Seedwork.Application.Extensions;
-using Goal.Seedwork.Infra.Crosscutting.Collections;
+using Goal.Application.Extensions;
+using Goal.Infra.Crosscutting.Collections;
 
 namespace Nexus.Core.Application.Commands;
 

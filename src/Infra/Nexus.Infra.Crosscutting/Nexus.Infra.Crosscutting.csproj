@@ -18,6 +18,7 @@
 		<PackageReference Include="Keycloak.AuthServices.Authentication" Version="1.6.0+build.98" />
 		<PackageReference Include="Keycloak.AuthServices.Authorization" Version="1.6.0+build.98" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
+		<PackageReference Include="Goal.Infra.Crosscutting" Version="1.0.2" />
 	</ItemGroup>
 
 </Project>

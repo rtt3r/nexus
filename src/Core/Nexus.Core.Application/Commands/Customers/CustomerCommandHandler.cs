@@ -4,9 +4,9 @@ using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Constants;
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Crosscutting.Adapters;
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
+using Goal.Application.Commands;
+using Goal.Infra.Crosscutting.Adapters;
+using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
 using CustomerModel = Nexus.Core.Model.Customers.Customer;
 

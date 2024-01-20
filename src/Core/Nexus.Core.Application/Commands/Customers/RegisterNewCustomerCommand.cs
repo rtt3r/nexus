@@ -1,4 +1,4 @@
-using Goal.Seedwork.Application.Commands;
+using Goal.Application.Commands;
 using Nexus.Core.Model.Customers;
 
 namespace Nexus.Core.Application.Commands.Customers;

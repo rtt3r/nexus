@@ -1,15 +1,15 @@
 using Nexus.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers.Requests;
-using Goal.Seedwork.Infra.Http.Controllers.Results;
-using Goal.Seedwork.Infra.Http.Extensions;
+using Goal.Infra.Http.Controllers;
+using Goal.Infra.Http.Controllers.Requests;
+using Goal.Infra.Http.Controllers.Results;
+using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nexus.Infra.Crosscutting;
 using Nexus.Core.Model.Users;
 using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
-using Goal.Seedwork.Application.Commands;
+using Goal.Application.Commands;
 using Nexus.Core.Application.Commands.Users;
 
 namespace Nexus.Core.Api.Controllers.Users;

@@ -6,7 +6,7 @@ using Nexus.Infra.Crosscutting.Extensions;
 using Nexus.Infra.Http.Filters;
 using Nexus.Infra.Http.JsonNamePolicies;
 using Nexus.Infra.Http.ValueProviders;
-using Goal.Seedwork.Infra.Crosscutting.Localization;
+using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;

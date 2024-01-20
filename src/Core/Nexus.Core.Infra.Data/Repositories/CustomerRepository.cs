@@ -1,5 +1,5 @@
 using Nexus.Core.Domain.Customers.Aggregates;
-using Goal.Seedwork.Infra.Data;
+using Goal.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Core.Infra.Data.Repositories;

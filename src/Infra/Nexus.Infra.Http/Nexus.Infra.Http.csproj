@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Seedwork.Infra.Http" Version="0.4.10" />
+		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="1.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,5 +1,5 @@
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Http.Controllers;
+using Goal.Application.Commands;
+using Goal.Infra.Http.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Nexus.Infra.Http.Controllers;

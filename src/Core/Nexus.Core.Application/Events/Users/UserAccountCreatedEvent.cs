@@ -1,4 +1,4 @@
-using Goal.Seedwork.Domain.Events;
+using Goal.Domain.Events;
 using MediatR;
 using Nexus.Core.Model.Users;
 

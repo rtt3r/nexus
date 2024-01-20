@@ -16,7 +16,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
-		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.4.10" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,4 @@
-using Goal.Seedwork.Domain;
+using Goal.Domain;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.Users.Aggregates;
 

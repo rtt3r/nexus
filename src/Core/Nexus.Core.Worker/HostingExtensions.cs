@@ -4,7 +4,7 @@ using Nexus.Core.Infra.IoC.Extensions;
 using Nexus.Core.Worker.Consumers.Customers;
 using Nexus.Core.Worker.Infra.Swagger;
 using Nexus.Infra.Crosscutting.Extensions;
-using Goal.Seedwork.Infra.Crosscutting.Localization;
+using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;

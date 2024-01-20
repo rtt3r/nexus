@@ -1,6 +1,6 @@
 using Nexus.Infra.Crosscutting.Constants;
 using Nexus.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers.Results;
+using Goal.Infra.Http.Controllers.Results;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
