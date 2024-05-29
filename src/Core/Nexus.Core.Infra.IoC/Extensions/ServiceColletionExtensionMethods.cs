@@ -1,4 +1,17 @@
+using Goal.Domain.Aggregates;
+using Goal.Domain.Events;
+using Goal.Infra.Data.Query;
+using Goal.Infra.Http.DependencyInjection;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Application.TypeAdapters;
+using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.EventSourcing;
 using Nexus.Core.Infra.Data.MySql;
@@ -8,20 +21,7 @@ using Nexus.Core.Infra.Data.Repositories;
 using Nexus.Core.Infra.Data.SqlServer;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Settings;
-using Goal.Domain.Aggregates;
-using Goal.Domain.Events;
-using Goal.Infra.Data.Query;
-using Goal.Infra.Http.DependencyInjection;
-using Keycloak.AuthServices.Authentication;
-using Keycloak.AuthServices.Authorization;
-using Keycloak.AuthServices.Sdk.Admin;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Raven.DependencyInjection;
-using Nexus.Core.Domain.Users.Services;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -67,13 +67,18 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
     {
-        KeycloakSettings? keycloakOptions = configuration
-            .GetSection(KeycloakSettings.Section)
-            .Get<KeycloakSettings>();
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddKeycloakWebApi(configuration);
 
-        services.AddKeycloakAuthentication(keycloakOptions!.AuthenticationOptions);
-        services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
-        services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
+        services
+            .AddAuthorization()
+            .AddKeycloakAuthorization(options =>
+            {
+                options.EnableRolesMapping =
+                    RolesClaimTransformationSource.ResourceAccess;
+                options.RolesResource = "core-api";
+            });
 
         return services;
     }

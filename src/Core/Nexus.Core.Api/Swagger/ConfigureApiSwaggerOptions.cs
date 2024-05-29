@@ -3,6 +3,7 @@ using Nexus.Infra.Http.Swagger;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Keycloak.AuthServices.Authentication;
 
 namespace Nexus.Core.Api.Swagger;
 
@@ -15,9 +16,9 @@ public class ConfigureApiSwaggerOptions(
     {
         base.Configure(options);
 
-        KeycloakSettings? keycloakOptions = configuration
-            .GetSection(KeycloakSettings.Section)
-            .Get<KeycloakSettings>();
+        KeycloakAuthenticationOptions? keycloakOptions = configuration
+            .GetSection(KeycloakAuthenticationOptions.Section)
+            .Get<KeycloakAuthenticationOptions>();
 
         options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
         {
@@ -29,7 +30,7 @@ public class ConfigureApiSwaggerOptions(
             {
                 Password = new OpenApiOAuthFlow
                 {
-                    TokenUrl = new Uri($"{keycloakOptions?.AuthenticationOptions.KeycloakUrlRealm}/protocol/openid-connect/token"),
+                    TokenUrl = new Uri($"{keycloakOptions?.KeycloakUrlRealm}/protocol/openid-connect/token"),
                     Scopes = new Dictionary<string, string>()
                 }
             }

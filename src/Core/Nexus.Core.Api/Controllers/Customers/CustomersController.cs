@@ -1,7 +1,4 @@
-using Nexus.Core.Application.Commands.Customers;
-using Nexus.Core.Infra.Data.Query.Repositories.Customers;
-using Nexus.Core.Model.Customers;
-using Nexus.Infra.Http.Controllers;
+using Asp.Versioning;
 using Goal.Application.Commands;
 using Goal.Infra.Http.Controllers;
 using Goal.Infra.Http.Controllers.Requests;
@@ -10,6 +7,10 @@ using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nexus.Core.Application.Commands.Customers;
+using Nexus.Core.Infra.Data.Query.Repositories.Customers;
+using Nexus.Core.Model.Customers;
+using Nexus.Infra.Http.Controllers;
 
 namespace Nexus.Core.Api.Controllers.Customers;
 
