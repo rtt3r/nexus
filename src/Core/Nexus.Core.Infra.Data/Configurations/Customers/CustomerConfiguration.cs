@@ -15,7 +15,7 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired();
 
         builder.Property(p => p.Email)
-            .HasMaxLength(32)
+            .HasMaxLength(64)
             .IsRequired();
 
         builder.Property(p => p.Name)
@@ -24,5 +24,8 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(p => p.Birthdate)
             .IsRequired();
+
+        builder.HasIndex(p => p.Email)
+            .IsUnique();
     }
 }

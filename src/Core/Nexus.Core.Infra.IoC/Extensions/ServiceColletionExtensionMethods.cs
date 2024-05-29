@@ -79,7 +79,7 @@ public static class ServiceColletionExtensionMethods
             {
                 options.EnableRolesMapping =
                     RolesClaimTransformationSource.ResourceAccess;
-                options.RolesResource = "core-api";
+                options.RolesResource = configuration["Keycloak:Resource"];
             });
 
         return services;
