@@ -1,22 +1,20 @@
 using System.Text.Json;
-using Nexus.Infra.Crosscutting;
-using Goal.Seedwork.Domain.Events;
+using Goal.Domain.Events;
 
 namespace Nexus.Core.Infra.Data.EventSourcing;
 
-public class SqlEventStore(
-    EventSourcingDbContext dbContext,
-    AppState appState) : IEventStore
+public class SqlEventStore(EventSourcingDbContext dbContext)
+    : IEventStore
 {
-    private readonly EventSourcingDbContext dbContext = dbContext;
-    private readonly AppState appState = appState;
+    protected readonly EventSourcingDbContext dbContext = dbContext;
 
-    public void Save<T>(T @event) where T : IEvent
+    public virtual void Save<T>(T @event) where T : IEvent
     {
         var storedEvent = new StoredEvent(
            @event.AggregateId,
+           @event.EventType,
            JsonSerializer.Serialize(@event),
-           appState.User.UserId!);
+           string.Empty);
 
         dbContext.Set<StoredEvent>().Add(storedEvent);
         dbContext.SaveChanges();

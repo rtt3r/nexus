@@ -5,9 +5,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4432
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
@@ -15,28 +15,32 @@ services:
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Keycloak__Realm=nexus
-      - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
+      - ASPNETCORE_Keycloak__AuthServerUrl=http://172.22.32.1:8081
       - ASPNETCORE_Keycloak__SslRequired=none
-      - ASPNETCORE_Keycloak__Resource=core-api
+      - ASPNETCORE_Keycloak__Resource=nexus-cli
       - ASPNETCORE_Keycloak__VerifyTokenAudience=true
-      - ASPNETCORE_Keycloak__Credentials__Secret=8OrwdHIXI9nK0xMCkoA09sZSZegIecei
+      - ASPNETCORE_Keycloak__Scopes=email profile nexus-ui-client-scope
       - ASPNETCORE_Keycloak__ConfidentialPort=0
+      - ASPNETCORE_UiAvatars__BaseAddress=https://ui-avatars.com/api
+      - ASPNETCORE_UiAvatars__DefaultBackground=0D8ABC
+      - ASPNETCORE_UiAvatars__DefaultColor=FFF
       - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
       - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/DataProtection-Keys:/root/.aspnet/DataProtection-Keys:ro
 
   core-worker:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_DbProvider=MySql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
+      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4433
-      - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;
-      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
@@ -47,3 +51,4 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/DataProtection-Keys:/root/.aspnet/DataProtection-Keys:ro

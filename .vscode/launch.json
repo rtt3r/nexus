@@ -5,10 +5,10 @@
       "name": ".NET Core Launch (api)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net7.0/Nexus.Core.Api.dll",
+      "preLaunchTask": "debug",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net8.0/Nexus.Core.Api.dll",
       "args": [],
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Api",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
@@ -16,32 +16,49 @@
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_DbProvider": "MySql",
-        "ASPNETCORE_ConnectionStrings__DefaultConnection": "Server=localhost;Port=3306;Database=nexus-core-dev;Uid=root;Pwd=BeycL18545#f;",
-        "ASPNETCORE_ConnectionStrings__Seq": "http://localhost:5341",
-        "ASPNETCORE_ConnectionStrings__RabbitMq": "amqp://guest:guest@localhost:5672",
         "ASPNETCORE_URLS": "https://localhost:7193;http://localhost:5193",
         "ASPNETCORE_HTTPS_PORT": "4432",
-        "ASPNETCORE_RavenSettings__Urls": "http://localhost:8080",
-        "ASPNETCORE_RavenSettings__DatabaseName": "NexusCore",
-        "ASPNETCORE_RavenSettings__CertFilePath": "",
-        "ASPNETCORE_RavenSettings__CertPassword": "",
+        "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx",
         "ASPNETCORE_Keycloak__Realm": "nexus",
-        "ASPNETCORE_Keycloak__AuthServerUrl": "http://192.168.0.193:8081",
+        "ASPNETCORE_Keycloak__AuthServerUrl": "http://172.22.32.1:8081",
         "ASPNETCORE_Keycloak__SslRequired": "none",
         "ASPNETCORE_Keycloak__Resource": "nexus-cli",
         "ASPNETCORE_Keycloak__VerifyTokenAudience": "true",
         "ASPNETCORE_Keycloak__Scopes": "email profile nexus-ui-client-scope",
-        "ASPNETCORE_Keycloak__ConfidentialPort": "0",
-        "ASPNETCORE_UiAvatars__BaseAddress": "https://ui-avatars.com/api",
-        "ASPNETCORE_UiAvatars__DefaultBackground": "0D8ABC",
-        "ASPNETCORE_UiAvatars__DefaultColor": "FFF",
-        "ASPNETCORE_Cors__Origins": "https://localhost:4432;http://localhost:8002;http://localhost:4200;http://localhost:5193",
+        "ASPNETCORE_Keycloak__ConfidentialPort": "0"
+      },
+      "sourceFileMap": {}
+    },
+    {
+      "name": ".NET Core Launch (worker)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "debug",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Worker/bin/Debug/net8.0/Nexus.Core.Worker.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Worker",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:7194;http://localhost:5194",
+        "ASPNETCORE_HTTPS_PORT": "4433",
         "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
         "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx"
       },
-      "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
+      "sourceFileMap": {}
+    },
+    {
+      "name": "Docker .NET Launch",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
       }
     }
   ]

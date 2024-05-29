@@ -1,14 +1,14 @@
 using FluentValidation;
 using FluentValidation.Results;
+using Goal.Application.Commands;
+using Goal.Application.Extensions;
+using Goal.Infra.Crosscutting.Adapters;
+using Goal.Infra.Crosscutting.Collections;
+using Goal.Infra.Crosscutting.Notifications;
+using MassTransit;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Constants;
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Crosscutting.Adapters;
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
-using MassTransit;
-using Goal.Seedwork.Application.Extensions;
-using Goal.Seedwork.Infra.Crosscutting.Collections;
 
 namespace Nexus.Core.Application.Commands;
 
@@ -37,9 +37,7 @@ public abstract class CommandHandlerBase
     protected async Task<bool> ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
         where TValidator : IValidator<TCommand>, new()
         where TCommand : ICommand
-    {
-        return await ValidateCommandAsync(command, new TValidator(), cancellationToken);
-    }
+        => await ValidateCommandAsync(command, new TValidator(), cancellationToken);
 
     protected async Task<bool> ValidateCommandAsync<TCommand>(TCommand command, IValidator<TCommand> validator, CancellationToken cancellationToken = default)
         where TCommand : ICommand
@@ -131,40 +129,28 @@ public abstract class CommandHandlerBase
 
     protected TProjection ProjectAs<TProjection>(object source)
         where TProjection : class, new()
-    {
-        return typeAdapter.Adapt<TProjection>(source);
-    }
+        => typeAdapter.Adapt<TProjection>(source);
 
     protected TProjection ProjectAs<TSource, TProjection>(TSource source)
         where TSource : class
         where TProjection : class, new()
-    {
-        return typeAdapter.Adapt<TSource, TProjection>(source);
-    }
+        => typeAdapter.Adapt<TSource, TProjection>(source);
 
     protected ICollection<TProjection> ProjectAsCollection<TProjection>(IEnumerable<object> source)
         where TProjection : class, new()
-    {
-        return typeAdapter.AdaptList<TProjection>(source);
-    }
+        => typeAdapter.AdaptList<TProjection>(source);
 
     protected ICollection<TProjection> ProjectAsCollection<TSource, TProjection>(IEnumerable<TSource> source)
         where TSource : class
         where TProjection : class, new()
-    {
-        return typeAdapter.AdaptList<TSource, TProjection>(source);
-    }
+        => typeAdapter.AdaptList<TSource, TProjection>(source);
 
     protected IPagedList<TProjection> ProjectAsPagedCollection<TProjection>(IPagedList<object> source)
         where TProjection : class, new()
-    {
-        return typeAdapter.AdaptPagedList<TProjection>(source);
-    }
+        => typeAdapter.AdaptPagedList<TProjection>(source);
 
     protected IPagedList<TProjection> ProjectAsPagedCollection<TSource, TProjection>(IPagedList<TSource> source)
         where TSource : class
         where TProjection : class, new()
-    {
-        return typeAdapter.AdaptPagedList<TSource, TProjection>(source);
-    }
+        => typeAdapter.AdaptPagedList<TSource, TProjection>(source);
 }

@@ -24,7 +24,6 @@ public static class LoggingExtensions
         }
 
         logger
-            .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
             .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
             .WriteTo.Seq(configuration.GetConnectionString("Seq")!)
             .ReadFrom.Configuration(configuration);

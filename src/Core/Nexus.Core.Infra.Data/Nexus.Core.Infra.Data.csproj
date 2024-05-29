@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.4.9" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

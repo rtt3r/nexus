@@ -5,7 +5,7 @@
 namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
 {
     /// <inheritdoc />
-    public partial class Core_00 : Migration
+    public partial class _00 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,7 +1,7 @@
+using Goal.Domain.Events;
+using MassTransit;
 using Nexus.Core.Application.Events.Customers;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
-using Goal.Seedwork.Domain.Events;
-using MassTransit;
 
 namespace Nexus.Core.Worker.Consumers.Customers;
 

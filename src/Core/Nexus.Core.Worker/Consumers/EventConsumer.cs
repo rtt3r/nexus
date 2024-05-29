@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Goal.Seedwork.Domain.Events;
+using Goal.Domain.Events;
 using MassTransit;
 using MassTransit.Metadata;
 

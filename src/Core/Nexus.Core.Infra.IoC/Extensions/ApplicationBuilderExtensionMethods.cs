@@ -1,8 +1,8 @@
-using Nexus.Core.Infra.Data;
-using Nexus.Core.Infra.Data.EventSourcing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nexus.Core.Infra.Data;
+using Nexus.Core.Infra.Data.EventSourcing;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 

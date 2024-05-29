@@ -1,4 +1,4 @@
-using Goal.Seedwork.Domain.Events;
+using Goal.Domain.Events;
 using MediatR;
 
 namespace Nexus.Core.Application.Events.Customers;

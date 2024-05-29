@@ -1,4 +1,4 @@
-using Goal.Seedwork.Infra.Data;
+using Goal.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

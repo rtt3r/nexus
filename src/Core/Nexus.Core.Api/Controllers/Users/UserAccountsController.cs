@@ -1,16 +1,17 @@
-using Nexus.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers.Requests;
-using Goal.Seedwork.Infra.Http.Controllers.Results;
-using Goal.Seedwork.Infra.Http.Extensions;
+using Asp.Versioning;
+using Goal.Application.Commands;
+using Goal.Infra.Http.Controllers;
+using Goal.Infra.Http.Controllers.Requests;
+using Goal.Infra.Http.Controllers.Results;
+using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nexus.Infra.Crosscutting;
-using Nexus.Core.Model.Users;
-using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
-using Goal.Seedwork.Application.Commands;
 using Nexus.Core.Application.Commands.Users;
+using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
+using Nexus.Core.Model.Users;
+using Nexus.Infra.Crosscutting;
+using Nexus.Infra.Http.Controllers;
 
 namespace Nexus.Core.Api.Controllers.Users;
 
@@ -40,7 +41,7 @@ public class UserAccountsController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<UserAccount>> GetById([FromRoute] string id)
     {
-        var userAccount = await userAccountQueryRepository.LoadAsync(id);
+        UserAccount? userAccount = await userAccountQueryRepository.LoadAsync(id);
 
         return userAccount is null
             ? NotFound()
@@ -53,10 +54,12 @@ public class UserAccountsController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<UserAccount>> GetMe()
     {
-        var userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId!);
+        UserAccount? userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId!);
 
         if (userAccount is not null)
+        {
             return Ok(userAccount);
+        }
 
         var command = new CreateUserAccountCommand(
             appState.User.UserId!,

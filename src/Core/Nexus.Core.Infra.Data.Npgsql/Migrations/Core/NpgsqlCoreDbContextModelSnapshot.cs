@@ -17,10 +17,36 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Nexus.Core.Domain.Customers.Aggregates.Customer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Customers", (string)null);
+                });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
                 {
@@ -87,7 +113,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
                 {
-                    b.Navigation("Profile");
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

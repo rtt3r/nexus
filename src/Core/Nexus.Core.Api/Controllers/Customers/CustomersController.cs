@@ -1,21 +1,22 @@
+using Asp.Versioning;
+using Goal.Application.Commands;
+using Goal.Infra.Http.Controllers;
+using Goal.Infra.Http.Controllers.Requests;
+using Goal.Infra.Http.Controllers.Results;
+using Goal.Infra.Http.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nexus.Core.Application.Commands.Customers;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Model.Customers;
 using Nexus.Infra.Http.Controllers;
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Http.Controllers;
-using Goal.Seedwork.Infra.Http.Controllers.Requests;
-using Goal.Seedwork.Infra.Http.Controllers.Results;
-using Goal.Seedwork.Infra.Http.Extensions;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Nexus.Core.Api.Controllers.Customers;
 
 [ApiController]
 [ApiVersion("1")]
-[Authorize(Roles = "Administrator")]
+[Authorize("admin")]
 [Route("v{version:apiVersion}/[controller]")]
 public class CustomersController(
     ICustomerQueryRepository customerQueryRepository,

@@ -16,7 +16,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Nexus.Core.Infra.Data.EventSourcing.StoredEvent", b =>
@@ -25,9 +25,11 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("AggregateId")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Data")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("EventType")
@@ -39,6 +41,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("User")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

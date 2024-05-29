@@ -1,27 +1,25 @@
-using Nexus.Core.Application.TypeAdapters;
-using Nexus.Core.Infra.Data;
-using Nexus.Core.Infra.Data.EventSourcing;
-using Nexus.Core.Infra.Data.MySql;
-using Nexus.Core.Infra.Data.Npgsql;
-using Nexus.Core.Infra.Data.Query.Repositories.Customers;
-using Nexus.Core.Infra.Data.Repositories;
-using Nexus.Core.Infra.Data.SqlServer;
-using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Settings;
-using Goal.Seedwork.Domain.Aggregates;
-using Goal.Seedwork.Domain.Events;
-using Goal.Seedwork.Infra.Data.Query;
-using Goal.Seedwork.Infra.Http.DependencyInjection;
+using Goal.Domain.Aggregates;
+using Goal.Domain.Events;
+using Goal.Infra.Data.Query;
+using Goal.Infra.Http.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
-using Keycloak.AuthServices.Sdk.Admin;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Raven.DependencyInjection;
+using Nexus.Core.Application.TypeAdapters;
 using Nexus.Core.Domain.Users.Services;
+using Nexus.Core.Infra.Data;
+using Nexus.Core.Infra.Data.EventSourcing;
+using Nexus.Core.Infra.Data.Query.Repositories.Customers;
+using Nexus.Core.Infra.Data.Repositories;
+using Nexus.Core.Infra.IoC.Providers;
+using Nexus.Infra.Crosscutting;
+using Nexus.Infra.Crosscutting.Providers.Data;
+using Nexus.Infra.Crosscutting.Settings;
+using Raven.DependencyInjection;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -52,10 +50,6 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        services.AddHttpContextAccessor();
-        services.AddScoped(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.User);
-        services.AddScoped<AppState>();
-
         services.AddAutoMapperTypeAdapter();
 
         services.AddDefaultNotificationHandler();
@@ -71,13 +65,24 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
     {
-        KeycloakSettings? keycloakOptions = configuration
-            .GetSection(KeycloakSettings.Section)
-            .Get<KeycloakSettings>();
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddKeycloakWebApi(configuration);
 
-        services.AddKeycloakAuthentication(keycloakOptions!.AuthenticationOptions);
-        services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
-        services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
+        services
+            .AddAuthorization()
+            .AddKeycloakAuthorization(options =>
+            {
+                options.EnableRolesMapping = RolesClaimTransformationSource.All;
+                options.RolesResource = configuration["Keycloak:Resource"];
+            })
+            .AddAuthorizationBuilder()
+            .AddPolicy("admin", policy =>
+            {
+                policy
+                    .RequireAuthenticatedUser()
+                    .RequireRole("Administrator");
+            });
 
         return services;
     }
@@ -92,90 +97,32 @@ public static class ServiceColletionExtensionMethods
 
     private static IServiceCollection AddCoreDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string? dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string? connectionString = configuration.GetConnectionString("DefaultConnection");
+        try
+        {
+            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
+            IDbProvider dbProvider = DbProviderFactory.Core.CreateProvider(enDbProvider);
 
-        if (dbProvider == "SqlServer")
-        {
-            services.AddDbContext<CoreDbContext, SqlServerCoreDbContext>((provider, options) =>
-            {
-                options
-                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerCoreDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
-            });
+            return dbProvider.Configure(services, configuration);
         }
-        else if (dbProvider == "MySql")
+        catch (Exception ex)
         {
-            services.AddDbContext<CoreDbContext, MySqlCoreDbContext>((provider, options) =>
-            {
-                options
-                    .UseMySql(
-                        connectionString,
-                        new MySqlServerVersion(new Version(8, 2, 0)),
-                        x => x.MigrationsAssembly(typeof(MySqlCoreDbContext).Assembly.GetName().Name)
-                    )
-                    .EnableSensitiveDataLogging();
-            });
+            throw new InvalidOperationException($"Unsupported Db Provider: {configuration.GetValue<string>("DbProvider")}", ex);
         }
-        else if (dbProvider == "Npgsql")
-        {
-            services.AddDbContext<CoreDbContext, NpgsqlCoreDbContext>((provider, options) =>
-            {
-                options
-                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlCoreDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
-            });
-        }
-        else
-        {
-            throw new Exception($"Unsupported provider: {dbProvider}");
-        }
-
-        return services;
     }
 
     private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string? dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string? connectionString = configuration.GetConnectionString("DefaultConnection");
+        try
+        {
+            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
+            IDbProvider dbProvider = DbProviderFactory.EventSourcing.CreateProvider(enDbProvider);
 
-        if (dbProvider == "SqlServer")
-        {
-            services.AddDbContext<EventSourcingDbContext, SqlServerEventSourcingDbContext>((provider, options) =>
-            {
-                options
-                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerEventSourcingDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
-            });
+            return dbProvider.Configure(services, configuration);
         }
-        else if (dbProvider == "MySql")
+        catch (Exception ex)
         {
-            services.AddDbContext<EventSourcingDbContext, MySqlEventSourcingDbContext>((provider, options) =>
-            {
-                options
-                    .UseMySql(
-                        connectionString,
-                        new MySqlServerVersion(new Version(8, 2, 0)),
-                        x => x.MigrationsAssembly(typeof(MySqlEventSourcingDbContext).Assembly.GetName().Name)
-                    )
-                    .EnableSensitiveDataLogging();
-            });
+            throw new InvalidOperationException($"Unsupported Db Provider: {configuration.GetValue<string>("DbProvider")}", ex);
         }
-        else if (dbProvider == "Npgsql")
-        {
-            services.AddDbContext<EventSourcingDbContext, NpgsqlEventSourcingDbContext>((provider, options) =>
-            {
-                options
-                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlEventSourcingDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
-            });
-        }
-        else
-        {
-            throw new Exception($"Unsupported provider: {dbProvider}");
-        }
-
-        return services;
     }
 
     private static IServiceCollection AddRavenDb(this IServiceCollection services, IConfiguration configuration)

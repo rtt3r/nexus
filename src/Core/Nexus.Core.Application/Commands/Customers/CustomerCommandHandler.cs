@@ -1,13 +1,13 @@
+using Goal.Application.Commands;
+using Goal.Infra.Crosscutting.Adapters;
+using Goal.Infra.Crosscutting.Notifications;
+using MassTransit;
 using Nexus.Core.Application.Commands.Customers.Validators;
 using Nexus.Core.Application.Events.Customers;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Constants;
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Crosscutting.Adapters;
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
-using MassTransit;
 using CustomerModel = Nexus.Core.Model.Customers.Customer;
 
 namespace Nexus.Core.Application.Commands.Customers;

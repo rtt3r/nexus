@@ -1,17 +1,16 @@
-using System.Globalization;
 using System.Text.Json.Serialization;
-using Nexus.Core.Infra.IoC.Extensions;
-using Nexus.Core.Worker.Consumers.Customers;
-using Nexus.Core.Worker.Infra.Swagger;
-using Nexus.Infra.Crosscutting.Extensions;
-using Goal.Seedwork.Infra.Crosscutting.Localization;
+using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Nexus.Core.Infra.IoC.Extensions;
+using Nexus.Core.Worker.Consumers.Customers;
+using Nexus.Core.Worker.Consumers.Users;
+using Nexus.Core.Worker.Infra.Swagger;
+using Nexus.Infra.Crosscutting.Extensions;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Nexus.Core.Worker.Consumers.Users;
 
 namespace Nexus.Core.Worker;
 
@@ -95,14 +94,14 @@ public static class HostingExtensions
         app.UseRequestLocalization(new RequestLocalizationOptions
         {
             DefaultRequestCulture = new RequestCulture(ApplicationCultures.Portugues, ApplicationCultures.Portugues),
-            SupportedCultures = new List<CultureInfo>
-            {
+            SupportedCultures =
+            [
                 ApplicationCultures.Portugues,
-            },
-            SupportedUICultures = new List<CultureInfo>
-            {
+            ],
+            SupportedUICultures =
+            [
                 ApplicationCultures.Portugues,
-            }
+            ]
         });
 
         app.MapControllers();

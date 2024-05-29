@@ -1,5 +1,5 @@
-using Goal.Seedwork.Application.Commands;
-using Goal.Seedwork.Infra.Crosscutting.Notifications;
+using Goal.Application.Commands;
+using Goal.Infra.Crosscutting.Notifications;
 
 namespace Nexus.Infra.Http.Controllers;
 

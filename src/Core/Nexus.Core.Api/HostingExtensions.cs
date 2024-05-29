@@ -1,19 +1,18 @@
-using System.Globalization;
 using System.Text.Json.Serialization;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using Goal.Infra.Crosscutting.Localization;
+using MassTransit;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Models;
 using Nexus.Core.Api.Swagger;
 using Nexus.Core.Infra.IoC.Extensions;
 using Nexus.Infra.Crosscutting.Extensions;
 using Nexus.Infra.Http.Filters;
 using Nexus.Infra.Http.JsonNamePolicies;
 using Nexus.Infra.Http.ValueProviders;
-using Goal.Seedwork.Infra.Crosscutting.Localization;
-using MassTransit;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -42,18 +41,18 @@ public static class HostingExtensions
             });
         });
 
-        builder.Services.AddApiVersioning(options =>
-        {
-            options.ReportApiVersions = true;
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.DefaultApiVersion = new ApiVersion(1, 0);
-        });
-
-        builder.Services.AddVersionedApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-        });
+        builder.Services
+            .AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         builder.Services
             .AddRouting(options => options.LowercaseUrls = true)
@@ -87,14 +86,14 @@ public static class HostingExtensions
         app.UseRequestLocalization(new RequestLocalizationOptions
         {
             DefaultRequestCulture = new RequestCulture(ApplicationCultures.English, ApplicationCultures.English),
-            SupportedCultures = new List<CultureInfo>
-            {
+            SupportedCultures =
+            [
                 ApplicationCultures.English
-            },
-            SupportedUICultures = new List<CultureInfo>
-            {
+            ],
+            SupportedUICultures =
+            [
                 ApplicationCultures.English
-            }
+            ]
         });
 
         app.UseSerilogRequestLogging();
@@ -109,13 +108,13 @@ public static class HostingExtensions
             {
                 c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
                 {
-                    swaggerDoc.Servers = new List<OpenApiServer>
-                    {
+                    swaggerDoc.Servers =
+                    [
                         new OpenApiServer
                         {
                             Url = $"{httpReq.Scheme}://{httpReq.Host.Value}"
                         }
-                    };
+                    ];
                 });
             });
             app.UseSwaggerUI(c =>

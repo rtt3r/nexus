@@ -1,5 +1,5 @@
-using Nexus.Core.Infra.Data.EventSourcing;
 using Microsoft.EntityFrameworkCore;
+using Nexus.Core.Infra.Data.EventSourcing;
 
 namespace Nexus.Core.Infra.Data.SqlServer;
 
