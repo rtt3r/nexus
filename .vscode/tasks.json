@@ -23,8 +23,7 @@
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
-      "problemMatcher": "$msCompile",
-      "dependsOn": ["docker-up"]
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "publish-api",

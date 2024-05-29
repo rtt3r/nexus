@@ -8,7 +8,8 @@ using Keycloak.AuthServices.Authentication;
 namespace Nexus.Core.Api.Swagger;
 
 public class ConfigureApiSwaggerOptions(
-    IConfiguration configuration) : ConfigureSwaggerOptions()
+    IConfiguration configuration)
+    : ConfigureSwaggerOptions()
 {
     protected readonly IConfiguration configuration = configuration;
 
@@ -30,7 +31,7 @@ public class ConfigureApiSwaggerOptions(
             {
                 Password = new OpenApiOAuthFlow
                 {
-                    TokenUrl = new Uri($"{keycloakOptions?.KeycloakUrlRealm}/protocol/openid-connect/token"),
+                    TokenUrl = new Uri($"{keycloakOptions?.KeycloakUrlRealm}protocol/openid-connect/token"),
                     Scopes = new Dictionary<string, string>()
                 }
             }

@@ -3,6 +3,7 @@ using Nexus.Core.Infra.Data.EventSourcing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 

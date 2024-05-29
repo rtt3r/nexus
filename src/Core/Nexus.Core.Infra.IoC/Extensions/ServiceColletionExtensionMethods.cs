@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Goal.Domain.Aggregates;
 using Goal.Domain.Events;
 using Goal.Infra.Data.Query;
@@ -22,6 +23,7 @@ using Nexus.Core.Infra.Data.SqlServer;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Settings;
 using Raven.DependencyInjection;
+using Serilog;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -96,6 +98,9 @@ public static class ServiceColletionExtensionMethods
         string? dbProvider = configuration.GetValue("DbProvider", "SqlServer");
         string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
+        Log.Information("DbProvider = {dbProvider}", dbProvider);
+        Log.Information("ConnectionString = {connectionString}", connectionString);
+
         if (dbProvider == "SqlServer")
         {
             services.AddDbContext<CoreDbContext, SqlServerCoreDbContext>((provider, options) =>
@@ -129,7 +134,7 @@ public static class ServiceColletionExtensionMethods
         }
         else
         {
-            throw new Exception($"Unsupported provider: {dbProvider}");
+            throw new InvalidOperationException($"Unsupported provider: {dbProvider}");
         }
 
         return services;
