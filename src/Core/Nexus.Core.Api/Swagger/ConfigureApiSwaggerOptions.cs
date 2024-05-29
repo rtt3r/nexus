@@ -1,9 +1,8 @@
-using Nexus.Infra.Crosscutting.Settings;
-using Nexus.Infra.Http.Swagger;
+using Keycloak.AuthServices.Authentication;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Nexus.Infra.Http.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Keycloak.AuthServices.Authentication;
 
 namespace Nexus.Core.Api.Swagger;
 

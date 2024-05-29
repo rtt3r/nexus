@@ -81,7 +81,7 @@ public static class ClaimsPrincipalExtensions
         => principal?.GetClaimValues(JwtClaimTypes.Role, ClaimTypes.Role) ?? [];
 
     public static IEnumerable<string> GetScopes(this ClaimsPrincipal principal)
-        => principal?.GetClaimValues(JwtClaimTypes.Scope)??[];
+        => principal?.GetClaimValues(JwtClaimTypes.Scope) ?? [];
 
     public static string? GetClientId(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.ClientId, JwtClaimTypes.AuthorizedParty);

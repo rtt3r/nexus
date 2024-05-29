@@ -1,7 +1,7 @@
 using System.Globalization;
-using Nexus.Infra.Crosscutting.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Nexus.Infra.Crosscutting.Extensions;
 
 namespace Nexus.Infra.Http.ValueProviders;
 

@@ -1,8 +1,8 @@
-using Nexus.Infra.Crosscutting.Constants;
-using Nexus.Infra.Http.Controllers;
 using Goal.Infra.Http.Controllers.Results;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Nexus.Infra.Crosscutting.Constants;
+using Nexus.Infra.Http.Controllers;
 
 namespace Nexus.Infra.Http.Filters;
 

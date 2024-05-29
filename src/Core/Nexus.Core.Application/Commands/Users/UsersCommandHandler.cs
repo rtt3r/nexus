@@ -1,15 +1,15 @@
-using Nexus.Core.Application.Commands.Users.Validators;
-using Nexus.Core.Application.Events.Users;
-using Nexus.Core.Domain.Users.Aggregates;
-using Nexus.Core.Infra.Data;
-using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Constants;
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
-using UserAccountModel = Nexus.Core.Model.Users.UserAccount;
+using Nexus.Core.Application.Commands.Users.Validators;
+using Nexus.Core.Application.Events.Users;
+using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Services;
+using Nexus.Core.Infra.Data;
+using Nexus.Infra.Crosscutting;
+using Nexus.Infra.Crosscutting.Constants;
+using UserAccountModel = Nexus.Core.Model.Users.UserAccount;
 
 namespace Nexus.Core.Application.Commands.Users;
 
@@ -27,7 +27,7 @@ public class UsersCommandHandler(
 
     public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
-        var userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
+        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
 
         if (userAccount is not null)
         {
@@ -46,7 +46,7 @@ public class UsersCommandHandler(
 
         if (await SaveChangesAsync(cancellationToken))
         {
-            var result = ProjectAs<UserAccountModel>(userAccount);
+            UserAccountModel result = ProjectAs<UserAccountModel>(userAccount);
 
             await publishEndpoint.Publish(
                 new UserAccountCreatedEvent(result),
@@ -65,7 +65,7 @@ public class UsersCommandHandler(
             return CommandResult.Failure(notificationHandler.GetNotifications());
         }
 
-        var userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
+        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
 
         if (userAccount is null)
         {

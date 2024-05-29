@@ -13,39 +13,31 @@ public static class DbProviderFactory
     public static IDbProviderFactory Core => coreDbProviderFactory ??= new CoreDbProviderFactory();
     public static IDbProviderFactory EventSourcing => eventSourcingDbProviderFactory ??= new EventSourcingDbProviderFactory();
 
-    class CoreDbProviderFactory : IDbProviderFactory
+    private class CoreDbProviderFactory : IDbProviderFactory
     {
         public IDbProvider CreateProvider(DbProvider provider)
         {
-            switch (provider)
+            return provider switch
             {
-                case DbProvider.SqlServer:
-                    return new SqlServerCoreDbProvider();
-                case DbProvider.MySql:
-                    return new MySqlCoreDbProvider();
-                case DbProvider.Npgsql:
-                    return new NpgsqlCoreDbProvider();
-                default:
-                    return new SqlServerCoreDbProvider();
-            }
+                DbProvider.SqlServer => new SqlServerCoreDbProvider(),
+                DbProvider.MySql => new MySqlCoreDbProvider(),
+                DbProvider.Npgsql => new NpgsqlCoreDbProvider(),
+                _ => new SqlServerCoreDbProvider(),
+            };
         }
     }
 
-    class EventSourcingDbProviderFactory : IDbProviderFactory
+    private class EventSourcingDbProviderFactory : IDbProviderFactory
     {
         public IDbProvider CreateProvider(DbProvider provider)
         {
-            switch (provider)
+            return provider switch
             {
-                case DbProvider.SqlServer:
-                    return new SqlServerEventSourcingDbProvider();
-                case DbProvider.MySql:
-                    return new MySqlEventSourcingDbProvider();
-                case DbProvider.Npgsql:
-                    return new NpgsqlEventSourcingDbProvider();
-                default:
-                    return new SqlServerEventSourcingDbProvider();
-            }
+                DbProvider.SqlServer => new SqlServerEventSourcingDbProvider(),
+                DbProvider.MySql => new MySqlEventSourcingDbProvider(),
+                DbProvider.Npgsql => new NpgsqlEventSourcingDbProvider(),
+                _ => new SqlServerEventSourcingDbProvider(),
+            };
         }
     }
 }

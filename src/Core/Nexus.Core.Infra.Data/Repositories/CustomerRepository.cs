@@ -1,6 +1,6 @@
-using Nexus.Core.Domain.Customers.Aggregates;
 using Goal.Infra.Data;
 using Microsoft.EntityFrameworkCore;
+using Nexus.Core.Domain.Customers.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 

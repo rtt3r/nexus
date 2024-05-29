@@ -1,6 +1,6 @@
 using AutoMapper;
-using UserProfileModel = Nexus.Core.Model.Users.UserProfile;
 using UserProfileEntity = Nexus.Core.Domain.Users.Aggregates.UserProfile;
+using UserProfileModel = Nexus.Core.Model.Users.UserProfile;
 
 namespace Nexus.Core.Application.TypeAdapters.Profiles;
 

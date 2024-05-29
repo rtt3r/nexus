@@ -12,6 +12,7 @@ public class SqlEventStore(EventSourcingDbContext dbContext)
     {
         var storedEvent = new StoredEvent(
            @event.AggregateId,
+           @event.EventType,
            JsonSerializer.Serialize(@event),
            string.Empty);
 

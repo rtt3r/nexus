@@ -1,6 +1,6 @@
-using Nexus.Core.Domain.Customers.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nexus.Core.Domain.Customers.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Configurations.Customers;
 

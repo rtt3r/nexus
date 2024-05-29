@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Infra.Crosscutting.Providers.Data;
 using Nexus.Core.Infra.Data.EventSourcing;
+using Nexus.Infra.Crosscutting.Providers.Data;
 
 namespace Nexus.Core.Infra.Data.MySql;
 

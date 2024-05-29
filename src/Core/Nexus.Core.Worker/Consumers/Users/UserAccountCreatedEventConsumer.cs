@@ -1,6 +1,6 @@
-using Nexus.Core.Application.Events.Users;
 using Goal.Domain.Events;
 using MassTransit;
+using Nexus.Core.Application.Events.Users;
 using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
 
 namespace Nexus.Core.Worker.Consumers.Users;
