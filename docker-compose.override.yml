@@ -5,22 +5,22 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=BeycL18545#f;
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4432
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
-      - ASPNETCORE_Keycloak__realm=nexus
-      - ASPNETCORE_Keycloak__auth-server-url=http://192.168.0.193:8081
-      - ASPNETCORE_Keycloak__ssl-required=none
-      - ASPNETCORE_Keycloak__resource=core-api
-      - ASPNETCORE_Keycloak__verify-token-audience=true
-      - ASPNETCORE_Keycloak__credentials__secret=8OrwdHIXI9nK0xMCkoA09sZSZegIecei
-      - ASPNETCORE_Keycloak__confidential-port=0
+      - ASPNETCORE_Keycloak__Realm=nexus
+      - ASPNETCORE_Keycloak__AuthServerUrl=http://172.22.32.1:8081
+      - ASPNETCORE_Keycloak__SslRequired=none
+      - ASPNETCORE_Keycloak__Resource=nexus-cli
+      - ASPNETCORE_Keycloak__VerifyTokenAudience=true
+      - ASPNETCORE_Keycloak__Scopes=email profile nexus-ui-client-scope
+      - ASPNETCORE_Keycloak__ConfidentialPort=0
       - ASPNETCORE_UiAvatars__BaseAddress=https://ui-avatars.com/api
       - ASPNETCORE_UiAvatars__DefaultBackground=0D8ABC
       - ASPNETCORE_UiAvatars__DefaultColor=FFF
@@ -35,12 +35,12 @@ services:
   core-worker:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_DbProvider=MySql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
+      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4433
-      - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=BeycL18545#f;
-      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=

@@ -16,7 +16,7 @@ namespace Nexus.Core.Api.Controllers.Customers;
 
 [ApiController]
 [ApiVersion("1")]
-[Authorize(Roles = "Administrator")]
+[Authorize("admin")]
 [Route("v{version:apiVersion}/[controller]")]
 public class CustomersController(
     ICustomerQueryRepository customerQueryRepository,

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Goal.Domain.Aggregates;
 using Goal.Domain.Events;
 using Goal.Infra.Data.Query;
@@ -8,24 +7,19 @@ using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Application.TypeAdapters;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.EventSourcing;
-using Nexus.Core.Infra.Data.MySql;
-using Nexus.Core.Infra.Data.Npgsql;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Infra.Data.Repositories;
-using Nexus.Core.Infra.Data.SqlServer;
 using Nexus.Core.Infra.IoC.Providers;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Providers.Data;
 using Nexus.Infra.Crosscutting.Settings;
 using Raven.DependencyInjection;
-using Serilog;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -79,9 +73,15 @@ public static class ServiceColletionExtensionMethods
             .AddAuthorization()
             .AddKeycloakAuthorization(options =>
             {
-                options.EnableRolesMapping =
-                    RolesClaimTransformationSource.ResourceAccess;
+                options.EnableRolesMapping = RolesClaimTransformationSource.All;
                 options.RolesResource = configuration["Keycloak:Resource"];
+            })
+            .AddAuthorizationBuilder()
+            .AddPolicy("admin", policy =>
+            {
+                policy
+                    .RequireAuthenticatedUser()
+                    .RequireRole("Administrator");
             });
 
         return services;
@@ -99,8 +99,8 @@ public static class ServiceColletionExtensionMethods
     {
         try
         {
-            var enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
-            var dbProvider = DbProviderFactory.Core.CreateProvider(enDbProvider);
+            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
+            IDbProvider dbProvider = DbProviderFactory.Core.CreateProvider(enDbProvider);
 
             return dbProvider.Configure(services, configuration);
         }
@@ -114,8 +114,8 @@ public static class ServiceColletionExtensionMethods
     {
         try
         {
-            var enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
-            var dbProvider = DbProviderFactory.EventSourcing.CreateProvider(enDbProvider);
+            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
+            IDbProvider dbProvider = DbProviderFactory.EventSourcing.CreateProvider(enDbProvider);
 
             return dbProvider.Configure(services, configuration);
         }

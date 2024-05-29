@@ -21,7 +21,7 @@
         "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
         "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx",
         "ASPNETCORE_Keycloak__Realm": "nexus",
-        "ASPNETCORE_Keycloak__AuthServerUrl": "http://192.168.0.193:8081",
+        "ASPNETCORE_Keycloak__AuthServerUrl": "http://172.22.32.1:8081",
         "ASPNETCORE_Keycloak__SslRequired": "none",
         "ASPNETCORE_Keycloak__Resource": "nexus-cli",
         "ASPNETCORE_Keycloak__VerifyTokenAudience": "true",
