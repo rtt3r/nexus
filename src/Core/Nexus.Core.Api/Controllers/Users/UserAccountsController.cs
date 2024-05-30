@@ -85,9 +85,9 @@ public class UserAccountsController(
     {
         var command = new UpdateUserProfileCommand(
             id,
-            request.Biography,
+            request.Biography!,
             request.Birthdate,
-            request.Headline);
+            request.Headline!);
 
         ICommandResult result = await mediator.Send(command);
 

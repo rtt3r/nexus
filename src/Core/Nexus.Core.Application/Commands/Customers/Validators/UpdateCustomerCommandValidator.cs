@@ -26,9 +26,13 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED))
-            .Length(2, 150)
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Name)
+                        .Length(2, 150)
+                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
+                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
+                });
     }
 
     private void ValidateBirthdate()
@@ -37,11 +41,16 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED))
-            .Must(HaveMinimumAge)
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Birthdate)
+                        .Must(HaveMinimumAge)
+                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
+                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
+                });
+
     }
 
-    private static bool HaveMinimumAge(DateTime Birthdate)
-        => Birthdate.Date <= DateTime.Today.AddYears(-18);
+    private static bool HaveMinimumAge(DateTime? Birthdate)
+        => Birthdate!.Value.Date <= DateTime.Today.AddYears(-18);
 }

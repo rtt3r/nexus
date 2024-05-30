@@ -2,7 +2,7 @@ using Goal.Application.Commands;
 
 namespace Nexus.Core.Application.Commands.Customers;
 
-public record RemoveCustomerCommand(string CustomerId)
+public record RemoveCustomerCommand(string? CustomerId)
     : CustomerCommand<ICommandResult>
 {
 }

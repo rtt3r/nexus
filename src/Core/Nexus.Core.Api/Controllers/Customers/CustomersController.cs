@@ -50,11 +50,11 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<ApiResponse<Customer>>> Post([FromBody] RegisterNewCustomerRequest request)
+    public async Task<ActionResult<ApiResponse<Customer>>> Post([FromBody] RegisterCustomerRequest request)
     {
-        var command = new RegisterNewCustomerCommand(
-            request.Name,
-            request.Email,
+        var command = new RegisterCustomerCommand(
+            request.Name!,
+            request.Email!,
             request.Birthdate);
 
         ICommandResult<Customer> result = await mediator
@@ -79,7 +79,7 @@ public class CustomersController(
         ICommandResult result = await mediator.Send(
             new UpdateCustomerCommand(
                 id,
-                request.Name,
+                request.Name!,
                 request.Birthdate));
 
         return result.IsSucceeded

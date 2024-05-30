@@ -27,7 +27,7 @@ public class UsersCommandHandler(
 
     public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
-        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
+        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id!, cancellationToken);
 
         if (userAccount is not null)
         {
@@ -35,10 +35,10 @@ public class UsersCommandHandler(
         }
 
         userAccount = new UserAccount(
-            command.Id,
-            command.Email,
-            command.Name,
-            command.Username);
+            command.Id!,
+            command.Email!,
+            command.Name!,
+            command.Username!);
 
         generateUserProfileAvatarDomainService.GenerateTemporaryAvatar(userAccount);
 
@@ -65,7 +65,7 @@ public class UsersCommandHandler(
             return CommandResult.Failure(notificationHandler.GetNotifications());
         }
 
-        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id, cancellationToken);
+        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id!, cancellationToken);
 
         if (userAccount is null)
         {
@@ -77,9 +77,9 @@ public class UsersCommandHandler(
             return CommandResult.Failure(notificationHandler.GetNotifications());
         }
 
-        userAccount.Profile.UpdateBiography(command.Biography);
-        userAccount.Profile.UpdateBirthdate(command.Birthdate);
-        userAccount.Profile.UpdateHeadline(command.Headline);
+        userAccount.Profile.UpdateBiography(command.Biography!);
+        userAccount.Profile.UpdateBirthdate(command.Birthdate!.Value);
+        userAccount.Profile.UpdateHeadline(command.Headline!);
 
         uow.UserAccounts.Update(userAccount);
 

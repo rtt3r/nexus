@@ -12,27 +12,18 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Application.Commands;
 
-public abstract class CommandHandlerBase
+public abstract class CommandHandlerBase(
+    ICoreUnitOfWork uow,
+    IPublishEndpoint publishEndpoint,
+    IDefaultNotificationHandler notificationHandler,
+    ITypeAdapter typeAdapter,
+    AppState appState)
 {
-    protected readonly ICoreUnitOfWork uow;
-    protected readonly IPublishEndpoint publishEndpoint;
-    protected readonly IDefaultNotificationHandler notificationHandler;
-    protected readonly ITypeAdapter typeAdapter;
-    protected readonly AppState appState;
-
-    protected CommandHandlerBase(
-        ICoreUnitOfWork uow,
-        IPublishEndpoint publishEndpoint,
-        IDefaultNotificationHandler notificationHandler,
-        ITypeAdapter typeAdapter,
-        AppState appState)
-    {
-        this.uow = uow;
-        this.publishEndpoint = publishEndpoint;
-        this.notificationHandler = notificationHandler;
-        this.typeAdapter = typeAdapter;
-        this.appState = appState;
-    }
+    protected readonly ICoreUnitOfWork uow = uow;
+    protected readonly IPublishEndpoint publishEndpoint = publishEndpoint;
+    protected readonly IDefaultNotificationHandler notificationHandler = notificationHandler;
+    protected readonly ITypeAdapter typeAdapter = typeAdapter;
+    protected readonly AppState appState = appState;
 
     protected async Task<bool> ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
         where TValidator : IValidator<TCommand>, new()

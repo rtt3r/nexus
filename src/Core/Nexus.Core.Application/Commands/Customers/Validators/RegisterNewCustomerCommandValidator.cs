@@ -3,7 +3,7 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Application.Commands.Customers.Validators;
 
-public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterNewCustomerCommand>
+public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
 {
     public RegisterNewCustomerCommandValidator()
     {
@@ -18,9 +18,13 @@ public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterNew
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_EMAIL_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_REQUIRED))
-            .EmailAddress()
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID));
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Email)
+                        .Matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID)
+                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID));
+                });
     }
 
     private void ValidateName()
@@ -29,9 +33,13 @@ public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterNew
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED))
-            .Length(2, 150)
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Name)
+                        .Length(2, 150)
+                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
+                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
+                });
     }
 
     private void ValidateBirthdate()
@@ -40,11 +48,15 @@ public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterNew
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED))
-            .Must(HaveMinimumAge)
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Birthdate)
+                        .Must(HaveMinimumAge)
+                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
+                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
+                });
     }
 
-    private static bool HaveMinimumAge(DateTime Birthdate)
-        => Birthdate.Date <= DateTime.Today.AddYears(-18);
+    private static bool HaveMinimumAge(DateTime? Birthdate)
+        => Birthdate!.Value.Date <= DateTime.Today.AddYears(-18);
 }
