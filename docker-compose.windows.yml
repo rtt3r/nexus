@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   rabbitmq:
     healthcheck:
@@ -33,7 +31,7 @@ services:
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Keycloak__Realm=nexus
-      - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
+      - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.186:8081
       - ASPNETCORE_Keycloak__SslRequired=none
       - ASPNETCORE_Keycloak__Resource=nexus-cli
       - ASPNETCORE_Keycloak__VerifyTokenAudience=true
