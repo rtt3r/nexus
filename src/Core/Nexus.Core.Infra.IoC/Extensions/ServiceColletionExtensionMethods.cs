@@ -81,7 +81,7 @@ public static class ServiceColletionExtensionMethods
             {
                 policy
                     .RequireAuthenticatedUser()
-                    .RequireRole("Administrator");
+                    .RequireRole("admin");
             });
 
         return services;

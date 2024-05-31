@@ -11,9 +11,16 @@ services:
       timeout: 20s
       retries: 10
 
+  postgres:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   keycloak:
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
         restart: true
 
@@ -35,7 +42,7 @@ services:
       - ASPNETCORE_Keycloak__SslRequired=none
       - ASPNETCORE_Keycloak__Resource=nexus-cli
       - ASPNETCORE_Keycloak__VerifyTokenAudience=true
-      - ASPNETCORE_Keycloak__Scopes=email profile nexus-ui-client-scope
+      - ASPNETCORE_Keycloak__Scopes=email profile nexus-cli-client-scope
       - ASPNETCORE_Keycloak__ConfidentialPort=0
       - ASPNETCORE_UiAvatars__BaseAddress=https://ui-avatars.com/api
       - ASPNETCORE_UiAvatars__DefaultBackground=0D8ABC
