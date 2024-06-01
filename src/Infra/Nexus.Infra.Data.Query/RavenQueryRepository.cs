@@ -13,7 +13,7 @@ public abstract class RavenQueryRepository<TEntity>(IAsyncDocumentSession dbSess
 
     protected IAsyncDocumentSession dbSession = dbSession;
 
-    public override async Task<TEntity> LoadAsync(string id, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<TEntity?> LoadAsync(string id, CancellationToken cancellationToken = new CancellationToken())
     {
         return await dbSession
             .LoadAsync<TEntity>(id, cancellationToken);

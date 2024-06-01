@@ -82,9 +82,7 @@ public class CustomerCommandHandler(
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Customer? existingCustomer = await uow.Customers.GetByEmail(customer.Email);
-
-        if (existingCustomer is not null && existingCustomer != customer)
+        if (await uow.Customers.HasAnotherWithEmailAsync(command.CustomerId!, command.Email!))
         {
             await HandleDomainViolationAsync(
                 nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
@@ -96,6 +94,7 @@ public class CustomerCommandHandler(
 
         customer.UpdateName(command.Name!);
         customer.UpdateBirthdate(command.Birthdate!.Value);
+        customer.UpdateEmail(command.Email!);
 
         uow.Customers.Update(customer);
 

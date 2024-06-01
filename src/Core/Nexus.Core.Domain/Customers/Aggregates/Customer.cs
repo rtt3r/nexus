@@ -6,7 +6,7 @@ public class Customer : Entity<string>
 {
     public Customer(string name, string email, DateTime birthdate)
     {
-        Id = Guid.NewGuid().ToString();
+        Id = Guid.NewGuid().ToString("N");
         Name = name;
         Email = email;
         Birthdate = birthdate;
@@ -17,7 +17,7 @@ public class Customer : Entity<string>
 
     public string Name { get; private set; } = null!;
 
-    public string Email { get; init; } = null!;
+    public string Email { get; private set; } = null!;
 
     public DateTime Birthdate { get; private set; }
 
@@ -26,4 +26,7 @@ public class Customer : Entity<string>
 
     public void UpdateBirthdate(DateTime birthdate)
         => Birthdate = birthdate;
+
+    public void UpdateEmail(string email)
+        => Email = email;
 }

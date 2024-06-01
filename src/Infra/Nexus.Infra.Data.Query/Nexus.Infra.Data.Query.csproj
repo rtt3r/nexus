@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Infra.Data.RavenDB" Version="1.1.0" />
-		<PackageReference Include="Goal.Infra.Data.Query.Abstractions" Version="1.1.0" />
+		<PackageReference Include="Goal.Infra.Data.RavenDB" Version="1.1.2" />
+		<PackageReference Include="Goal.Infra.Data.Query.Abstractions" Version="1.1.2" />
 		<PackageReference Include="RavenDB.Client" Version="6.0.103" />
 	</ItemGroup>
 </Project>

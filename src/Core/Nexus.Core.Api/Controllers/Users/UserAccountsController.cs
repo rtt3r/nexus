@@ -62,10 +62,10 @@ public class UserAccountsController(
         }
 
         var command = new CreateUserAccountCommand(
-            appState.User.UserId!,
-            appState.User.Email!,
-            appState.User.Name!,
-            appState.User.Username!
+            appState.User.UserId,
+            appState.User.Email,
+            appState.User.Name,
+            appState.User.Username
         );
 
         ICommandResult<UserAccount> result = await mediator.Send(command);
@@ -85,14 +85,14 @@ public class UserAccountsController(
     {
         var command = new UpdateUserProfileCommand(
             id,
-            request.Biography!,
+            request.Biography,
             request.Birthdate,
-            request.Headline!);
+            request.Headline);
 
         ICommandResult result = await mediator.Send(command);
 
         return result.IsSucceeded
-            ? AcceptedAtAction($"{nameof(UserAccountsController)}_{nameof(GetById)}", new { id }, null)
+            ? AcceptedAtRoute($"{nameof(UserAccountsController)}_{nameof(GetById)}", new { id }, null)
             : CommandFailure(result);
     }
 }

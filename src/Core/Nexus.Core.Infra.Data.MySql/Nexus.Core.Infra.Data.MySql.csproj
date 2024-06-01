@@ -15,7 +15,7 @@
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.1.0" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>

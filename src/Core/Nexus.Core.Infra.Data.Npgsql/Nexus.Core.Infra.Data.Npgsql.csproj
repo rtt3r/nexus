@@ -15,7 +15,7 @@
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
-		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.1.0" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -38,7 +38,7 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<Customer>> GetById([FromRoute] string id)
     {
-        Customer customer = await customerQueryRepository.LoadAsync(id);
+        Customer? customer = await customerQueryRepository.LoadAsync(id);
 
         return customer is null
             ? NotFound()
@@ -53,8 +53,8 @@ public class CustomersController(
     public async Task<ActionResult<ApiResponse<Customer>>> Post([FromBody] RegisterCustomerRequest request)
     {
         var command = new RegisterCustomerCommand(
-            request.Name!,
-            request.Email!,
+            request.Name,
+            request.Email,
             request.Birthdate);
 
         ICommandResult<Customer> result = await mediator
@@ -76,15 +76,21 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<ApiResponse<Customer>>> Patch([FromRoute] string id, [FromBody] UpdateCustomerRequest request)
     {
-        ICommandResult result = await mediator.Send(
-            new UpdateCustomerCommand(
-                id,
-                request.Name!,
-                request.Birthdate));
+        var command = new UpdateCustomerCommand(
+            id,
+            request.Name,
+            request.Email,
+            request.Birthdate);
 
-        return result.IsSucceeded
-            ? AcceptedAtAction($"{nameof(CustomersController)}_{nameof(GetById)}", new { id }, null)
-            : CommandFailure(result);
+        ICommandResult result = await mediator
+            .Send<ICommandResult>(command);
+
+        return !result.IsSucceeded
+            ? CommandFailure(result)
+            : AcceptedAtRoute(
+                $"{nameof(CustomersController)}_{nameof(GetById)}",
+                new { id },
+                null);
     }
 
     [HttpDelete("{id}")]

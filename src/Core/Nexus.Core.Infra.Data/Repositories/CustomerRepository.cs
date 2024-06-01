@@ -12,4 +12,12 @@ public class CustomerRepository(CoreDbContext context) : Repository<Customer, st
             .Set<Customer>()
             .FirstOrDefaultAsync(p => p.Email == email);
     }
+
+    public async Task<bool> HasAnotherWithEmailAsync(string id, string email)
+    {
+        return await Context
+            .Set<Customer>()
+            .AnyAsync(p => p.Id != id && p.Email == email);
+    }
+
 }
