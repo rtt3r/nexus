@@ -2,15 +2,19 @@ using System.Diagnostics;
 using Goal.Domain.Events;
 using MassTransit;
 using MassTransit.Metadata;
+using MediatR;
 
 namespace Nexus.Core.Worker.Consumers;
 
 public abstract class EventConsumer<TEvent>(
     IEventStore eventStore,
-    ILogger logger) : IConsumer<TEvent>
+    IMediator mediator,
+    ILogger logger)
+    : IConsumer<TEvent>
     where TEvent : class, IEvent
 {
     protected readonly IEventStore eventStore = eventStore;
+    protected readonly IMediator mediator = mediator;
     protected readonly ILogger logger = logger;
 
     protected virtual string ConsumerName { get; } = TypeMetadataCache<TEvent>.ShortName;

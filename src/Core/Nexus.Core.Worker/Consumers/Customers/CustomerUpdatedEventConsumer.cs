@@ -1,5 +1,5 @@
 using Goal.Domain.Events;
-using MassTransit;
+using MediatR;
 using Nexus.Core.Application.Events.Customers;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Model.Customers;
@@ -9,7 +9,9 @@ namespace Nexus.Core.Worker.Consumers.Customers;
 public class CustomerUpdatedEventConsumer(
     ICustomerQueryRepository customerRepository,
     IEventStore eventStore,
-    ILogger<CustomerUpdatedEventConsumer> logger) : EventConsumer<CustomerUpdatedEvent>(eventStore, logger)
+    IMediator mediator,
+    ILogger<CustomerUpdatedEventConsumer> logger)
+    : EventConsumer<CustomerUpdatedEvent>(eventStore, mediator, logger)
 {
     private readonly ICustomerQueryRepository customerRepository = customerRepository;
 
@@ -30,9 +32,7 @@ public class CustomerUpdatedEventConsumer(
             cancellationToken);
     }
 
-    public class ConsumerDefinition : ConsumerDefinition<CustomerUpdatedEventConsumer>
+    public class ConsumerDefinition : EventConsumerDefinition<CustomerUpdatedEventConsumer>
     {
-        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<CustomerUpdatedEventConsumer> consumerConfigurator, IRegistrationContext context)
-            => consumerConfigurator.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(3)));
     }
 }
