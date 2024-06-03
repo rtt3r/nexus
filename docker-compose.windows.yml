@@ -5,12 +5,6 @@ services:
       interval: 1s
       retries: 20
 
-  mysql:
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-
   postgres:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]

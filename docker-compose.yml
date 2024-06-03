@@ -37,21 +37,6 @@ services:
     volumes:
       - seq-data:/var/lib/seq/data/
 
-  mysql:
-    image: "mysql:8.2.0"
-    container_name: mysql.nexus.ritter.co
-    hostname: mysql.ritter.co
-    user: root
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - mysql-vol:/var/lib/mysql
-
   postgres:
     image: postgres:latest
     container_name: postgres.nexus.ritter.co

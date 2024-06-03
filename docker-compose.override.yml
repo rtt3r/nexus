@@ -2,8 +2,8 @@ services:
   core-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
+      - ASPNETCORE_DbProvider=Npgsql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Host=postgres;Database=nexus_core_dev;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
@@ -33,8 +33,8 @@ services:
   core-worker:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_DbProvider=MySql
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
+      - ASPNETCORE_DbProvider=Npgsql
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Host=postgres;Database=nexus_core_dev;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
