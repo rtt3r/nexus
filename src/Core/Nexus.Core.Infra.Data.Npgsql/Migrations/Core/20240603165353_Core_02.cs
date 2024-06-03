@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
 {
     /// <inheritdoc />
-    public partial class _02 : Migration
+    public partial class Core_02 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Email = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Birthdate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -17,14 +17,14 @@ public class UserProfile : Entity<string>
 
     public string? Avatar { get; private set; }
     public string? Biography { get; private set; }
-    public DateTime? Birthdate { get; private set; }
+    public DateOnly? Birthdate { get; private set; }
     public string? Headline { get; private set; }
     public UserAccount User { get; private set; } = null!;
 
     public void UpdateBiography(string biography)
         => Biography = biography;
 
-    public void UpdateBirthdate(DateTime? birthdate)
+    public void UpdateBirthdate(DateOnly? birthdate)
         => Birthdate = birthdate;
 
     public void UpdateHeadline(string headline)

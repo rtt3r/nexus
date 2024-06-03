@@ -17,7 +17,7 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.EventSourcing
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -28,9 +28,11 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.EventSourcing
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AggregateId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Data")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventType")
@@ -42,6 +44,7 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.EventSourcing
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("User")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

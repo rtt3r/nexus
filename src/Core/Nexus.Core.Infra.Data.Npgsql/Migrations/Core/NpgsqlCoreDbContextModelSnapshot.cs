@@ -27,8 +27,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -88,8 +88,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)");
 
-                    b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Headline")
                         .HasMaxLength(128)

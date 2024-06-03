@@ -51,6 +51,6 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
 
     }
 
-    private static bool HaveMinimumAge(DateTime? Birthdate)
-        => Birthdate!.Value.Date <= DateTime.Today.AddYears(-18);
+    private static bool HaveMinimumAge(DateOnly? Birthdate)
+        => Birthdate!.Value <= DateOnly.FromDateTime(DateTime.Today).AddYears(-18);
 }

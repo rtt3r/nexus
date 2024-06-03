@@ -4,25 +4,25 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nexus.Core.Infra.Data.SqlServer;
+using Nexus.Core.Infra.Data.MySql;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
+namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
 {
-    [DbContext(typeof(SqlServerCoreDbContext))]
-    [Migration("20231123131010_Core_00")]
-    partial class Core_00
+    [DbContext(typeof(MySqlEventSourcingDbContext))]
+    [Migration("20240603154251_EventSourcing_00")]
+    partial class EventSourcing_00
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 #pragma warning restore 612, 618
         }
     }

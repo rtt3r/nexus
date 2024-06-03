@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
+namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 {
     /// <inheritdoc />
     public partial class Core_01 : Migration
@@ -14,10 +15,10 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                 name: "UserAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    Email = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Username = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,11 +29,11 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                 name: "UserProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    Avatar = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Biography = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: true),
-                    Birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Headline = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Biography = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
+                    Birthdate = table.Column<DateOnly>(type: "date", nullable: true),
+                    Headline = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {

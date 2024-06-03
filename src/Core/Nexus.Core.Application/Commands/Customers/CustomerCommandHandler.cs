@@ -25,7 +25,7 @@ public class CustomerCommandHandler(
 {
     public async Task<ICommandResult<CustomerModel>> Handle(RegisterCustomerCommand command, CancellationToken cancellationToken)
     {
-        if (!await ValidateCommandAsync<RegisterNewCustomerCommandValidator, RegisterCustomerCommand>(command, cancellationToken))
+        if (!await ValidateCommandAsync<RegisterCustomerCommandValidator, RegisterCustomerCommand>(command, cancellationToken))
         {
             return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
         }

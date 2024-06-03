@@ -3,7 +3,7 @@ using Nexus.Core.Model.Customers;
 
 namespace Nexus.Core.Application.Commands.Customers;
 
-public record RegisterCustomerCommand(string? Name, string? Email, DateTime? Birthdate)
+public record RegisterCustomerCommand(string? Name, string? Email, DateOnly? Birthdate)
     : CustomerCommand<ICommandResult<Customer>>
 {
 }

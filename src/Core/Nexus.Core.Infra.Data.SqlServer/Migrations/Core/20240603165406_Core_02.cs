@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 {
     /// <inheritdoc />
-    public partial class _02 : Migration
+    public partial class Core_02 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Birthdate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {

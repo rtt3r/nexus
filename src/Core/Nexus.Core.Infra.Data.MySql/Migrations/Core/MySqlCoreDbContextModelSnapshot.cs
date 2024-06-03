@@ -27,8 +27,8 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -88,8 +88,8 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)");
 
-                    b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly?>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Headline")
                         .HasMaxLength(128)

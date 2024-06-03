@@ -3,23 +3,26 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nexus.Core.Infra.Data.MySql;
+using Nexus.Core.Infra.Data.Npgsql;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
+namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
 {
-    [DbContext(typeof(MySqlCoreDbContext))]
-    [Migration("20240109204405_00")]
-    partial class _00
+    [DbContext(typeof(NpgsqlCoreDbContext))]
+    [Migration("20240603165152_Core_00")]
+    partial class Core_00
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 #pragma warning restore 612, 618
         }
     }

@@ -4,7 +4,7 @@ namespace Nexus.Core.Domain.Customers.Aggregates;
 
 public class Customer : Entity<string>
 {
-    public Customer(string name, string email, DateTime birthdate)
+    public Customer(string name, string email, DateOnly birthdate)
     {
         Id = Guid.NewGuid().ToString("N");
         Name = name;
@@ -19,12 +19,12 @@ public class Customer : Entity<string>
 
     public string Email { get; private set; } = null!;
 
-    public DateTime Birthdate { get; private set; }
+    public DateOnly Birthdate { get; private set; }
 
     public void UpdateName(string name)
         => Name = name;
 
-    public void UpdateBirthdate(DateTime birthdate)
+    public void UpdateBirthdate(DateOnly birthdate)
         => Birthdate = birthdate;
 
     public void UpdateEmail(string email)

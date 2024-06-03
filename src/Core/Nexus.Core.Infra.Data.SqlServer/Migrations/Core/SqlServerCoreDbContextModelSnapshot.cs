@@ -27,8 +27,8 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -88,8 +88,8 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Headline")
                         .HasMaxLength(128)

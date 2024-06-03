@@ -17,7 +17,7 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -28,9 +28,11 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
                         .HasColumnType("text");
 
                     b.Property<string>("AggregateId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Data")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("EventType")
@@ -42,6 +44,7 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("User")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

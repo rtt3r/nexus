@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
 {
     [DbContext(typeof(NpgsqlCoreDbContext))]
-    [Migration("20240529145931_02")]
-    partial class _02
+    [Migration("20240603165250_Core_01")]
+    partial class Core_01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,32 +24,6 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Nexus.Core.Domain.Customers.Aggregates.Customer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Customers", (string)null);
-                });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
                 {
@@ -91,8 +65,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)");
 
-                    b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Headline")
                         .HasMaxLength(128)

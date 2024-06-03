@@ -2,7 +2,7 @@ name: nexus
 
 services:
   ravendb:
-    image: ravendb/ravendb:4.2-ubuntu-latest
+    image: ravendb/ravendb:ubuntu-latest-lts
     container_name: ravendb.nexus.ritter.co
     ports:
       - 8080:8080

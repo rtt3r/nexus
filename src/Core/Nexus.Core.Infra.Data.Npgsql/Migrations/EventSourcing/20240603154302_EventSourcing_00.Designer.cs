@@ -8,18 +8,18 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
+namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
 {
-    [DbContext(typeof(NpgsqlCoreDbContext))]
-    [Migration("20231123130904_Core_00")]
-    partial class Core_00
+    [DbContext(typeof(NpgsqlEventSourcingDbContext))]
+    [Migration("20240603154302_EventSourcing_00")]
+    partial class EventSourcing_00
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

@@ -6,14 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
 {
     /// <inheritdoc />
-    public partial class _00 : Migration
+    public partial class EventSourcing_01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "StoredEvents",
                 columns: table => new

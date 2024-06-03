@@ -3,9 +3,9 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Application.Commands.Customers.Validators;
 
-public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
+public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
 {
-    public RegisterNewCustomerCommandValidator()
+    public RegisterCustomerCommandValidator()
     {
         ValidateName();
         ValidateBirthdate();
@@ -57,6 +57,6 @@ public class RegisterNewCustomerCommandValidator : AbstractValidator<RegisterCus
                 });
     }
 
-    private static bool HaveMinimumAge(DateTime? Birthdate)
-        => Birthdate!.Value.Date <= DateTime.Today.AddYears(-18);
+    private static bool HaveMinimumAge(DateOnly? Birthdate)
+        => Birthdate!.Value <= DateOnly.FromDateTime(DateTime.Today).AddYears(-18);
 }

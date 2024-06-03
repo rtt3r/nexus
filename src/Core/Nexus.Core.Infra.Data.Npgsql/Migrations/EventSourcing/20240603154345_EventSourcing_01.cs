@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,11 +16,11 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Data = table.Column<string>(type: "text", nullable: true),
-                    User = table.Column<string>(type: "text", nullable: true),
-                    Timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    AggregateId = table.Column<string>(type: "text", nullable: true),
-                    EventType = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    Data = table.Column<string>(type: "text", nullable: false),
+                    User = table.Column<string>(type: "text", nullable: false),
+                    AggregateId = table.Column<string>(type: "text", nullable: false),
+                    EventType = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

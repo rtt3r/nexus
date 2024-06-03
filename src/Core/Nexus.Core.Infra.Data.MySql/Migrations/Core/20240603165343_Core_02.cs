@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
 {
     /// <inheritdoc />
-    public partial class _02 : Migration
+    public partial class Core_02 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Birthdate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
