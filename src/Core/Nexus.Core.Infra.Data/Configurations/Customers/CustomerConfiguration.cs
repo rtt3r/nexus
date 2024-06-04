@@ -12,6 +12,7 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
+            .HasMaxLength(36)
             .IsRequired();
 
         builder.Property(p => p.Email)

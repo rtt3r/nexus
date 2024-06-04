@@ -2,11 +2,10 @@ using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Customers.Aggregates;
 
-public class Customer : Entity<string>
+public class Customer : Entity
 {
     public Customer(string name, string email, DateOnly birthdate)
     {
-        Id = Guid.NewGuid().ToString("N");
         Name = name;
         Email = email;
         Birthdate = birthdate;

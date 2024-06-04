@@ -3,51 +3,54 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nexus.Core.Infra.Data.MySql;
+using Nexus.Core.Infra.Data.SqlServer;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
+namespace Nexus.Core.Infra.Data.SqlServer.Migrations.EventSourcing
 {
-    [DbContext(typeof(MySqlEventSourcingDbContext))]
-    partial class MySqlEventSourcingDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SqlServerEventSourcingDbContext))]
+    [Migration("20240604183153_EventSourcing_02")]
+    partial class EventSourcing_02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Nexus.Core.Infra.Data.EventSourcing.StoredEvent", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("AggregateId")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventType")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("User")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 

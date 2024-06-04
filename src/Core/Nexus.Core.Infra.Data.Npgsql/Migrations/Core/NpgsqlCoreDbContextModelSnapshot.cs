@@ -25,7 +25,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.Customers.Aggregates.Customer", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)");
 
                     b.Property<DateOnly>("Birthdate")
                         .HasColumnType("date");
@@ -51,13 +52,13 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserAccount", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -77,8 +78,8 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.UserProfile", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)");
 
                     b.Property<string>("Avatar")
                         .HasMaxLength(256)

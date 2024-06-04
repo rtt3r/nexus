@@ -12,11 +12,11 @@ public class UserAccountsConfiguration : IEntityTypeConfiguration<UserAccount>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
-            .HasMaxLength(64)
+            .HasMaxLength(36)
             .IsRequired();
 
         builder.Property(p => p.Email)
-            .HasMaxLength(128)
+            .HasMaxLength(64)
             .IsRequired();
 
         builder.Property(p => p.Name)

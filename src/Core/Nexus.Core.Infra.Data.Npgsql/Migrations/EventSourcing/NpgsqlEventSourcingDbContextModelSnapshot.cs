@@ -25,11 +25,13 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
             modelBuilder.Entity("Nexus.Core.Infra.Data.EventSourcing.StoredEvent", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)");
 
                     b.Property<string>("AggregateId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -37,15 +39,15 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.EventSourcing
 
                     b.Property<string>("EventType")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTimeOffset>("Timestamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("User")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.HasKey("Id");
 

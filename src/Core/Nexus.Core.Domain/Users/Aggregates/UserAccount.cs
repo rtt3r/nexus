@@ -2,7 +2,7 @@ using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Users.Aggregates;
 
-public class UserAccount : Entity<string>
+public class UserAccount : Entity
 {
     public UserAccount(string id, string email, string name, string username)
         : this()

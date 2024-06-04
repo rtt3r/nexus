@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Core.Infra.Data.MySql;
 
@@ -11,9 +12,11 @@ using Nexus.Core.Infra.Data.MySql;
 namespace Nexus.Core.Infra.Data.MySql.Migrations.EventSourcing
 {
     [DbContext(typeof(MySqlEventSourcingDbContext))]
-    partial class MySqlEventSourcingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240604183121_EventSourcing_02")]
+    partial class EventSourcing_02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

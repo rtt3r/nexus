@@ -12,7 +12,7 @@ internal sealed class UserProfilesConfiguration : IEntityTypeConfiguration<UserP
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
-            .HasMaxLength(64)
+            .HasMaxLength(36)
             .IsRequired();
 
         builder.Property(p => p.Avatar)

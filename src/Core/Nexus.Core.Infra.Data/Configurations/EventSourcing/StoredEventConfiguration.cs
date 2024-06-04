@@ -11,8 +11,22 @@ internal sealed class StoredEventConfiguration : IEntityTypeConfiguration<Stored
         builder.ToTable("StoredEvents");
         builder.HasKey(p => p.Id);
 
-        builder.Property(c => c.EventType)
-            .HasMaxLength(100)
+        builder.Property(p => p.Id)
+            .HasMaxLength(36)
             .IsRequired();
+
+        builder.Property(p => p.AggregateId)
+            .HasMaxLength(36)
+            .IsRequired();
+
+        builder.Property(c => c.EventType)
+            .HasMaxLength(64)
+            .IsRequired();
+
+        builder.Property(c => c.Data)
+            .IsRequired();
+
+        builder.Property(c => c.User)
+            .HasMaxLength(64);
     }
 }
