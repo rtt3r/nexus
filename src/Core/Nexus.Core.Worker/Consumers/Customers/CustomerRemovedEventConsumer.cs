@@ -16,8 +16,4 @@ public class CustomerRemovedEventConsumer(
 
     protected override async Task HandleEvent(CustomerRemovedEvent @event, CancellationToken cancellationToken = default)
         => await customerRepository.RemoveAsync(@event.AggregateId, cancellationToken);
-
-    public class ConsumerDefinition : EventConsumerDefinition<CustomerRemovedEventConsumer>
-    {
-    }
 }

@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Nexus.Core.Infra.IoC.Extensions;
-using Nexus.Core.Worker.Consumers.Customers;
-using Nexus.Core.Worker.Consumers.Users;
 using Nexus.Core.Worker.Infra.Swagger;
 using Nexus.Infra.Crosscutting.Extensions;
 using Serilog;
@@ -23,16 +21,12 @@ public static class HostingExtensions
         builder.Services.ConfigureWorkerServices(builder.Configuration, builder.Environment);
 
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
         builder.Services.AddMassTransit(x =>
         {
             x.AddDelayedMessageScheduler();
-            x.AddConsumer<CustomerRegisteredEventConsumer, CustomerRegisteredEventConsumer.ConsumerDefinition>();
-            x.AddConsumer<CustomerRemovedEventConsumer, CustomerRemovedEventConsumer.ConsumerDefinition>();
-            x.AddConsumer<CustomerUpdatedEventConsumer, CustomerUpdatedEventConsumer.ConsumerDefinition>();
-
-            x.AddConsumer<UserAccountCreatedEventConsumer, UserAccountCreatedEventConsumer.ConsumerDefinition>();
-            x.AddConsumer<UserProfileUpdatedEventConsumer, UserProfileUpdatedEventConsumer.ConsumerDefinition>();
-
+            x.SetKebabCaseEndpointNameFormatter();
+            x.AddConsumersFromNamespaceContaining(typeof(HostingExtensions));
             x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "dev", includeNamespace: false));
 
             x.UsingRabbitMq((context, configurator) =>
@@ -43,7 +37,8 @@ public static class HostingExtensions
                 {
                     instance.ConfigureJobServiceEndpoints();
                 });
-                configurator.ConfigureEndpoints(context);
+                configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("dev", false));
+                configurator.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(5)));
             });
         });
 

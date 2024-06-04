@@ -28,8 +28,4 @@ public class CustomerRegisteredEventConsumer(
             },
             cancellationToken);
     }
-
-    public class ConsumerDefinition : EventConsumerDefinition<CustomerRegisteredEventConsumer>
-    {
-    }
 }

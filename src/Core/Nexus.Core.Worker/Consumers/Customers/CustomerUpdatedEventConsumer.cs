@@ -31,8 +31,4 @@ public class CustomerUpdatedEventConsumer(
             customer,
             cancellationToken);
     }
-
-    public class ConsumerDefinition : EventConsumerDefinition<CustomerUpdatedEventConsumer>
-    {
-    }
 }

@@ -21,8 +21,4 @@ public class UserAccountCreatedEventConsumer(
             @event.UserAccount,
             cancellationToken);
     }
-
-    public class ConsumerDefinition : EventConsumerDefinition<UserAccountCreatedEventConsumer>
-    {
-    }
 }
