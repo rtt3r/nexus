@@ -47,7 +47,7 @@ public class UsersCommandHandler(
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserAccountCreatedEvent(userAccount),
+                new UserAccountCreatedEvent(userAccount, appState.User.UserId!),
                 cancellationToken);
 
             return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
@@ -84,7 +84,7 @@ public class UsersCommandHandler(
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserProfileUpdatedEvent(userAccount),
+                new UserProfileUpdatedEvent(userAccount, appState.User.UserId!),
                 cancellationToken);
 
             return CommandResult.Success();

@@ -53,7 +53,8 @@ public class CustomerCommandHandler(
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.Birthdate),
+                    customer.Birthdate,
+                    appState.User.UserId!),
                 cancellationToken);
 
             return CommandResult.Success(
@@ -105,7 +106,8 @@ public class CustomerCommandHandler(
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.Birthdate),
+                    customer.Birthdate,
+                    appState.User.UserId!),
                 cancellationToken);
 
             return CommandResult.Success();
@@ -138,7 +140,7 @@ public class CustomerCommandHandler(
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new CustomerRemovedEvent(command.CustomerId!),
+                new CustomerRemovedEvent(command.CustomerId!, appState.User.UserId!),
                 cancellationToken);
 
             return CommandResult.Success();
