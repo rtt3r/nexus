@@ -1,7 +1,7 @@
 using Goal.Domain.Events;
 using MediatR;
 
-namespace Nexus.Core.Application.Events.Customers;
+namespace Nexus.Core.Domain.Customers.Events;
 
 public class CustomerUpdatedEvent(string aggregateId, string name, string email, DateOnly birthdate)
     : Event(aggregateId, nameof(CustomerUpdatedEvent)), INotification

@@ -1,6 +1,7 @@
 using Goal.Domain.Events;
+using Goal.Infra.Crosscutting.Adapters;
 using MediatR;
-using Nexus.Core.Application.Events.Customers;
+using Nexus.Core.Domain.Customers.Events;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Model.Customers;
 
@@ -10,8 +11,9 @@ public class CustomerRegisteredEventConsumer(
     ICustomerQueryRepository customerRepository,
     IEventStore eventStore,
     IMediator mediator,
+    ITypeAdapter typeAdapter,
     ILogger<CustomerRegisteredEventConsumer> logger)
-    : EventConsumer<CustomerRegisteredEvent>(eventStore, mediator, logger)
+    : EventConsumer<CustomerRegisteredEvent>(eventStore, mediator, typeAdapter, logger)
 {
     private readonly ICustomerQueryRepository customerRepository = customerRepository;
 

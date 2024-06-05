@@ -3,8 +3,8 @@ using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
 using Nexus.Core.Application.Commands.Users.Validators;
-using Nexus.Core.Application.Events.Users;
 using Nexus.Core.Domain.Users.Aggregates;
+using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
@@ -46,13 +46,11 @@ public class UsersCommandHandler(
 
         if (await SaveChangesAsync(cancellationToken))
         {
-            UserAccountModel result = ProjectAs<UserAccountModel>(userAccount);
-
             await publishEndpoint.Publish(
-                new UserAccountCreatedEvent(result),
+                new UserAccountCreatedEvent(userAccount),
                 cancellationToken);
 
-            return CommandResult.Success(result);
+            return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
         }
 
         return CommandResult.Failure<UserAccountModel>(default, notificationHandler.GetNotifications());
@@ -86,7 +84,7 @@ public class UsersCommandHandler(
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserProfileUpdatedEvent(ProjectAs<UserAccountModel>(userAccount)),
+                new UserProfileUpdatedEvent(userAccount),
                 cancellationToken);
 
             return CommandResult.Success();

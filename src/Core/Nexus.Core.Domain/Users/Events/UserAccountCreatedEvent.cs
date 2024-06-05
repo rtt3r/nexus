@@ -1,8 +1,8 @@
 using Goal.Domain.Events;
 using MediatR;
-using Nexus.Core.Model.Users;
+using Nexus.Core.Domain.Users.Aggregates;
 
-namespace Nexus.Core.Application.Events.Users;
+namespace Nexus.Core.Domain.Users.Events;
 
 public class UserAccountCreatedEvent(UserAccount userAccount)
     : Event(userAccount.Id!, nameof(UserAccountCreatedEvent)), INotification
