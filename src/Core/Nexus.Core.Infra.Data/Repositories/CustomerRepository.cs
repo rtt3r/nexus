@@ -19,5 +19,4 @@ public class CustomerRepository(CoreDbContext context) : Repository<Customer, st
             .Set<Customer>()
             .AnyAsync(p => p.Id != id && p.Email == email);
     }
-
 }

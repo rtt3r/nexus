@@ -2,14 +2,12 @@ using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
-using Nexus.Core.Application.Commands.Users.Validators;
 using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Constants;
-using UserAccountModel = Nexus.Core.Model.Users.UserAccount;
+using UserAccountModel = Nexus.Core.Model.Users.User;
 
 namespace Nexus.Core.Application.Commands.Users;
 
@@ -18,78 +16,40 @@ public class UsersCommandHandler(
     IPublishEndpoint publishEndpoint,
     IDefaultNotificationHandler notificationHandler,
     ITypeAdapter typeAdapter,
-    AppState appState,
-    IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService) : CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
-    ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>,
-    ICommandHandler<UpdateUserProfileCommand, ICommandResult>
+    IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
+    AppState appState) :
+    CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
+    ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>
 {
-    private readonly IGenerateUserProfileAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
+    private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
     public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
-        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id!, cancellationToken);
+        User? user = await uow.Users.LoadAsync(command.Id!, cancellationToken);
 
-        if (userAccount is not null)
+        if (user is not null)
         {
-            return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
+            return CommandResult.Success(ProjectAs<UserAccountModel>(user));
         }
 
-        userAccount = new UserAccount(
+        user = new User(
             command.Id!,
             command.Email!,
-            command.Name!,
             command.Username!);
 
-        generateUserProfileAvatarDomainService.GenerateTemporaryAvatar(userAccount);
+        generateUserProfileAvatarDomainService.GenerateTemporaryAvatar(user);
 
-        await uow.UserAccounts.AddAsync(userAccount, cancellationToken);
+        await uow.Users.AddAsync(user, cancellationToken);
 
         if (await SaveChangesAsync(cancellationToken))
         {
             await publishEndpoint.Publish(
-                new UserAccountCreatedEvent(userAccount, appState.User.UserId!),
+                new UserRegisteredEvent(user, appState.User.UserId!),
                 cancellationToken);
 
-            return CommandResult.Success(ProjectAs<UserAccountModel>(userAccount));
+            return CommandResult.Success(ProjectAs<UserAccountModel>(user));
         }
 
         return CommandResult.Failure<UserAccountModel>(default, notificationHandler.GetNotifications());
-    }
-
-    public async Task<ICommandResult> Handle(UpdateUserProfileCommand command, CancellationToken cancellationToken)
-    {
-        if (!await ValidateCommandAsync<UpdateUserProfileCommandValidator, UpdateUserProfileCommand>(command, cancellationToken))
-        {
-            return CommandResult.Failure(notificationHandler.GetNotifications());
-        }
-
-        UserAccount? userAccount = await uow.UserAccounts.LoadAsync(command.Id!, cancellationToken);
-
-        if (userAccount is null)
-        {
-            await HandleDomainViolationAsync(
-                nameof(ApplicationConstants.Messages.USER_NOT_FOUND),
-                ApplicationConstants.Messages.USER_NOT_FOUND,
-                cancellationToken);
-
-            return CommandResult.Failure(notificationHandler.GetNotifications());
-        }
-
-        userAccount.Profile.UpdateBiography(command.Biography!);
-        userAccount.Profile.UpdateBirthdate(command.Birthdate!.Value);
-        userAccount.Profile.UpdateHeadline(command.Headline!);
-
-        uow.UserAccounts.Update(userAccount);
-
-        if (await SaveChangesAsync(cancellationToken))
-        {
-            await publishEndpoint.Publish(
-                new UserProfileUpdatedEvent(userAccount, appState.User.UserId!),
-                cancellationToken);
-
-            return CommandResult.Success();
-        }
-
-        return CommandResult.Failure(notificationHandler.GetNotifications());
     }
 }

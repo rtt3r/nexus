@@ -4,6 +4,6 @@ using Nexus.Core.Model.Users;
 namespace Nexus.Core.Application.Commands.Users;
 
 public record CreateUserAccountCommand(string? Id, string? Name, string? Email, string? Username)
-    : ICommand<ICommandResult<UserAccount>>
+    : ICommand<ICommandResult<User>>
 {
 }

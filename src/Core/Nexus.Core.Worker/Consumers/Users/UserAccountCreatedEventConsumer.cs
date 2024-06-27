@@ -13,15 +13,15 @@ public class UserAccountCreatedEventConsumer(
     IMediator mediator,
     ITypeAdapter typeAdapter,
     ILogger<UserAccountCreatedEventConsumer> logger)
-    : EventConsumer<UserAccountCreatedEvent>(eventStore, mediator, typeAdapter, logger)
+    : EventConsumer<UserRegisteredEvent>(eventStore, mediator, typeAdapter, logger)
 {
     private readonly IUserAccountQueryRepository userAccountRepository = userAccountRepository;
 
-    protected override async Task HandleEvent(UserAccountCreatedEvent @event, CancellationToken cancellationToken = default)
+    protected override async Task HandleEvent(UserRegisteredEvent @event, CancellationToken cancellationToken = default)
     {
         await userAccountRepository.StoreAsync(
             @event.AggregateId,
-            typeAdapter.Adapt<UserAccount>(@event.UserAccount),
+            typeAdapter.Adapt<User>(@event.UserAccount),
             cancellationToken);
     }
 }

@@ -7,10 +7,9 @@ namespace Nexus.Core.Infra.Data;
 public sealed class CoreUnitOfWork(
     CoreDbContext context,
     ICustomerRepository customerRepository,
-    IUserAccountRepository userAccountRepository,
-    IUserProfileRepository userProfileRepository) : UnitOfWork(context), ICoreUnitOfWork
+    IUserRepository userRepository)
+    : UnitOfWork(context), ICoreUnitOfWork
 {
     public ICustomerRepository Customers { get; } = customerRepository;
-    public IUserAccountRepository UserAccounts { get; set; } = userAccountRepository;
-    public IUserProfileRepository UserProfiles { get; set; } = userProfileRepository;
+    public IUserRepository Users { get; set; } = userRepository;
 }

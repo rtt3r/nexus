@@ -41,7 +41,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreDbContext(configuration);
         services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
-        services.AddScoped<IGenerateUserProfileAvatarDomainService, GenerateUserProfileAvatarDomainService>();
+        services.AddScoped<IGenerateUserAvatarDomainService, GenerateUserAvatarDomainService>();
         services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 

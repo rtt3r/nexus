@@ -4,6 +4,6 @@ using Raven.Client.Documents.Session;
 
 namespace Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
 
-public class UserAccountQueryRepository(IAsyncDocumentSession dbSession) : RavenQueryRepository<UserAccount>(dbSession), IUserAccountQueryRepository
+public class UserAccountQueryRepository(IAsyncDocumentSession dbSession) : RavenQueryRepository<User>(dbSession), IUserAccountQueryRepository
 {
 }
