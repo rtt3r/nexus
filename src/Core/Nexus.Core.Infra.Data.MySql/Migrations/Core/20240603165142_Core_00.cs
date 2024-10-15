@@ -2,22 +2,21 @@
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
+namespace Nexus.Core.Infra.Data.MySql.Migrations.Core;
+
+/// <inheritdoc />
+public partial class Core_00 : Migration
 {
     /// <inheritdoc />
-    public partial class Core_00 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-        }
+        migrationBuilder.AlterDatabase()
+            .Annotation("MySql:CharSet", "utf8mb4");
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

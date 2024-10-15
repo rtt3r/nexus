@@ -23,11 +23,8 @@ public class ApiControllerBase : ApiController
             return UnprocessableEntity(ApiResponse.FromCommand(result));
         }
 
-        if (result.HasExternalError)
-        {
-            return ServiceUnavailable(ApiResponse.FromCommand(result));
-        }
-
-        return InternalServerError(ApiResponse.FromCommand(result));
+        return result.HasExternalError
+            ? ServiceUnavailable(ApiResponse.FromCommand(result))
+            : InternalServerError(ApiResponse.FromCommand(result));
     }
 }
