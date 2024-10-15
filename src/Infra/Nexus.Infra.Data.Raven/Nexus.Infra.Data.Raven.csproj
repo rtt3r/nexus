@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<IsPackable>false</IsPackable>
@@ -9,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="1.3.0" />
+		<PackageReference Include="RavenDB.Client" Version="6.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
