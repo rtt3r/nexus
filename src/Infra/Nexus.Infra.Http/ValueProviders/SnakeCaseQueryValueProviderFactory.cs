@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Nexus.Infra.Http.ValueProviders;
@@ -7,10 +7,7 @@ public class SnakeCaseQueryValueProviderFactory : IValueProviderFactory
 {
     public Task CreateValueProviderAsync(ValueProviderFactoryContext context)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+        ArgumentNullException.ThrowIfNull(context, nameof(context));
 
         var valueProvider = new SnakeCaseQueryValueProvider(
             BindingSource.Query,

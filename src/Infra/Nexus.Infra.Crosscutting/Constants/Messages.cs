@@ -6,6 +6,10 @@ public partial class ApplicationConstants
     {
         // SHARED
         public const string UNEXPECTED_ERROR = "We're sorry... An unexpected problem has occurred. Please wait, our team is already working to resolve it as soon as possible.";
+        public const string RESOURCE_NOT_FOUND = $"The requested resource was not found";
+        public const string DOMAIN_VIOLATION = $"An business rule violation has occurred.";
+        public const string REQUEST_VALIDATION = $"The send data is not valid.";
+        public const string SERVICE_UNAVAILABLE = $"One or more services may be unavailable";
         public const string SAVING_DATA_FAILURE = "Opss... An error occurred while saving the data";
 
         // CUSTOMER

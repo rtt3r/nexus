@@ -1,13 +1,14 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
-using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
+using MediatR;
 using Nexus.Core.Application.Commands.Customers.Validators;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.Customers.Events;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Constants;
+using Nexus.Infra.Crosscutting.Exceptions;
+using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
 using CustomerModel = Nexus.Core.Model.Customers.Customer;
 
 namespace Nexus.Core.Application.Commands.Customers;
@@ -15,82 +16,52 @@ namespace Nexus.Core.Application.Commands.Customers;
 public class CustomerCommandHandler(
     ICoreUnitOfWork uow,
     IPublishEndpoint publishEndpoint,
-    IDefaultNotificationHandler notificationHandler,
     ITypeAdapter typeAdapter,
     AppState appState)
-    : CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
-    ICommandHandler<RegisterCustomerCommand, ICommandResult<CustomerModel>>,
-    ICommandHandler<UpdateCustomerCommand, ICommandResult>,
-    ICommandHandler<RemoveCustomerCommand, ICommandResult>
+    : CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
+    ICommandHandler<RegisterCustomerCommand, CustomerModel>,
+    ICommandHandler<UpdateCustomerCommand>,
+    ICommandHandler<RemoveCustomerCommand>
 {
-    public async Task<ICommandResult<CustomerModel>> Handle(RegisterCustomerCommand command, CancellationToken cancellationToken)
+    public async Task<CustomerModel> Handle(RegisterCustomerCommand command, CancellationToken cancellationToken)
     {
-        if (!await ValidateCommandAsync<RegisterCustomerCommandValidator, RegisterCustomerCommand>(command, cancellationToken))
-        {
-            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
-        }
+        await ValidateCommandAsync<RegisterCustomerCommandValidator, RegisterCustomerCommand>(command, cancellationToken);
 
         Customer? customer = await uow.Customers.GetByEmail(command.Email!);
 
         if (customer is not null)
         {
-            await HandleDomainViolationAsync(
-                nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
-                ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED,
-                cancellationToken);
-
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            throw new DomainViolationException(nameof(Messages.CUSTOMER_EMAIL_DUPLICATED), Messages.CUSTOMER_EMAIL_DUPLICATED);
         }
 
         customer = new Customer(command.Name!, command.Email!, command.Birthdate!.Value);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
-        if (await SaveChangesAsync(cancellationToken))
-        {
-            await publishEndpoint.Publish(
-                new CustomerRegisteredEvent(
-                    customer.Id,
-                    customer.Name,
-                    customer.Email,
-                    customer.Birthdate,
-                    appState.User.UserId!),
-                cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
-            return CommandResult.Success(
-                typeAdapter.Adapt<CustomerModel>(customer));
-        }
+        await publishEndpoint.Publish(
+            new CustomerRegisteredEvent(
+                customer.Id,
+                customer.Name,
+                customer.Email,
+                customer.Birthdate,
+                appState.User.UserId!),
+            cancellationToken);
 
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        return ProjectAs<CustomerModel>(customer);
     }
 
-    public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
+    public async Task Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
     {
-        if (!await ValidateCommandAsync<UpdateCustomerCommandValidator, UpdateCustomerCommand>(command, cancellationToken))
-        {
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
-        }
+        await ValidateCommandAsync<UpdateCustomerCommandValidator, UpdateCustomerCommand>(command, cancellationToken);
 
-        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken);
-
-        if (customer is null)
-        {
-            await HandleResourceNotFoundAsync(
-                nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
-                ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
-                cancellationToken);
-
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
-        }
+        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken)
+            ?? throw new ResourceNotFoundException(nameof(Messages.CUSTOMER_NOT_FOUND), Messages.CUSTOMER_NOT_FOUND);
 
         if (await uow.Customers.HasAnotherWithEmailAsync(command.CustomerId!, command.Email!))
         {
-            await HandleDomainViolationAsync(
-                nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
-                ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED,
-                cancellationToken);
-
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            throw new ResourceNotFoundException(nameof(Messages.CUSTOMER_EMAIL_DUPLICATED), Messages.CUSTOMER_EMAIL_DUPLICATED);
         }
 
         customer.UpdateName(command.Name!);
@@ -99,53 +70,31 @@ public class CustomerCommandHandler(
 
         uow.Customers.Update(customer);
 
-        if (await SaveChangesAsync(cancellationToken))
-        {
-            await publishEndpoint.Publish(
-                new CustomerUpdatedEvent(
-                    customer.Id,
-                    customer.Name,
-                    customer.Email,
-                    customer.Birthdate,
-                    appState.User.UserId!),
-                cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
-            return CommandResult.Success();
-        }
-
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        await publishEndpoint.Publish(
+            new CustomerUpdatedEvent(
+                customer.Id,
+                customer.Name,
+                customer.Email,
+                customer.Birthdate,
+                appState.User.UserId!),
+            cancellationToken);
     }
 
-    public async Task<ICommandResult> Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
+    public async Task Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
     {
-        if (!await ValidateCommandAsync<RemoveCustomerCommandValidator, RemoveCustomerCommand>(command, cancellationToken))
-        {
-            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
-        }
+        await ValidateCommandAsync<RemoveCustomerCommandValidator, RemoveCustomerCommand>(command, cancellationToken);
 
-        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken);
-
-        if (customer is null)
-        {
-            await HandleResourceNotFoundAsync(
-                nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
-                ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
-                cancellationToken);
-
-            return CommandResult.Failure<CustomerModel>(null, notificationHandler.GetNotifications());
-        }
+        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken)
+            ?? throw new ResourceNotFoundException(nameof(Messages.CUSTOMER_NOT_FOUND), Messages.CUSTOMER_NOT_FOUND);
 
         uow.Customers.Remove(customer);
 
-        if (await SaveChangesAsync(cancellationToken))
-        {
-            await publishEndpoint.Publish(
-                new CustomerRemovedEvent(command.CustomerId!, appState.User.UserId!),
-                cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
-            return CommandResult.Success();
-        }
-
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        await publishEndpoint.Publish(
+            new CustomerRemovedEvent(command.CustomerId!, appState.User.UserId!),
+            cancellationToken);
     }
 }

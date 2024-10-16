@@ -17,8 +17,10 @@ using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Infra.Data.Repositories;
 using Nexus.Core.Infra.IoC.Providers;
 using Nexus.Infra.Crosscutting;
+using Nexus.Infra.Crosscutting.Exceptions;
 using Nexus.Infra.Crosscutting.Providers.Data;
 using Nexus.Infra.Crosscutting.Settings;
+using Nexus.Infra.Http.Handlers.Exceptions;
 using Raven.DependencyInjection;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
@@ -36,7 +38,7 @@ public static class ServiceColletionExtensionMethods
         services.AddAutoMapperTypeAdapter();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 
-        services.AddDefaultNotificationHandler();
+        services.AddExceptionHandlers();
         services.AddRavenDb(configuration);
 
         services.AddCoreDbContext(configuration);
@@ -52,13 +54,23 @@ public static class ServiceColletionExtensionMethods
     {
         services.AddAutoMapperTypeAdapter();
 
-        services.AddDefaultNotificationHandler();
         services.AddRavenDb(configuration);
 
         services.AddEventSourcingDbContext(configuration);
         services.AddScoped<IEventStore, SqlEventStore>();
 
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
+
+        return services;
+    }
+
+    public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<RequestValidationExceptionHandler>();
+        services.AddExceptionHandler<ResourceNotFoundExceptionHandler>();
+        services.AddExceptionHandler<DomainViolationExceptionHandler>();
+        services.AddExceptionHandler<ServiceUnavailableExceptionHandler>();
+        services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
 
         return services;
     }

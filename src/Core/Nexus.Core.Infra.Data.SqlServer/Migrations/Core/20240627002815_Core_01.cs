@@ -249,7 +249,7 @@ public partial class Core_01 : Migration
         migrationBuilder.CreateIndex(
             name: "IX_PersonContacts_PersonId_TypeId_Value",
             table: "PersonContacts",
-            columns: new[] { "PersonId", "TypeId", "Value" },
+            columns: ["PersonId", "TypeId", "Value"],
             unique: true);
 
         migrationBuilder.CreateIndex(
@@ -272,7 +272,7 @@ public partial class Core_01 : Migration
         migrationBuilder.CreateIndex(
             name: "IX_PersonDocuments_PersonId_TypeId_Number",
             table: "PersonDocuments",
-            columns: new[] { "PersonId", "TypeId", "Number" },
+            columns: ["PersonId", "TypeId", "Number"],
             unique: true);
 
         migrationBuilder.CreateIndex(

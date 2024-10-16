@@ -1,5 +1,4 @@
 using Asp.Versioning;
-using Goal.Application.Commands;
 using Goal.Infra.Http.Controllers;
 using Goal.Infra.Http.Controllers.Requests;
 using Goal.Infra.Http.Controllers.Results;
@@ -21,7 +20,7 @@ namespace Nexus.Core.Api.Controllers.Customers;
 public class CustomersController(
     ICustomerQueryRepository customerQueryRepository,
     IMediator mediator)
-    : ApiControllerBase
+    : ApiController
 {
     private readonly ICustomerQueryRepository customerQueryRepository = customerQueryRepository;
     private readonly IMediator mediator = mediator;
@@ -57,15 +56,12 @@ public class CustomersController(
             request.Email,
             request.Birthdate);
 
-        ICommandResult<Customer> result = await mediator
-            .Send<ICommandResult<Customer>>(command);
+        Customer result = await mediator.Send<Customer>(command);
 
-        return !result.IsSucceeded
-            ? CommandFailure(result)
-            : CreatedAtRoute(
+        return CreatedAtRoute(
                 $"{nameof(CustomersController)}_{nameof(GetById)}",
-                new { id = result.Data!.CustomerId },
-                ApiResponse.FromCommand(result));
+                new { id = result.CustomerId },
+                ApiResponse.Success(result));
     }
 
     [HttpPatch("{id}")]
@@ -82,15 +78,12 @@ public class CustomersController(
             request.Email,
             request.Birthdate);
 
-        ICommandResult result = await mediator
-            .Send<ICommandResult>(command);
+        await mediator.Send(command);
 
-        return !result.IsSucceeded
-            ? CommandFailure(result)
-            : AcceptedAtRoute(
-                $"{nameof(CustomersController)}_{nameof(GetById)}",
-                new { id },
-                null);
+        return AcceptedAtRoute(
+            $"{nameof(CustomersController)}_{nameof(GetById)}",
+            new { id },
+            null);
     }
 
     [HttpDelete("{id}")]
@@ -101,10 +94,7 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string id)
     {
-        ICommandResult result = await mediator.Send(new RemoveCustomerCommand(id));
-
-        return result.IsSucceeded
-            ? Accepted()
-            : CommandFailure(result);
+        await mediator.Send(new RemoveCustomerCommand(id));
+        return Accepted();
     }
 }

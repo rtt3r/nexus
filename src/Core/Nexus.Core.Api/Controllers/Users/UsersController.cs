@@ -1,5 +1,4 @@
 using Asp.Versioning;
-using Goal.Application.Commands;
 using Goal.Infra.Http.Controllers;
 using Goal.Infra.Http.Controllers.Requests;
 using Goal.Infra.Http.Controllers.Results;
@@ -23,7 +22,7 @@ public class UsersController(
     AppState appState,
     IMediator mediator,
     IUserAccountQueryRepository userAccountQueryRepository)
-    : ApiControllerBase
+    : ApiController
 {
     private readonly AppState appState = appState;
     private readonly IMediator mediator = mediator;
@@ -68,10 +67,8 @@ public class UsersController(
             appState.User.Username
         );
 
-        ICommandResult<User> result = await mediator.Send(command);
+        User result = await mediator.Send<User>(command);
 
-        return !result.IsSucceeded
-            ? CommandFailure(result)
-            : Ok(result.Data);
+        return Ok(result);
     }
 }

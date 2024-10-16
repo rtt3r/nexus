@@ -10,7 +10,6 @@ using Microsoft.OpenApi.Models;
 using Nexus.Core.Api.Swagger;
 using Nexus.Core.Infra.IoC.Extensions;
 using Nexus.Infra.Crosscutting.Extensions;
-using Nexus.Infra.Http.Filters;
 using Nexus.Infra.Http.JsonNamePolicies;
 using Nexus.Infra.Http.ValueProviders;
 using Serilog;
@@ -59,7 +58,6 @@ public static class HostingExtensions
             .AddControllers(options =>
             {
                 options.EnableEndpointRouting = false;
-                options.Filters.Add<HttpExceptionFilter>();
                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
             })
             .AddJsonOptions(options =>
@@ -97,6 +95,7 @@ public static class HostingExtensions
         });
 
         app.UseSerilogRequestLogging();
+        app.UseExceptionHandler();
         app.MigrateApiDbContext();
 
         if (app.Environment.IsDevelopment())

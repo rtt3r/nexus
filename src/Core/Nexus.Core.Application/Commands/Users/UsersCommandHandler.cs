@@ -1,7 +1,7 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
-using Goal.Infra.Crosscutting.Notifications;
 using MassTransit;
+using MediatR;
 using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
@@ -14,22 +14,21 @@ namespace Nexus.Core.Application.Commands.Users;
 public class UsersCommandHandler(
     ICoreUnitOfWork uow,
     IPublishEndpoint publishEndpoint,
-    IDefaultNotificationHandler notificationHandler,
     ITypeAdapter typeAdapter,
     IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
     AppState appState) :
-    CommandHandlerBase(uow, publishEndpoint, notificationHandler, typeAdapter, appState),
-    ICommandHandler<CreateUserAccountCommand, ICommandResult<UserAccountModel>>
+    CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
+    ICommandHandler<CreateUserAccountCommand, UserAccountModel>
 {
     private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
-    public async Task<ICommandResult<UserAccountModel>> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
+    public async Task<UserAccountModel> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
         User? user = await uow.Users.LoadAsync(command.Id!, cancellationToken);
 
         if (user is not null)
         {
-            return CommandResult.Success(ProjectAs<UserAccountModel>(user));
+            return ProjectAs<UserAccountModel>(user);
         }
 
         user = new User(
@@ -41,15 +40,12 @@ public class UsersCommandHandler(
 
         await uow.Users.AddAsync(user, cancellationToken);
 
-        if (await SaveChangesAsync(cancellationToken))
-        {
-            await publishEndpoint.Publish(
-                new UserRegisteredEvent(user, appState.User.UserId!),
-                cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
-            return CommandResult.Success(ProjectAs<UserAccountModel>(user));
-        }
+        await publishEndpoint.Publish(
+            new UserRegisteredEvent(user, appState.User.UserId!),
+            cancellationToken);
 
-        return CommandResult.Failure<UserAccountModel>(default, notificationHandler.GetNotifications());
+        return ProjectAs<UserAccountModel>(user);
     }
 }

@@ -19,7 +19,7 @@
 		<PackageReference Include="Serilog.Exceptions" Version="8.4.0+build.694" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="7.2.1" />
-		<PackageReference Include="Goal.Infra.Crosscutting" Version="1.3.0" />
+		<PackageReference Include="Goal.Infra.Crosscutting" Version="1.4.1" />
 	</ItemGroup>
 
 </Project>
