@@ -19,9 +19,11 @@ public class UserAccountCreatedEventConsumer(
 
     protected override async Task HandleEvent(UserRegisteredEvent @event, CancellationToken cancellationToken = default)
     {
+        User user = typeAdapter.Adapt<User>(@event);
+
         await userAccountRepository.StoreAsync(
             @event.AggregateId,
-            typeAdapter.Adapt<User>(@event.User),
+            user,
             cancellationToken);
     }
 }

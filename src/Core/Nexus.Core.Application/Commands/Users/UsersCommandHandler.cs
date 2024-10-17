@@ -6,7 +6,7 @@ using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
-using UserAccountModel = Nexus.Core.Model.Users.User;
+using UserModel = Nexus.Core.Model.Users.User;
 
 namespace Nexus.Core.Application.Commands.Users;
 
@@ -17,17 +17,17 @@ public class UsersCommandHandler(
     IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
     AppState appState) :
     CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
-    ICommandHandler<CreateUserAccountCommand, UserAccountModel>
+    ICommandHandler<CreateUserAccountCommand, UserModel>
 {
     private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
-    public async Task<UserAccountModel> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
+    public async Task<UserModel> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
     {
         User? user = await uow.Users.LoadAsync(command.Id!, cancellationToken);
 
         if (user is not null)
         {
-            return ProjectAs<UserAccountModel>(user);
+            return ProjectAs<UserModel>(user);
         }
 
         user = User.CreateUser(
@@ -43,9 +43,15 @@ public class UsersCommandHandler(
         await SaveChangesAsync(cancellationToken);
 
         await publishEndpoint.Publish(
-            new UserRegisteredEvent(user, appState.User.UserId!),
+            new UserRegisteredEvent(
+                user.Id,
+                user.Name,
+                user.Email,
+                user.Username,
+                user.Avatar,
+                appState.User.UserId!),
             cancellationToken);
 
-        return ProjectAs<UserAccountModel>(user);
+        return ProjectAs<UserModel>(user);
     }
 }
