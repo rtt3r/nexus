@@ -62,13 +62,11 @@ public class UsersController(
 
         var command = new CreateUserAccountCommand(
             appState.User.UserId,
-            appState.User.Email,
             appState.User.Name,
+            appState.User.Email,
             appState.User.Username
         );
 
-        User result = await mediator.Send<User>(command);
-
-        return Ok(result);
+        return Ok(await mediator.Send<User>(command));
     }
 }

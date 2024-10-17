@@ -71,6 +71,7 @@ public static class ServiceColletionExtensionMethods
         services.AddExceptionHandler<DomainViolationExceptionHandler>();
         services.AddExceptionHandler<ServiceUnavailableExceptionHandler>();
         services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
+        services.AddProblemDetails();
 
         return services;
     }

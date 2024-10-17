@@ -1,7 +1,6 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
-using MediatR;
 using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
@@ -31,8 +30,9 @@ public class UsersCommandHandler(
             return ProjectAs<UserAccountModel>(user);
         }
 
-        user = new User(
+        user = User.CreateUser(
             command.Id!,
+            command.Name!,
             command.Email!,
             command.Username!);
 

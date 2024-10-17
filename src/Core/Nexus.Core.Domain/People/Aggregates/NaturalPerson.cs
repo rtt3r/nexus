@@ -20,5 +20,4 @@ public class NaturalPerson : Person
     public NaturalPersonName Name { get; private set; } = null!;
     public PersonGender Gender { get; private set; }
     public DateOnly Birthdate { get; private set; }
-    public User? User { get; private set; }
 }

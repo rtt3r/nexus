@@ -21,7 +21,7 @@ public class UserAccountCreatedEventConsumer(
     {
         await userAccountRepository.StoreAsync(
             @event.AggregateId,
-            typeAdapter.Adapt<User>(@event.UserAccount),
+            typeAdapter.Adapt<User>(@event.User),
             cancellationToken);
     }
 }

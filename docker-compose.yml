@@ -93,24 +93,17 @@ services:
 volumes:
   mysql-vol:
     name: ritter.co-nexus-mysql-vol
-    external: true
   postgres-vol:
     name: ritter.co-nexus-postgres-vol
   ravendb-config:
     name: ritter.co-nexus-ravendb-config-vol
-    external: true
   ravendb-data:
     name: ritter.co-nexus-ravendb-data-vol
-    external: true
   seq-data:
     name: ritter.co-nexus-seq-vol
-    external: true
   keycloak-data:
     name: ritter.co-nexus-keycloak-vol
-    external: true
   rabbitmq-data:
     name: ritter.co-nexus-rabbitmq-data-vol
-    external: true
   rabbitmq-mnesia:
     name: ritter.co-nexus-rabbitmq-mnesia-vol
-    external: true

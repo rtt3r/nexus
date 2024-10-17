@@ -8,10 +8,6 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserEntity, UserModel>()
-            .AfterMap((entity, model) =>
-            {
-                model.Name = entity?.Person?.Name.GetFullName();
-            });
+        CreateMap<UserEntity, UserModel>();
     }
 }

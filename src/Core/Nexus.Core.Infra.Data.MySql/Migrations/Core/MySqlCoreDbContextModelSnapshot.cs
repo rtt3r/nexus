@@ -18,7 +18,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -290,6 +290,11 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -430,14 +435,6 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .HasForeignKey("Nexus.Core.Domain.People.Aggregates.NaturalPerson", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Nexus.Core.Domain.Users.Aggregates.User", "User")
-                        .WithOne("Person")
-                        .HasForeignKey("Nexus.Core.Domain.People.Aggregates.NaturalPerson", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.Person", b =>
@@ -462,11 +459,6 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonDocumentType", b =>
                 {
                     b.Navigation("Documents");
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
-                {
-                    b.Navigation("Person");
                 });
 #pragma warning restore 612, 618
         }

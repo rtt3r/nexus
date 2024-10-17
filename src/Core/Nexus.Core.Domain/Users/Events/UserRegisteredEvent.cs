@@ -1,12 +1,19 @@
+using System.Text.Json.Serialization;
 using Goal.Domain.Events;
 using MediatR;
 using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Domain.Users.Events;
 
-public class UserRegisteredEvent(User user, string createdBy)
-    : Event(user.Id!, nameof(UserRegisteredEvent)), INotification
+public class UserRegisteredEvent : Event, INotification
 {
-    public User UserAccount { get; } = user;
-    public string CreatedBy { get; } = createdBy;
+    public UserRegisteredEvent(User user, string createdBy)
+        : base(user.Id!, nameof(UserRegisteredEvent))
+    {
+        User = user;
+        CreatedBy = createdBy;
+    }
+
+    public User User { get; }
+    public string CreatedBy { get; }
 }

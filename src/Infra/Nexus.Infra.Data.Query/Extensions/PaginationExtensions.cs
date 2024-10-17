@@ -3,7 +3,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 
-namespace Nexus.Infra.Data.Raven;
+namespace Nexus.Infra.Data.Query.Extensions;
 
 public static class PaginationExtensions
 {
