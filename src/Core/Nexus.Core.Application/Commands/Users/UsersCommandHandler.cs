@@ -17,16 +17,22 @@ public class UsersCommandHandler(
     IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
     AppState appState) :
     CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
-    ICommandHandler<CreateUserAccountCommand, UserModel>
+    ICommandHandler<CreateUserCommand, UserModel>
 {
     private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
-    public async Task<UserModel> Handle(CreateUserAccountCommand command, CancellationToken cancellationToken)
+    public async Task<UserModel> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         User? user = await uow.Users.LoadAsync(command.Id!, cancellationToken);
 
         if (user is not null)
         {
+            await publishEndpoint.Publish(
+                new UserRegisteredEvent(
+                    user.Id,
+                    appState.User.UserId!),
+                cancellationToken);
+
             return ProjectAs<UserModel>(user);
         }
 
@@ -45,10 +51,6 @@ public class UsersCommandHandler(
         await publishEndpoint.Publish(
             new UserRegisteredEvent(
                 user.Id,
-                user.Name,
-                user.Email,
-                user.Username,
-                user.Avatar,
                 appState.User.UserId!),
             cancellationToken);
 

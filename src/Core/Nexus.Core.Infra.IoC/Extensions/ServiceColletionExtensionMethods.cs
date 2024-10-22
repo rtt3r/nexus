@@ -54,11 +54,15 @@ public static class ServiceColletionExtensionMethods
     {
         services.AddAutoMapperTypeAdapter();
 
+        services.AddCoreDbContext(configuration);
+        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
+
         services.AddRavenDb(configuration);
 
         services.AddEventSourcingDbContext(configuration);
         services.AddScoped<IEventStore, SqlEventStore>();
 
+        services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 
         return services;

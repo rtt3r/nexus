@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nexus.Core.Application.Commands.Users;
-using Nexus.Core.Infra.Data.Query.Repositories.Users.Accounts;
+using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using Nexus.Core.Model.Users;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Http.Controllers;
@@ -21,18 +21,18 @@ namespace Nexus.Core.Api.Controllers.Users;
 public class UsersController(
     AppState appState,
     IMediator mediator,
-    IUserAccountQueryRepository userAccountQueryRepository)
+    IUserQueryRepository userQueryRepository)
     : ApiController
 {
     private readonly AppState appState = appState;
     private readonly IMediator mediator = mediator;
-    private readonly IUserAccountQueryRepository userAccountQueryRepository = userAccountQueryRepository;
+    private readonly IUserQueryRepository userQueryRepository = userQueryRepository;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<PagedResponse<User>>> Get([FromQuery] PageSearchRequest request)
-        => Paged(await userAccountQueryRepository.QueryAsync(request.ToPageSearch()));
+        => Paged(await userQueryRepository.QueryAsync(request.ToPageSearch()));
 
     [HttpGet("{id}", Name = $"{nameof(UsersController)}_{nameof(GetById)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -40,11 +40,11 @@ public class UsersController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<User>> GetById([FromRoute] string id)
     {
-        User? userAccount = await userAccountQueryRepository.LoadAsync(id);
+        User? user = await userQueryRepository.LoadAsync(id);
 
-        return userAccount is null
+        return user is null
             ? NotFound()
-            : Ok(userAccount);
+            : Ok(user);
     }
 
     [HttpGet("me", Name = $"{nameof(UsersController)}_{nameof(GetMe)}")]
@@ -53,14 +53,14 @@ public class UsersController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<User>> GetMe()
     {
-        User? userAccount = await userAccountQueryRepository.LoadAsync(appState.User.UserId!);
+        User? user = await userQueryRepository.LoadAsync(appState.User.UserId!);
 
-        if (userAccount is not null)
+        if (user is not null)
         {
-            return Ok(userAccount);
+            return Ok(user);
         }
 
-        var command = new CreateUserAccountCommand(
+        var command = new CreateUserCommand(
             appState.User.UserId,
             appState.User.Name,
             appState.User.Email,
