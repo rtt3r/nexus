@@ -3,6 +3,6 @@ using Nexus.Core.Model.Users;
 
 namespace Nexus.Core.Application.Commands.Users;
 
-public record CreateUserCommand(string? Id, string? Name, string? Email, string? Username) : ICommand<User>
+public record CreateUserCommand(string Id, string Name, string Email, string Username) : ICommand<User>
 {
 }

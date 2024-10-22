@@ -24,7 +24,7 @@ public static class ClaimsPrincipalExtensions
     {
         string? claimValue = principal.GetClaimValue(claimTypes);
 
-        if (string.IsNullOrEmpty(claimValue))
+        if (string.IsNullOrWhiteSpace(claimValue))
         {
             return Guid.Empty;
         }
@@ -44,7 +44,7 @@ public static class ClaimsPrincipalExtensions
 
         string? claimValue = principal.GetClaimValue(claimTypes);
 
-        if (claimValue is null)
+        if (string.IsNullOrWhiteSpace(claimValue))
         {
             return default;
         }
@@ -59,17 +59,17 @@ public static class ClaimsPrincipalExtensions
         }
     }
 
-    public static string? GetUserId(this ClaimsPrincipal principal)
-        => principal.GetClaimValue(JwtClaimTypes.Subject, ClaimTypes.NameIdentifier);
+    public static string GetUserId(this ClaimsPrincipal principal)
+        => principal.GetClaimValue(JwtClaimTypes.Subject, ClaimTypes.NameIdentifier)!;
 
-    public static string? GetEmail(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.Email, ClaimTypes.Email);
+    public static string GetEmail(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.Email, ClaimTypes.Email)!;
 
-    public static string? GetName(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.Name, ClaimTypes.Name);
+    public static string GetName(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.Name, ClaimTypes.Name)!;
 
-    public static string? GetUsername(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.PreferredUserName);
+    public static string GetUsername(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.PreferredUserName)!;
 
     public static string? GetGivenName(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.GivenName, ClaimTypes.GivenName);
@@ -83,8 +83,8 @@ public static class ClaimsPrincipalExtensions
     public static IEnumerable<string> GetScopes(this ClaimsPrincipal principal)
         => principal?.GetClaimValues(JwtClaimTypes.Scope) ?? [];
 
-    public static string? GetClientId(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.ClientId, JwtClaimTypes.AuthorizedParty);
+    public static string GetClientId(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.ClientId, JwtClaimTypes.AuthorizedParty)!;
 
     public static long GetExpiration(this ClaimsPrincipal principal)
         => (principal?.GetClaimValueAs<long>(JwtClaimTypes.Expiration, ClaimTypes.Expiration)).GetValueOrDefault();
@@ -99,4 +99,7 @@ public static class ClaimsPrincipalExtensions
             claimsIdentity.AddClaim(claim);
         }
     }
+
+    public static bool HasClaimValue(this ClaimsPrincipal principal, params string[] claimTypes)
+        => string.IsNullOrWhiteSpace(principal.GetClaimValue(claimTypes));
 }

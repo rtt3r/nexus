@@ -6,7 +6,7 @@ using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
-using UserModel = Nexus.Core.Model.Users.User;
+using UserModels = Nexus.Core.Model.Users;
 
 namespace Nexus.Core.Application.Commands.Users;
 
@@ -17,30 +17,30 @@ public class UsersCommandHandler(
     IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
     AppState appState) :
     CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
-    ICommandHandler<CreateUserCommand, UserModel>
+    ICommandHandler<CreateUserCommand, UserModels.User>
 {
     private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
 
-    public async Task<UserModel> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+    public async Task<UserModels.User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        User? user = await uow.Users.LoadAsync(command.Id!, cancellationToken);
+        User? user = await uow.Users.LoadAsync(command.Id, cancellationToken);
 
         if (user is not null)
         {
             await publishEndpoint.Publish(
                 new UserRegisteredEvent(
                     user.Id,
-                    appState.User.UserId!),
+                    appState.User!.UserId),
                 cancellationToken);
 
-            return ProjectAs<UserModel>(user);
+            return ProjectAs<UserModels.User>(user);
         }
 
         user = User.CreateUser(
-            command.Id!,
-            command.Name!,
-            command.Email!,
-            command.Username!);
+            command.Id,
+            command.Name,
+            command.Email,
+            command.Username);
 
         generateUserProfileAvatarDomainService.GenerateTemporaryAvatar(user);
 
@@ -51,9 +51,9 @@ public class UsersCommandHandler(
         await publishEndpoint.Publish(
             new UserRegisteredEvent(
                 user.Id,
-                appState.User.UserId!),
+                appState.User!.UserId!),
             cancellationToken);
 
-        return ProjectAs<UserModel>(user);
+        return ProjectAs<UserModels.User>(user);
     }
 }

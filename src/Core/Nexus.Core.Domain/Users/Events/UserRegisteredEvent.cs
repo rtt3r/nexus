@@ -3,13 +3,8 @@ using MediatR;
 
 namespace Nexus.Core.Domain.Users.Events;
 
-public class UserRegisteredEvent : Event, INotification
+public class UserRegisteredEvent(string aggregateId, string createdBy)
+    : Event(aggregateId, nameof(UserRegisteredEvent)), INotification
 {
-    public UserRegisteredEvent(string aggregateId, string createdBy)
-        : base(aggregateId, nameof(UserRegisteredEvent))
-    {
-        CreatedBy = createdBy;
-    }
-
-    public string CreatedBy { get; }
+    public string CreatedBy { get; } = createdBy;
 }

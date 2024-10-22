@@ -1,7 +1,6 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
-using MediatR;
 using Nexus.Core.Application.Commands.Customers.Validators;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.Customers.Events;
@@ -46,7 +45,7 @@ public class CustomerCommandHandler(
                 customer.Name,
                 customer.Email,
                 customer.Birthdate,
-                appState.User.UserId!),
+                appState.User!.UserId),
             cancellationToken);
 
         return ProjectAs<CustomerModel>(customer);
@@ -78,7 +77,7 @@ public class CustomerCommandHandler(
                 customer.Name,
                 customer.Email,
                 customer.Birthdate,
-                appState.User.UserId!),
+                appState.User!.UserId),
             cancellationToken);
     }
 
@@ -94,7 +93,7 @@ public class CustomerCommandHandler(
         await SaveChangesAsync(cancellationToken);
 
         await publishEndpoint.Publish(
-            new CustomerRemovedEvent(command.CustomerId!, appState.User.UserId!),
+            new CustomerRemovedEvent(command.CustomerId!, appState.User!.UserId),
             cancellationToken);
     }
 }

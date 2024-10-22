@@ -53,7 +53,7 @@ public class UsersController(
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(ApiResponse))]
     public async Task<ActionResult<User>> GetMe()
     {
-        User? user = await userQueryRepository.LoadAsync(appState.User.UserId!);
+        User? user = await userQueryRepository.LoadAsync(appState.User!.UserId);
 
         if (user is not null)
         {
