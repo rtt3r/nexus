@@ -101,5 +101,5 @@ public static class ClaimsPrincipalExtensions
     }
 
     public static bool HasClaimValue(this ClaimsPrincipal principal, params string[] claimTypes)
-        => string.IsNullOrWhiteSpace(principal.GetClaimValue(claimTypes));
+        => !string.IsNullOrWhiteSpace(principal.GetClaimValue(claimTypes));
 }

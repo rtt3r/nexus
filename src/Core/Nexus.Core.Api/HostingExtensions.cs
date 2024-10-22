@@ -101,7 +101,6 @@ public static class HostingExtensions
         if (app.Environment.IsDevelopment())
         {
             IdentityModelEventSource.ShowPII = true;
-            app.UseDeveloperExceptionPage();
 
             app.UseSwagger(c =>
             {

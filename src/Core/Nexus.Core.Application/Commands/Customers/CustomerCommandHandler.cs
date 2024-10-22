@@ -40,12 +40,7 @@ public class CustomerCommandHandler(
         await SaveChangesAsync(cancellationToken);
 
         await publishEndpoint.Publish(
-            new CustomerRegisteredEvent(
-                customer.Id,
-                customer.Name,
-                customer.Email,
-                customer.Birthdate,
-                appState.User!.UserId),
+            new CustomerRegisteredEvent(customer.Id, appState.User!.UserId),
             cancellationToken);
 
         return ProjectAs<CustomerModel>(customer);
@@ -72,12 +67,7 @@ public class CustomerCommandHandler(
         await SaveChangesAsync(cancellationToken);
 
         await publishEndpoint.Publish(
-            new CustomerUpdatedEvent(
-                customer.Id,
-                customer.Name,
-                customer.Email,
-                customer.Birthdate,
-                appState.User!.UserId),
+            new CustomerUpdatedEvent(customer.Id, appState.User!.UserId),
             cancellationToken);
     }
 
