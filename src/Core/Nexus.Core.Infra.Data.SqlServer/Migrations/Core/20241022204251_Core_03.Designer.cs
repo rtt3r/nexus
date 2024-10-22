@@ -4,30 +4,33 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nexus.Core.Infra.Data.MySql;
+using Nexus.Core.Infra.Data.SqlServer;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
+namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 {
-    [DbContext(typeof(MySqlCoreDbContext))]
-    partial class MySqlCoreDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SqlServerCoreDbContext))]
+    [Migration("20241022204251_Core_03")]
+    partial class Core_03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Nexus.Core.Domain.Customers.Aggregates.Customer", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateOnly>("Birthdate")
                         .HasColumnType("date");
@@ -35,12 +38,12 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -54,7 +57,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("Type")
                         .HasMaxLength(7)
@@ -71,53 +74,53 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Complement")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("Neighborhood")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Number")
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("PersonId")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<bool>("Principal")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -133,33 +136,33 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTime?>("IssuedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Issuer")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("PersonId")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("TypeId")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTime?>("ValidUntil")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -178,16 +181,16 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
@@ -201,20 +204,20 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("MailAddress")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PersonId")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<bool>("Principal")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -228,25 +231,25 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("CountryCode")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("varchar(8)");
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("PersonId")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<bool>("Principal")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -260,26 +263,26 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Avatar")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
@@ -300,13 +303,13 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                             b1.Property<string>("BrandName")
                                 .IsRequired()
                                 .HasMaxLength(128)
-                                .HasColumnType("varchar(128)")
+                                .HasColumnType("nvarchar(128)")
                                 .HasColumnName("BrandName");
 
                             b1.Property<string>("CorporateName")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(256)")
+                                .HasColumnType("nvarchar(256)")
                                 .HasColumnName("CorporateName");
                         });
 
@@ -330,13 +333,13 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasMaxLength(128)
-                                .HasColumnType("varchar(128)")
+                                .HasColumnType("nvarchar(128)")
                                 .HasColumnName("FirstName");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasMaxLength(128)
-                                .HasColumnType("varchar(128)")
+                                .HasColumnType("nvarchar(128)")
                                 .HasColumnName("LastName");
                         });
 

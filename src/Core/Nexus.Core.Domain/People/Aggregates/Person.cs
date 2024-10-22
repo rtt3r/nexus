@@ -6,7 +6,7 @@ public abstract class Person(PersonType type) : Entity
 {
     public PersonType Type { get; private set; } = type;
     public IEnumerable<PersonDocument> Documents { get; private set; } = [];
-    public IEnumerable<PersonContact> Contacts { get; private set; } = [];
+    public IEnumerable<PersonPhone> Contacts { get; private set; } = [];
     public IEnumerable<PersonAddress> Addresses { get; private set; } = [];
 
     protected PersonDocument AddDocument(PersonDocumentType type, string number)
@@ -20,9 +20,9 @@ public abstract class Person(PersonType type) : Entity
         return document;
     }
 
-    protected PersonContact AddContact(PersonContactType type, string value)
+    protected PersonPhone AddPhone(PersonPhoneType type, string countryCode, string number)
     {
-        var contact = PersonContact.CreateContact(type, value);
+        var contact = new PersonPhone(type, countryCode, number);
 
         Contacts = Contacts
             .Append(contact)
@@ -38,7 +38,7 @@ public abstract class Person(PersonType type) : Entity
             .ToList();
     }
 
-    public void RemoveContact(PersonContact contact)
+    public void RemovePhone(PersonPhone contact)
     {
         Contacts = Contacts
             .Where(c => c.Id != contact.Id)

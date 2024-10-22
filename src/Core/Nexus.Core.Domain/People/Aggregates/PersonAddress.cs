@@ -12,7 +12,6 @@ public class PersonAddress : Entity
         : this()
     {
         Type = type;
-        TypeId = type.Id;
         PostalCode = postalCode;
         Street = street;
         Neighborhood = neighborhood;
@@ -22,7 +21,7 @@ public class PersonAddress : Entity
     }
 
     public string PersonId { get; private set; } = null!;
-    public string TypeId { get; private set; } = null!;
+    public PersonAddressType Type { get; private set; }
     public string PostalCode { get; private set; } = null!;
     public string Street { get; private set; } = null!;
     public string? Number { get; private set; }
@@ -31,6 +30,9 @@ public class PersonAddress : Entity
     public string City { get; private set; } = null!;
     public string State { get; private set; } = null!;
     public string Country { get; private set; } = null!;
+    public bool Principal { get; private set; }
     public Person Person { get; private set; } = null!;
-    public PersonAddressType Type { get; private set; } = null!;
+
+    public void UpdatePrincipal(bool principal)
+        => Principal = principal;
 }

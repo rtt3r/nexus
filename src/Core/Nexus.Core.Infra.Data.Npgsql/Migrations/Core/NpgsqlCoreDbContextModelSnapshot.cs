@@ -106,6 +106,9 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)");
 
+                    b.Property<bool>("Principal")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -116,95 +119,14 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("TypeId")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
 
-                    b.HasIndex("TypeId");
-
                     b.ToTable("PersonAddresses", (string)null);
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonAddressType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("PersonAddressTypes", (string)null);
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonContact", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("PersonId")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("TypeId")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeId");
-
-                    b.HasIndex("PersonId", "TypeId", "Value")
-                        .IsUnique();
-
-                    b.ToTable("PersonContacts", (string)null);
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonContactType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("PersonContactTypes", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonDocument", b =>
@@ -273,6 +195,65 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .IsUnique();
 
                     b.ToTable("PersonDocumentTypes", (string)null);
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonEmail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("MailAddress")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PersonId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<bool>("Principal")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId", "MailAddress")
+                        .IsUnique();
+
+                    b.ToTable("PersonEmails", (string)null);
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonPhone", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<string>("PersonId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<bool>("Principal")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId", "CountryCode", "Number")
+                        .IsUnique();
+
+                    b.ToTable("PersonPhones", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
@@ -370,34 +351,7 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexus.Core.Domain.People.Aggregates.PersonAddressType", "Type")
-                        .WithMany("Addresses")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Person");
-
-                    b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonContact", b =>
-                {
-                    b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
-                        .WithMany("Contacts")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Nexus.Core.Domain.People.Aggregates.PersonContactType", "Type")
-                        .WithMany("Contacts")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonDocument", b =>
@@ -417,6 +371,28 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                     b.Navigation("Person");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonEmail", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonPhone", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
+                        .WithMany("Contacts")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.LegalPerson", b =>
@@ -444,16 +420,6 @@ namespace Nexus.Core.Infra.Data.Npgsql.Migrations.Core
                     b.Navigation("Contacts");
 
                     b.Navigation("Documents");
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonAddressType", b =>
-                {
-                    b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonContactType", b =>
-                {
-                    b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonDocumentType", b =>

@@ -14,10 +14,9 @@ public abstract class CoreDbContext(DbContextOptions options)
     public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<PersonAddress> PersonAddresses { get; set; }
-    public DbSet<PersonAddressType> PersonAddressTypes { get; set; }
-    public DbSet<PersonContact> PersonContacts { get; set; }
-    public DbSet<PersonContactType> PersonContactTypes { get; set; }
-    public DbSet<PersonDocument> PersonDocument { get; set; }
+    public DbSet<PersonPhone> PersonPhones { get; set; }
+    public DbSet<PersonEmail> PersonEmails { get; set; }
+    public DbSet<PersonDocument> PersonDocuments { get; set; }
     public DbSet<PersonDocumentType> PersonDocumentType { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,9 +29,8 @@ public abstract class CoreDbContext(DbContextOptions options)
         modelBuilder.ApplyConfiguration(new NaturalPersonConfiguration());
         modelBuilder.ApplyConfiguration(new LegalPersonConfiguration());
         modelBuilder.ApplyConfiguration(new PersonAddressConfiguration());
-        modelBuilder.ApplyConfiguration(new PersonAddressTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new PersonContactConfiguration());
-        modelBuilder.ApplyConfiguration(new PersonContactTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new PersonPhoneConfiguration());
+        modelBuilder.ApplyConfiguration(new PersonEmailConfiguration());
         modelBuilder.ApplyConfiguration(new PersonDocumentConfiguration());
         modelBuilder.ApplyConfiguration(new PersonDocumentTypeConfiguration());
     }

@@ -2,17 +2,10 @@ using Nexus.Core.Domain.Shared;
 
 namespace Nexus.Core.Domain.People.Aggregates;
 
-public class PersonAddressType : EntityTypeDescriptor
+public enum PersonAddressType
 {
-    private PersonAddressType()
-        : base()
-    {
-    }
-
-    public PersonAddressType(string name)
-        : base(name)
-    {
-    }
-
-    public IEnumerable<PersonAddress> Addresses { get; private set; } = [];
+    Home,
+    Comercial,
+    Work,
+    Mailing
 }

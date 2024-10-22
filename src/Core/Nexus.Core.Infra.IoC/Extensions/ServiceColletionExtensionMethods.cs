@@ -1,6 +1,4 @@
-using Goal.Domain.Aggregates;
 using Goal.Domain.Events;
-using Goal.Infra.Data.Query;
 using Goal.Infra.Http.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
@@ -10,14 +8,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Application.TypeAdapters;
+using Nexus.Core.Domain.Customers.Aggregates;
+using Nexus.Core.Domain.People.Aggregates;
+using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.EventSourcing;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
+using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using Nexus.Core.Infra.Data.Repositories;
 using Nexus.Core.Infra.IoC.Providers;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Exceptions;
 using Nexus.Infra.Crosscutting.Providers.Data;
 using Nexus.Infra.Crosscutting.Settings;
 using Nexus.Infra.Http.Handlers.Exceptions;
@@ -42,10 +43,13 @@ public static class ServiceColletionExtensionMethods
         services.AddRavenDb(configuration);
 
         services.AddCoreDbContext(configuration);
-        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
         services.AddScoped<IGenerateUserAvatarDomainService, GenerateUserAvatarDomainService>();
-        services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
-        services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
+        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
+        services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
 
         return services;
     }
@@ -55,15 +59,18 @@ public static class ServiceColletionExtensionMethods
         services.AddAutoMapperTypeAdapter();
 
         services.AddCoreDbContext(configuration);
-        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
 
         services.AddRavenDb(configuration);
 
         services.AddEventSourcingDbContext(configuration);
         services.AddScoped<IEventStore, SqlEventStore>();
 
-        services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
-        services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
+        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
+        services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
 
         return services;
     }
