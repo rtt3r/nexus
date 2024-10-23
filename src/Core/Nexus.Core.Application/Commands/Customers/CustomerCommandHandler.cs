@@ -40,7 +40,7 @@ public class CustomerCommandHandler(
         await SaveChangesAsync(cancellationToken);
 
         await publishEndpoint.Publish(
-            new CustomerRegisteredEvent(customer.Id, appState.User!.UserId),
+            new CustomerCreatedEvent(customer.Id, appState.User!.UserId),
             cancellationToken);
 
         return ProjectAs<CustomerModel>(customer);
