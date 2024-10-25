@@ -6,7 +6,7 @@ namespace Nexus.Infra.Crosscutting;
 
 public sealed class AppState(ClaimsPrincipal principal)
 {
-    public AppUser? User { get; } = principal.HasClaimValue(JwtClaimTypes.Subject, ClaimTypes.NameIdentifier)
+    public AppUser? User { get; } = principal.TryGetClaimValue([JwtClaimTypes.Subject, ClaimTypes.NameIdentifier], out string _)
         ? new AppUser(principal)
         : null;
 

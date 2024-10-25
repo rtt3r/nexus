@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Users.Aggregates;

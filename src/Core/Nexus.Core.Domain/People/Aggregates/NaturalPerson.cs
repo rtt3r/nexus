@@ -1,5 +1,3 @@
-using Nexus.Core.Domain.Users.Aggregates;
-
 namespace Nexus.Core.Domain.People.Aggregates;
 
 public class NaturalPerson : Person

@@ -3,25 +3,17 @@ using Goal.Application.Commands;
 using Goal.Application.Extensions;
 using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Collections;
-using MassTransit;
 using Nexus.Core.Infra.Data;
-using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Exceptions;
 using Nexus.Infra.Crosscutting.Notifications;
 using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
 
 namespace Nexus.Core.Application.Commands;
 
-public abstract class CommandHandlerBase(
-    ICoreUnitOfWork uow,
-    IPublishEndpoint publishEndpoint,
-    ITypeAdapter typeAdapter,
-    AppState appState)
+public abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapter)
 {
     protected readonly ICoreUnitOfWork uow = uow;
-    protected readonly IPublishEndpoint publishEndpoint = publishEndpoint;
     protected readonly ITypeAdapter typeAdapter = typeAdapter;
-    protected readonly AppState appState = appState;
 
     protected static async Task ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
         where TValidator : IValidator<TCommand>, new()

@@ -12,14 +12,16 @@ namespace Nexus.Core.Application.Commands.Users;
 
 public class UsersCommandHandler(
     ICoreUnitOfWork uow,
-    IPublishEndpoint publishEndpoint,
     ITypeAdapter typeAdapter,
+    IPublishEndpoint publishEndpoint,
     IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService,
     AppState appState) :
-    CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
+    CommandHandler(uow, typeAdapter),
     ICommandHandler<CreateUserCommand, UserModels.User>
 {
+    private readonly IPublishEndpoint publishEndpoint = publishEndpoint;
     private readonly IGenerateUserAvatarDomainService generateUserProfileAvatarDomainService = generateUserProfileAvatarDomainService;
+    private readonly AppState appState = appState;
 
     public async Task<UserModels.User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {

@@ -14,14 +14,17 @@ namespace Nexus.Core.Application.Commands.Customers;
 
 public class CustomerCommandHandler(
     ICoreUnitOfWork uow,
-    IPublishEndpoint publishEndpoint,
     ITypeAdapter typeAdapter,
+    IPublishEndpoint publishEndpoint,
     AppState appState)
-    : CommandHandlerBase(uow, publishEndpoint, typeAdapter, appState),
+    : CommandHandler(uow, typeAdapter),
     ICommandHandler<RegisterCustomerCommand, CustomerModel>,
     ICommandHandler<UpdateCustomerCommand>,
     ICommandHandler<RemoveCustomerCommand>
 {
+    private readonly IPublishEndpoint publishEndpoint = publishEndpoint;
+    private readonly AppState appState = appState;
+
     public async Task<CustomerModel> Handle(RegisterCustomerCommand command, CancellationToken cancellationToken)
     {
         await ValidateCommandAsync<RegisterCustomerCommandValidator, RegisterCustomerCommand>(command, cancellationToken);

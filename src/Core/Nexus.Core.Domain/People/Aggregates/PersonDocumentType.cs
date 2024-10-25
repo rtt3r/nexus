@@ -1,8 +1,8 @@
-using Nexus.Core.Domain.Shared;
+using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.People.Aggregates;
 
-public class PersonDocumentType : EntityTypeDescriptor
+public class PersonDocumentType : Entity
 {
     protected PersonDocumentType()
         : base()
@@ -10,9 +10,15 @@ public class PersonDocumentType : EntityTypeDescriptor
     }
 
     public PersonDocumentType(string name)
-        : base(name)
+        : this()
     {
+        Name = name;
     }
 
+    public string Name { get; private set; } = null!;
+    public string? Description { get; private set; }
     public IEnumerable<PersonDocument> Documents { get; private set; } = [];
+
+    public void SetDescription(string? description)
+        => Description = description?.Trim();
 }

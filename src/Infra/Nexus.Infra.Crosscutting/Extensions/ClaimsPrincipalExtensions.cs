@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using System.Security.Principal;
 using IdentityModel;
 
 namespace Nexus.Infra.Crosscutting.Extensions;
@@ -7,44 +6,45 @@ namespace Nexus.Infra.Crosscutting.Extensions;
 public static class ClaimsPrincipalExtensions
 {
     public static string? GetClaimValue(this ClaimsPrincipal principal, params string[] claimTypes)
-        => principal?.GetClaimValues(claimTypes).FirstOrDefault();
+    {
+        Claim? claim = principal
+            .Claims
+            .Where(p => claimTypes.Contains(p.Type))
+            .FirstOrDefault();
+
+        return claim?.Value;
+    }
 
     public static IEnumerable<string> GetClaimValues(this ClaimsPrincipal principal, params string[] claimTypes)
     {
-        var claimValues = principal
+        return principal
             .Claims
             .Where(p => claimTypes.Contains(p.Type))
             .Select(p => p.Value)
-            .ToList();
-
-        return claimValues;
+            .ToHashSet();
     }
 
-    public static Guid GetClaimValueAsGuid(this ClaimsPrincipal principal, params string[] claimTypes)
-    {
-        string? claimValue = principal.GetClaimValue(claimTypes);
+    public static bool TryGetClaimValue(this ClaimsPrincipal principal, string claimType, out string claimValue)
+        => principal.TryGetClaimValue([claimType], out claimValue);
 
-        if (string.IsNullOrWhiteSpace(claimValue))
+    public static bool TryGetClaimValue(this ClaimsPrincipal principal, string[] claimTypes, out string claimValue)
+    {
+        claimValue = null!;
+        string? value = principal.GetClaimValue(claimTypes);
+
+        if (!string.IsNullOrWhiteSpace(value))
         {
-            return Guid.Empty;
+            claimValue = value;
+            return true;
         }
 
-        return Guid.TryParse(claimValue, out Guid value)
-            ? value
-            : Guid.Empty;
+        return false;
     }
 
     public static T GetClaimValueAs<T>(this ClaimsPrincipal principal, params string[] claimTypes)
         where T : struct
     {
-        if (principal is null)
-        {
-            return default;
-        }
-
-        string? claimValue = principal.GetClaimValue(claimTypes);
-
-        if (string.IsNullOrWhiteSpace(claimValue))
+        if (!principal.TryGetClaimValue(claimTypes, out string claimValue))
         {
             return default;
         }
@@ -91,15 +91,4 @@ public static class ClaimsPrincipalExtensions
 
     public static long GetIssuedAt(this ClaimsPrincipal principal)
         => (principal?.GetClaimValueAs<long>(JwtClaimTypes.IssuedAt)).GetValueOrDefault();
-
-    public static void AddClaim(this IIdentity identity, Claim claim)
-    {
-        if (identity is ClaimsIdentity claimsIdentity)
-        {
-            claimsIdentity.AddClaim(claim);
-        }
-    }
-
-    public static bool HasClaimValue(this ClaimsPrincipal principal, params string[] claimTypes)
-        => !string.IsNullOrWhiteSpace(principal.GetClaimValue(claimTypes));
 }

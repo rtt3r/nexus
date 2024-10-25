@@ -22,7 +22,7 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
             .WithOne(p => p.Person)
             .HasForeignKey(p => p.PersonId);
 
-        builder.HasMany(p => p.Contacts)
+        builder.HasMany(p => p.Phones)
             .WithOne(p => p.Person)
             .HasForeignKey(p => p.PersonId);
 
