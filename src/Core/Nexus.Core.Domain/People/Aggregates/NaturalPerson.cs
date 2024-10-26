@@ -7,15 +7,13 @@ public class NaturalPerson : Person
     {
     }
 
-    protected NaturalPerson(NaturalPersonName name, DateOnly birthdate, PersonGender gender)
+    protected NaturalPerson(NaturalPersonName name)
         : this()
     {
         Name = name;
-        Birthdate = birthdate;
-        Gender = gender;
     }
 
-    public NaturalPersonName Name { get; private set; } = null!;
-    public PersonGender Gender { get; private set; }
-    public DateOnly Birthdate { get; private set; }
+    public NaturalPersonName Name { get; protected set; } = null!;
+    public PersonGender? Gender { get; protected set; }
+    public DateOnly? Birthdate { get; protected set; }
 }

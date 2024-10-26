@@ -256,41 +256,11 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                     b.ToTable("PersonPhones", (string)null);
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("Avatar")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-                });
-
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.LegalPerson", b =>
                 {
                     b.HasBaseType("Nexus.Core.Domain.People.Aggregates.Person");
 
-                    b.Property<DateOnly>("OpenedAt")
+                    b.Property<DateOnly?>("OpenedAt")
                         .HasColumnType("date");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Nexus.Core.Domain.People.Aggregates.LegalPerson.Name#LegalPersonName", b1 =>
@@ -317,10 +287,10 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                 {
                     b.HasBaseType("Nexus.Core.Domain.People.Aggregates.Person");
 
-                    b.Property<DateOnly>("Birthdate")
+                    b.Property<DateOnly?>("Birthdate")
                         .HasColumnType("date");
 
-                    b.Property<int>("Gender")
+                    b.Property<int?>("Gender")
                         .HasColumnType("int");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Nexus.Core.Domain.People.Aggregates.NaturalPerson.Name#NaturalPersonName", b1 =>
@@ -341,6 +311,22 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         });
 
                     b.ToTable("NaturalPeople", (string)null);
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
+                {
+                    b.HasBaseType("Nexus.Core.Domain.People.Aggregates.NaturalPerson");
+
+                    b.Property<string>("Avatar")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonAddress", b =>
@@ -376,7 +362,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonEmail", b =>
                 {
                     b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
-                        .WithMany()
+                        .WithMany("Emails")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -387,7 +373,7 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonPhone", b =>
                 {
                     b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
-                        .WithMany("Contacts")
+                        .WithMany("Phones")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -413,13 +399,24 @@ namespace Nexus.Core.Infra.Data.MySql.Migrations.Core
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.People.Aggregates.NaturalPerson", null)
+                        .WithOne()
+                        .HasForeignKey("Nexus.Core.Domain.Users.Aggregates.User", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.Person", b =>
                 {
                     b.Navigation("Addresses");
 
-                    b.Navigation("Contacts");
-
                     b.Navigation("Documents");
+
+                    b.Navigation("Emails");
+
+                    b.Navigation("Phones");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonDocumentType", b =>

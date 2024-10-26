@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Core.Infra.Data.SqlServer;
 
@@ -12,9 +13,11 @@ using Nexus.Core.Infra.Data.SqlServer;
 namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 {
     [DbContext(typeof(SqlServerCoreDbContext))]
-    partial class SqlServerCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241025030913_Core_04")]
+    partial class Core_04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,22 +316,6 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                     b.ToTable("NaturalPeople", (string)null);
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
-                {
-                    b.HasBaseType("Nexus.Core.Domain.People.Aggregates.NaturalPerson");
-
-                    b.Property<string>("Avatar")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.ToTable("Users", (string)null);
-                });
-
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonAddress", b =>
                 {
                     b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", "Person")
@@ -395,15 +382,6 @@ namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
                     b.HasOne("Nexus.Core.Domain.People.Aggregates.Person", null)
                         .WithOne()
                         .HasForeignKey("Nexus.Core.Domain.People.Aggregates.NaturalPerson", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>
-                {
-                    b.HasOne("Nexus.Core.Domain.People.Aggregates.NaturalPerson", null)
-                        .WithOne()
-                        .HasForeignKey("Nexus.Core.Domain.Users.Aggregates.User", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

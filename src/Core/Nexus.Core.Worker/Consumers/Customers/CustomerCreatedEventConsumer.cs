@@ -1,8 +1,8 @@
 using Goal.Domain.Events;
 using Goal.Infra.Crosscutting.Adapters;
-using MediatR;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.Customers.Events;
+using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using CustomerModels = Nexus.Core.Model.Customers;
 
@@ -10,19 +10,18 @@ namespace Nexus.Core.Worker.Consumers.Customers;
 
 public class CustomerCreatedEventConsumer(
     ICustomerQueryRepository customerQueryRepository,
-    ICustomerRepository customerRepository,
+    ICoreUnitOfWork uow,
     IEventStore eventStore,
-    IMediator mediator,
     ITypeAdapter typeAdapter,
     ILogger<CustomerCreatedEventConsumer> logger)
-    : EventConsumer<CustomerCreatedEvent>(eventStore, mediator, typeAdapter, logger)
+    : EventConsumer<CustomerCreatedEvent>(eventStore, logger)
 {
     private readonly ICustomerQueryRepository customerQueryRepository = customerQueryRepository;
-    private readonly ICustomerRepository customerRepository = customerRepository;
+    private readonly ICoreUnitOfWork uow = uow;
 
     protected override async Task HandleEvent(CustomerCreatedEvent @event, CancellationToken cancellationToken = default)
     {
-        Customer? customer = await customerRepository.LoadAsync(@event.AggregateId, cancellationToken);
+        Customer? customer = await uow.Customers.GetAsync(@event.AggregateId, cancellationToken);
 
         if (customer is null)
         {

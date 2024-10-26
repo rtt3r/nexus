@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Core.Infra.Data.SqlServer;
 
@@ -12,9 +13,11 @@ using Nexus.Core.Infra.Data.SqlServer;
 namespace Nexus.Core.Infra.Data.SqlServer.Migrations.Core
 {
     [DbContext(typeof(SqlServerCoreDbContext))]
-    partial class SqlServerCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241025031138_Core_05")]
+    partial class Core_05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

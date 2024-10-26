@@ -9,6 +9,8 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<UserEntity, UserModel>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.GetFullName()))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.GetPrincipalEmail().MailAddress));
     }
 }

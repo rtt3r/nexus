@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -98,13 +98,13 @@ public partial class Core_03 : Migration
         migrationBuilder.CreateIndex(
             name: "IX_PersonEmails_PersonId_MailAddress",
             table: "PersonEmails",
-            columns: new[] { "PersonId", "MailAddress" },
+            columns: ["PersonId", "MailAddress"],
             unique: true);
 
         migrationBuilder.CreateIndex(
             name: "IX_PersonPhones_PersonId_CountryCode_Number",
             table: "PersonPhones",
-            columns: new[] { "PersonId", "CountryCode", "Number" },
+            columns: ["PersonId", "CountryCode", "Number"],
             unique: true);
     }
 
@@ -213,7 +213,7 @@ public partial class Core_03 : Migration
         migrationBuilder.CreateIndex(
             name: "IX_PersonContacts_PersonId_TypeId_Value",
             table: "PersonContacts",
-            columns: new[] { "PersonId", "TypeId", "Value" },
+            columns: ["PersonId", "TypeId", "Value"],
             unique: true);
 
         migrationBuilder.CreateIndex(

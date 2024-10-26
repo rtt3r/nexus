@@ -36,9 +36,9 @@ public abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapt
         }
     }
 
-    protected virtual async Task SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    protected virtual async Task CommitAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        if (!await uow.SaveAsync(cancellationToken))
+        if (await uow.CommitAsync(cancellationToken) == 0)
         {
             throw new InternalServerErrorException(Messages.SAVING_DATA_FAILURE);
         }

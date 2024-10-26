@@ -25,7 +25,7 @@ public class UsersCommandHandler(
 
     public async Task<UserModels.User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        User? user = await uow.Users.LoadAsync(command.Id, cancellationToken);
+        User? user = await uow.Users.GetAsync(command.Id, cancellationToken);
 
         if (user is not null)
         {
@@ -48,7 +48,7 @@ public class UsersCommandHandler(
 
         await uow.Users.AddAsync(user, cancellationToken);
 
-        await SaveChangesAsync(cancellationToken);
+        await CommitAsync(cancellationToken);
 
         await publishEndpoint.Publish(
             new UserRegisteredEvent(

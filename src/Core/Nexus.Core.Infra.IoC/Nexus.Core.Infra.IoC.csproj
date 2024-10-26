@@ -23,7 +23,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="RavenDB.DependencyInjection" Version="5.0.1" />
-		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="1.4.1" />
+		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="1.6.0" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
 using Goal.Domain.Events;
-using Goal.Infra.Crosscutting.Adapters;
-using MediatR;
 using Nexus.Core.Domain.Customers.Events;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 
@@ -9,10 +7,8 @@ namespace Nexus.Core.Worker.Consumers.Customers;
 public class CustomerRemovedEventConsumer(
     ICustomerQueryRepository customerRepository,
     IEventStore eventStore,
-    IMediator mediator,
-    ITypeAdapter typeAdapter,
     ILogger<CustomerRemovedEventConsumer> logger)
-    : EventConsumer<CustomerRemovedEvent>(eventStore, mediator, typeAdapter, logger)
+    : EventConsumer<CustomerRemovedEvent>(eventStore, logger)
 {
     private readonly ICustomerQueryRepository customerRepository = customerRepository;
 

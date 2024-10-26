@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Domain.Abstractions" Version="1.4.1" />
+		<PackageReference Include="Goal.Domain.Abstractions" Version="1.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>

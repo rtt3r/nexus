@@ -15,8 +15,8 @@
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
-		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.4.1" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="1.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>

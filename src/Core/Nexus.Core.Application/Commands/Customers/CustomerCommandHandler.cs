@@ -40,7 +40,7 @@ public class CustomerCommandHandler(
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
-        await SaveChangesAsync(cancellationToken);
+        await CommitAsync(cancellationToken);
 
         await publishEndpoint.Publish(
             new CustomerCreatedEvent(customer.Id, appState.User!.UserId),
@@ -53,7 +53,7 @@ public class CustomerCommandHandler(
     {
         await ValidateCommandAsync<UpdateCustomerCommandValidator, UpdateCustomerCommand>(command, cancellationToken);
 
-        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken)
+        Customer? customer = await uow.Customers.GetAsync(command.CustomerId!, cancellationToken)
             ?? throw new ResourceNotFoundException(nameof(Messages.CUSTOMER_NOT_FOUND), Messages.CUSTOMER_NOT_FOUND);
 
         if (await uow.Customers.HasAnotherWithEmailAsync(command.CustomerId!, command.Email!))
@@ -67,7 +67,7 @@ public class CustomerCommandHandler(
 
         uow.Customers.Update(customer);
 
-        await SaveChangesAsync(cancellationToken);
+        await CommitAsync(cancellationToken);
 
         await publishEndpoint.Publish(
             new CustomerUpdatedEvent(customer.Id, appState.User!.UserId),
@@ -78,12 +78,12 @@ public class CustomerCommandHandler(
     {
         await ValidateCommandAsync<RemoveCustomerCommandValidator, RemoveCustomerCommand>(command, cancellationToken);
 
-        Customer? customer = await uow.Customers.LoadAsync(command.CustomerId!, cancellationToken)
+        Customer? customer = await uow.Customers.GetAsync(command.CustomerId!, cancellationToken)
             ?? throw new ResourceNotFoundException(nameof(Messages.CUSTOMER_NOT_FOUND), Messages.CUSTOMER_NOT_FOUND);
 
         uow.Customers.Remove(customer);
 
-        await SaveChangesAsync(cancellationToken);
+        await CommitAsync(cancellationToken);
 
         await publishEndpoint.Publish(
             new CustomerRemovedEvent(command.CustomerId!, appState.User!.UserId),

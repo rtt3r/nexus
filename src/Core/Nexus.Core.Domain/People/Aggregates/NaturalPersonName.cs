@@ -8,7 +8,7 @@ public record NaturalPersonName(string FirstName, string LastName)
     public string GetFullName()
         => $"{FirstName} {LastName}".Trim();
 
-    public static NaturalPersonName FromFullName(string fullName)
+    public static implicit operator NaturalPersonName(string fullName)
     {
         string[] split = fullName.Trim().Split(' ');
 

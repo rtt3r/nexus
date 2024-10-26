@@ -3,6 +3,7 @@ using Goal.Infra.Crosscutting.Adapters;
 using MediatR;
 using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Events;
+using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using UserModels = Nexus.Core.Model.Users;
 
@@ -10,19 +11,18 @@ namespace Nexus.Core.Worker.Consumers.Users;
 
 public class UserCreatedEventConsumer(
     IUserQueryRepository userQueryRepository,
-    IUserRepository userRepository,
+    ICoreUnitOfWork uow,
     IEventStore eventStore,
-    IMediator mediator,
     ITypeAdapter typeAdapter,
     ILogger<UserCreatedEventConsumer> logger)
-    : EventConsumer<UserRegisteredEvent>(eventStore, mediator, typeAdapter, logger)
+    : EventConsumer<UserRegisteredEvent>(eventStore,  logger)
 {
     private readonly IUserQueryRepository userQueryRepository = userQueryRepository;
-    private readonly IUserRepository userRepository = userRepository;
+    private readonly ICoreUnitOfWork uow = uow;
 
     protected override async Task HandleEvent(UserRegisteredEvent @event, CancellationToken cancellationToken = default)
     {
-        User? user = await userRepository.LoadAsync(@event.AggregateId, cancellationToken);
+        User? user = await uow.Users.GetAsync(@event.AggregateId, cancellationToken);
 
         if (user is null)
         {

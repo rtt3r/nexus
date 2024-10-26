@@ -1,15 +1,14 @@
-using Goal.Domain.Aggregates;
+using Nexus.Core.Domain.People.Aggregates;
 
 namespace Nexus.Core.Domain.Users.Aggregates;
 
-public class User : Entity
+public class User : NaturalPerson
 {
-    public User(string id, string name, string email, string username)
-        : this()
+    private User(string id, string name, string username)
+        : base(name)
     {
         Id = id;
         Name = name;
-        Email = email;
         Username = username;
     }
 
@@ -18,20 +17,24 @@ public class User : Entity
     {
     }
 
-    public string Name { get; private set; } = null!;
-    public string Email { get; private set; } = null!;
     public string Username { get; private set; } = null!;
     public string? Avatar { get; private set; }
+
+    public void UpdateUsername(string username)
+        => Username = username;
 
     public void UpdateAvatar(string avatar)
         => Avatar = avatar;
 
     public static User CreateUser(string id, string name, string email, string username)
     {
-        return new User(
+        var user = new User(
             id,
             name,
-            email,
             username);
+
+        user.AddEmail(email, true);
+
+        return user;
     }
 }

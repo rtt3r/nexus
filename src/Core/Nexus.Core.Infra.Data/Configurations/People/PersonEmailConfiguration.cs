@@ -4,11 +4,11 @@ using Nexus.Core.Domain.People.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Configurations.People;
 
-public sealed class PersonPhoneConfiguration : IEntityTypeConfiguration<PersonPhone>
+public sealed class PersonEmailConfiguration : IEntityTypeConfiguration<PersonEmail>
 {
-    public void Configure(EntityTypeBuilder<PersonPhone> builder)
+    public void Configure(EntityTypeBuilder<PersonEmail> builder)
     {
-        builder.ToTable("PersonPhones");
+        builder.ToTable("PersonEmails");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -19,15 +19,11 @@ public sealed class PersonPhoneConfiguration : IEntityTypeConfiguration<PersonPh
             .HasMaxLength(64)
             .IsRequired();
 
-        builder.Property(p => p.CountryCode)
-            .HasMaxLength(8)
+        builder.Property(p => p.MailAddress)
+            .HasMaxLength(256)
             .IsRequired();
 
-        builder.Property(p => p.Number)
-            .HasMaxLength(16)
-            .IsRequired();
-
-        builder.HasIndex(p => new { p.PersonId, p.CountryCode, p.Number })
+        builder.HasIndex(p => new { p.PersonId, p.MailAddress })
             .IsUnique();
     }
 }
