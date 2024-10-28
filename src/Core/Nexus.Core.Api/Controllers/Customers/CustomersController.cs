@@ -6,7 +6,7 @@ using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nexus.Core.Application.Commands.Customers;
+using Nexus.Core.Application.Customers.Commands;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
 using Nexus.Core.Model.Customers;
 using Nexus.Infra.Http.Controllers;
@@ -59,9 +59,9 @@ public class CustomersController(
         Customer result = await mediator.Send<Customer>(command);
 
         return CreatedAtRoute(
-                $"{nameof(CustomersController)}_{nameof(GetById)}",
-                new { id = result.CustomerId },
-                ApiResponse.Success(result));
+            $"{nameof(CustomersController)}_{nameof(GetById)}",
+            new { id = result.CustomerId },
+            ApiResponse.Success(result));
     }
 
     [HttpPatch("{id}")]

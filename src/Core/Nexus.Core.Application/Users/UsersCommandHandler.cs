@@ -1,6 +1,7 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
+using Nexus.Core.Application.Users.Commands;
 using Nexus.Core.Domain.Users.Aggregates;
 using Nexus.Core.Domain.Users.Events;
 using Nexus.Core.Domain.Users.Services;
@@ -8,7 +9,7 @@ using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using UserModels = Nexus.Core.Model.Users;
 
-namespace Nexus.Core.Application.Commands.Users;
+namespace Nexus.Core.Application.Users;
 
 public class UsersCommandHandler(
     ICoreUnitOfWork uow,

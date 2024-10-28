@@ -1,7 +1,8 @@
 using FluentValidation;
+using Nexus.Core.Application.Customers.Commands;
 using Nexus.Infra.Crosscutting.Constants;
 
-namespace Nexus.Core.Application.Commands.Customers.Validators;
+namespace Nexus.Core.Application.Customers.Validators;
 
 public class RemoveCustomerCommandValidator : AbstractValidator<RemoveCustomerCommand>
 {

@@ -1,7 +1,8 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
-using Nexus.Core.Application.Commands.Customers.Validators;
+using Nexus.Core.Application.Customers.Commands;
+using Nexus.Core.Application.Customers.Validators;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.Customers.Events;
 using Nexus.Core.Infra.Data;
@@ -10,7 +11,7 @@ using Nexus.Infra.Crosscutting.Exceptions;
 using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
 using CustomerModel = Nexus.Core.Model.Customers.Customer;
 
-namespace Nexus.Core.Application.Commands.Customers;
+namespace Nexus.Core.Application.Customers;
 
 public class CustomerCommandHandler(
     ICoreUnitOfWork uow,

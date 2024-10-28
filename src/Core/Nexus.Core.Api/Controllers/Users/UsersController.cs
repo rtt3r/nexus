@@ -6,7 +6,7 @@ using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nexus.Core.Application.Commands.Users;
+using Nexus.Core.Application.Users.Commands;
 using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using Nexus.Core.Model.Users;
 using Nexus.Infra.Crosscutting;

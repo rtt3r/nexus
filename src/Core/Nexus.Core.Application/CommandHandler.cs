@@ -8,7 +8,7 @@ using Nexus.Infra.Crosscutting.Exceptions;
 using Nexus.Infra.Crosscutting.Notifications;
 using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
 
-namespace Nexus.Core.Application.Commands;
+namespace Nexus.Core.Application;
 
 public abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapter)
 {
