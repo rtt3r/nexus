@@ -51,12 +51,11 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<ApiResponse<Customer>>> Post([FromBody] RegisterCustomerRequest request)
     {
-        var command = new RegisterCustomerCommand(
-            request.Name,
-            request.Email,
-            request.Birthdate);
-
-        Customer result = await mediator.Send<Customer>(command);
+        Customer result = await mediator.Send<Customer>(
+            new RegisterCustomerCommand(
+                request.Name,
+                request.Email,
+                request.Birthdate));
 
         return CreatedAtRoute(
             $"{nameof(CustomersController)}_{nameof(GetById)}",
@@ -72,13 +71,12 @@ public class CustomersController(
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<ApiResponse<Customer>>> Patch([FromRoute] string id, [FromBody] UpdateCustomerRequest request)
     {
-        var command = new UpdateCustomerCommand(
-            id,
-            request.Name,
-            request.Email,
-            request.Birthdate);
-
-        await mediator.Send(command);
+        await mediator.Send(
+            new UpdateCustomerCommand(
+                id,
+                request.Name,
+                request.Email,
+                request.Birthdate));
 
         return AcceptedAtRoute(
             $"{nameof(CustomersController)}_{nameof(GetById)}",

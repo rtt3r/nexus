@@ -15,7 +15,6 @@ using Nexus.Core.Domain.Users.Services;
 using Nexus.Core.Infra.Data;
 using Nexus.Core.Infra.Data.EventSourcing;
 using Nexus.Core.Infra.Data.Query.Repositories.Customers;
-using Nexus.Core.Infra.Data.Query.Repositories.Users;
 using Nexus.Core.Infra.Data.Repositories;
 using Nexus.Core.Infra.IoC.Providers;
 using Nexus.Infra.Crosscutting;
@@ -45,7 +44,6 @@ public static class ServiceColletionExtensionMethods
         services.AddCoreDbContext(configuration);
         services.AddScoped<IGenerateUserAvatarDomainService, GenerateUserAvatarDomainService>();
         services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-        services.AddScoped<IUserQueryRepository, UserQueryRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
@@ -66,7 +64,6 @@ public static class ServiceColletionExtensionMethods
         services.AddScoped<IEventStore, SqlEventStore>();
 
         services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-        services.AddScoped<IUserQueryRepository, UserQueryRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
