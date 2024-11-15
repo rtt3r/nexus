@@ -11,13 +11,13 @@ namespace Nexus.Core.Infra.Data;
 public abstract class CoreDbContext(DbContextOptions options)
     : DbContext(options)
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Customer> Customers { get; set; }
-    public DbSet<PersonAddress> PersonAddresses { get; set; }
-    public DbSet<PersonPhone> PersonPhones { get; set; }
-    public DbSet<PersonEmail> PersonEmails { get; set; }
-    public DbSet<PersonDocument> PersonDocuments { get; set; }
-    public DbSet<PersonDocumentType> PersonDocumentType { get; set; }
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<PersonAddress> PersonAddresses { get; set; } = null!;
+    public DbSet<PersonPhone> PersonPhones { get; set; } = null!;
+    public DbSet<PersonEmail> PersonEmails { get; set; } = null!;
+    public DbSet<PersonDocument> PersonDocuments { get; set; } = null!;
+    public DbSet<PersonDocumentType> PersonDocumentType { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

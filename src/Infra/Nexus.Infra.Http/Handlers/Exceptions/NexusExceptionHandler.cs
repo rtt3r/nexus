@@ -1,44 +1,26 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Nexus.Infra.Crosscutting.Exceptions;
-using Nexus.Infra.Crosscutting.Notifications;
+using Nexus.Infra.Crosscutting.Constants;
 using Nexus.Infra.Http.Controllers;
-using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
 
 namespace Nexus.Infra.Http.Handlers.Exceptions;
 
-public abstract class NexusExceptionHandler<TException>(ILogger<NexusExceptionHandler<TException>> logger) : IExceptionHandler
-    where TException : NexusException
+public sealed class NexusExceptionHandler(ILogger<NexusExceptionHandler> logger) : IExceptionHandler
 {
-    protected readonly ILogger<NexusExceptionHandler<TException>> _logger = logger;
+    private readonly ILogger<NexusExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not TException e)
-        {
-            return false;
-        }
+        _logger.LogError(exception, "An unexpected problem has occurred: {InformationData}", exception.Message);
 
-        httpContext.Response.StatusCode = (int)e.StatusCode;
+        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
         await httpContext.Response.WriteAsJsonAsync(
-            await HandleResponseAsync(httpContext, e, cancellationToken),
+            ApiResponse.Fail(Notifications.Shared.UnexpectedError(exception.Message)),
             cancellationToken);
 
         return true;
-    }
-
-    protected virtual async Task<ApiResponse> HandleResponseAsync(HttpContext httpContext, TException exception, CancellationToken cancellationToken)
-    {
-        _logger.LogError(exception, Messages.UNEXPECTED_ERROR);
-        await Task.CompletedTask;
-
-        return ApiResponse.Fail(
-            exception.Notifications
-                .Prepend(new Notification(nameof(Messages.UNEXPECTED_ERROR), Messages.UNEXPECTED_ERROR))
-                .ToArray()
-        );
     }
 }
 

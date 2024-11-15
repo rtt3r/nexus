@@ -4,9 +4,9 @@ using Goal.Application.Extensions;
 using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Collections;
 using Nexus.Core.Infra.Data;
-using Nexus.Infra.Crosscutting.Exceptions;
-using Nexus.Infra.Crosscutting.Notifications;
-using static Nexus.Infra.Crosscutting.Constants.ApplicationConstants;
+using Nexus.Infra.Crosscutting.Errors;
+using OneOf;
+using OneOf.Types;
 
 namespace Nexus.Core.Application;
 
@@ -15,33 +15,20 @@ public abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapt
     protected readonly ICoreUnitOfWork uow = uow;
     protected readonly ITypeAdapter typeAdapter = typeAdapter;
 
-    protected static async Task ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
+    protected static async Task<OneOf<None, InputValidationError>> ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
         where TValidator : IValidator<TCommand>, new()
         where TCommand : ICommand
         => await ValidateCommandAsync(command, new TValidator(), cancellationToken);
 
-    protected static async Task ValidateCommandAsync<TCommand>(TCommand command, IValidator<TCommand> validator, CancellationToken cancellationToken = default)
+    protected static async Task<OneOf<None, InputValidationError>> ValidateCommandAsync<TCommand>(TCommand command, IValidator<TCommand> validator, CancellationToken cancellationToken = default)
         where TCommand : ICommand
     {
         FluentValidation.Results.ValidationResult validationResult = await command
             .ValidateCommandAsync(validator, cancellationToken);
 
-        if (!validationResult.IsValid)
-        {
-            throw new RequestValidationException(
-                validationResult.Errors
-                    .Select(error => new Notification(error.ErrorCode, error.ErrorMessage, error.PropertyName))
-                    .ToArray()
-                );
-        }
-    }
-
-    protected virtual async Task CommitAsync(CancellationToken cancellationToken = new CancellationToken())
-    {
-        if (await uow.CommitAsync(cancellationToken) == 0)
-        {
-            throw new InternalServerErrorException(Messages.SAVING_DATA_FAILURE);
-        }
+        return !validationResult.IsValid
+            ? new InputValidationError(validationResult.Errors)
+            : default(None);
     }
 
     protected TProjection ProjectAs<TProjection>(object source)

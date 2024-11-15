@@ -5,7 +5,7 @@ namespace Nexus.Core.Infra.Data.EventSourcing;
 
 public abstract class EventSourcingDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<StoredEvent> StoredEvents { get; set; }
+    public DbSet<StoredEvent> StoredEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

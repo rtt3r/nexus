@@ -74,11 +74,7 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
     {
-        services.AddExceptionHandler<RequestValidationExceptionHandler>();
-        services.AddExceptionHandler<ResourceNotFoundExceptionHandler>();
-        services.AddExceptionHandler<DomainViolationExceptionHandler>();
-        services.AddExceptionHandler<ServiceUnavailableExceptionHandler>();
-        services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
+        services.AddExceptionHandler<NexusExceptionHandler>();
         services.AddProblemDetails();
 
         return services;

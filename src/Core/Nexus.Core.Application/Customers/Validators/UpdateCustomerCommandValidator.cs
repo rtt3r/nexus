@@ -17,22 +17,22 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
     {
         RuleFor(c => c.CustomerId)
             .NotEmpty()
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED));
+                .WithMessage(Notifications.Customer.CUSTOMER_ID_REQUIRED.Message)
+                .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_ID_REQUIRED.Code));
     }
 
     private void ValidateName()
     {
         RuleFor(c => c.Name)
             .NotEmpty()
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED))
+                .WithMessage(Notifications.Customer.CUSTOMER_NAME_REQUIRED.Message)
+                .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_NAME_REQUIRED.Code))
                 .DependentRules(() =>
                 {
                     RuleFor(x => x.Name)
                         .Length(2, 150)
-                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
-                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
+                            .WithMessage(Notifications.Customer.CUSTOMER_NAME_LENGTH_INVALID.Message)
+                            .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_NAME_LENGTH_INVALID.Code));
                 });
     }
 
@@ -40,14 +40,14 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
     {
         RuleFor(c => c.Birthdate)
             .NotEmpty()
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED))
+                .WithMessage(Notifications.Customer.CUSTOMER_BIRTHDATE_REQUIRED.Message)
+                .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_BIRTHDATE_REQUIRED.Code))
                 .DependentRules(() =>
                 {
                     RuleFor(x => x.Birthdate)
                         .Must(HaveMinimumAge)
-                            .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
-                            .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
+                            .WithMessage(Notifications.Customer.CUSTOMER_BIRTHDATE_LENGTH_INVALID.Message)
+                            .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_BIRTHDATE_LENGTH_INVALID.Code));
                 });
 
     }

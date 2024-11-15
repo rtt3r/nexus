@@ -84,7 +84,7 @@ public static class HostingExtensions
         }
 
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
+        app.MapStaticAssets();
         app.UseRouting();
 
         app.UseRequestLocalization(new RequestLocalizationOptions

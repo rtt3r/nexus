@@ -15,7 +15,7 @@ public class RemoveCustomerCommandValidator : AbstractValidator<RemoveCustomerCo
     {
         RuleFor(c => c.CustomerId)
             .NotEmpty()
-                .WithMessage(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED)
-                .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED));
+                .WithMessage(Notifications.Customer.CUSTOMER_ID_REQUIRED.Message)
+                .WithErrorCode(nameof(Notifications.Customer.CUSTOMER_ID_REQUIRED.Code));
     }
 }
