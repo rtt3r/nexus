@@ -2,7 +2,7 @@ using Goal.Infra.Crosscutting.Adapters;
 using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Application.TypeAdapters;
 
-namespace Nexus.Core.Application.DependencyInjection;
+namespace Nexus.Core.Application.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

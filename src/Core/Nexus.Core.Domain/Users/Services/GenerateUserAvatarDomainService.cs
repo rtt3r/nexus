@@ -5,7 +5,7 @@ using Nexus.Infra.Crosscutting.Settings;
 
 namespace Nexus.Core.Domain.Users.Services;
 
-public class GenerateUserAvatarDomainService(IOptions<UiAvatarsOptions> uiAvatarsOptions)
+internal sealed class GenerateUserAvatarDomainService(IOptions<UiAvatarsOptions> uiAvatarsOptions)
     : IGenerateUserAvatarDomainService
 {
     private readonly UiAvatarsOptions uiAvatarsOptions = uiAvatarsOptions.Value;

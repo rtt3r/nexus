@@ -1,5 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -19,11 +20,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
-		<ProjectReference Include="..\Nexus.Core.Domain\Nexus.Core.Domain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 </Project>

@@ -1,13 +1,11 @@
-using Goal.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Domain.Customers.Aggregates;
 using Nexus.Core.Domain.People.Aggregates;
 using Nexus.Core.Domain.Users.Aggregates;
-using Nexus.Core.Infra.Data.EventStore;
 using Nexus.Core.Infra.Data.Repositories;
 
-namespace Nexus.Core.Infra.Data.DependencyInjection;
+namespace Nexus.Core.Infra.Data.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
@@ -17,18 +15,10 @@ public static class ServiceCollectionExtensions
 
         action?.Invoke(options);
 
-        services.AddCoreDbContext(options.DefaultConnectionString);
-        services.AddEventSourcingDbContext(options.EventSourcingConnectionString);
-        services.AddEventStore();
+        services.AddCoreDbContext(options.ConnectionString);
+
         services.AddRepositories();
         services.AddUnitOfWork();
-
-        return services;
-    }
-
-    public static IServiceCollection AddEventStore(this IServiceCollection services)
-    {
-        services.AddScoped<IEventStore, SqlEventStore>();
 
         return services;
     }
@@ -55,18 +45,6 @@ public static class ServiceCollectionExtensions
         {
             options
                 .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(CoreDbContext).Assembly.GetName().Name))
-                .EnableSensitiveDataLogging();
-        });
-
-        return services;
-    }
-
-    private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, string connectionString)
-    {
-        services.AddDbContext<EventSourcingDbContext>((provider, options) =>
-        {
-            options
-                .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(EventSourcingDbContext).Assembly.GetName().Name))
                 .EnableSensitiveDataLogging();
         });
 

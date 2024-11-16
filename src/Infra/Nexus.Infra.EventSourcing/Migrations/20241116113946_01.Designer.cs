@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nexus.Core.Infra.Data;
+using Nexus.Infra.EventSourcing;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Migrations.EventSourcing
+namespace Nexus.Infra.EventSourcing.Migrations
 {
     [DbContext(typeof(EventSourcingDbContext))]
-    partial class EventSourcingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116113946_01")]
+    partial class _01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Nexus.Core.Infra.Data.Migrations.EventSourcing
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Nexus.Core.Infra.Data.EventStore.StoredEvent", b =>
+            modelBuilder.Entity("Nexus.Infra.EventSourcing.EventStore.StoredEvent", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)

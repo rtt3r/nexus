@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Migrations.Core
+namespace Nexus.Core.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Core_01 : Migration
+    public partial class _01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

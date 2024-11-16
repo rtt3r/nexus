@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nexus.Core.Application.Customers.Commands;
-using Nexus.Core.Application.DependencyInjection;
-using Nexus.Core.Domain.DependencyInjection;
-using Nexus.Core.Infra.Data.DependencyInjection;
+using Nexus.Core.Application.Extensions.DependencyInjection;
+using Nexus.Core.Domain.Extensions.DependencyInjection;
+using Nexus.Core.Infra.Data.Extensions.DependencyInjection;
 using Nexus.Core.Infra.Data.Query.DependencyInjection;
 using Nexus.Infra.Crosscutting;
+using Nexus.Infra.EventSourcing.Extensions.DependencyInjection;
 using Nexus.Infra.Http.Handlers;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
@@ -31,8 +32,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreData(options =>
         {
-            options.UseDefaultConnectionString(configuration.GetConnectionString("DefaultConnection")!);
-            options.UseEventSourcingConnectionString(configuration.GetConnectionString("EventSourcingConnection")!);
+            options.UseConnectionString(configuration.GetConnectionString("DefaultConnection")!);
         });
 
         services.AddCoreDataQuery(settings =>
@@ -56,10 +56,15 @@ public static class ServiceColletionExtensionMethods
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         services.AddCoreApplication();
+
         services.AddCoreData(options =>
         {
-            options.UseDefaultConnectionString(configuration.GetConnectionString("DefaultConnection")!);
-            options.UseEventSourcingConnectionString(configuration.GetConnectionString("EventSourcingConnection")!);
+            options.UseConnectionString(configuration.GetConnectionString("DefaultConnection")!);
+        });
+
+        services.AddEventSourcingData(options =>
+        {
+            options.UseConnectionString(configuration.GetConnectionString("EventSourcingConnection")!);
         });
 
         services.AddCoreDataQuery(settings =>

@@ -10,11 +10,11 @@ using Nexus.Core.Infra.Data;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Migrations.Core
+namespace Nexus.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20241116034208_Core_01")]
-    partial class Core_01
+    [Migration("20241116112758_01")]
+    partial class _01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

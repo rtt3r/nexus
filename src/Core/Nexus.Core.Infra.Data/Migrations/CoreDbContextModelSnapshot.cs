@@ -9,7 +9,7 @@ using Nexus.Core.Infra.Data;
 
 #nullable disable
 
-namespace Nexus.Core.Infra.Data.Migrations.Core
+namespace Nexus.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
     partial class CoreDbContextModelSnapshot : ModelSnapshot

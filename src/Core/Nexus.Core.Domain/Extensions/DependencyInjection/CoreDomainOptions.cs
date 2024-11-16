@@ -1,6 +1,6 @@
 using Nexus.Infra.Crosscutting.Settings;
 
-namespace Nexus.Core.Domain.DependencyInjection;
+namespace Nexus.Core.Domain.Extensions.DependencyInjection;
 
 public sealed class CoreDomainOptions
 {

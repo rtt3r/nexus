@@ -1,7 +1,8 @@
 using System.Text.Json;
 using Goal.Domain.Events;
+using Nexus.Infra.EventSourcing;
 
-namespace Nexus.Core.Infra.Data.EventStore;
+namespace Nexus.Infra.EventSourcing.EventStore;
 
 internal class SqlEventStore(EventSourcingDbContext dbContext)
     : IEventStore

@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Nexus.Core.Application.DependencyInjection;
+namespace Nexus.Core.Application.Extensions.DependencyInjection;
 
 public sealed class CoreApplicationOptions
 {

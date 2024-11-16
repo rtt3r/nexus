@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Nexus.Core.Domain.Customers.Events;
 
-public class CustomerCreatedEvent(string aggregateId, string createdBy)
+public sealed class CustomerCreatedEvent(string aggregateId, string createdBy)
     : Event(aggregateId, nameof(CustomerCreatedEvent)), INotification
 {
     public string CreatedBy { get; } = createdBy;
