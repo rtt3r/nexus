@@ -4,7 +4,8 @@ using Nexus.Core.Infra.Data.EventStore;
 
 namespace Nexus.Core.Infra.Data;
 
-internal sealed class EventSourcingDbContext(DbContextOptions options) : DbContext(options)
+internal sealed class EventSourcingDbContext(DbContextOptions<EventSourcingDbContext> options)
+    : DbContext(options)
 {
     public DbSet<StoredEvent> StoredEvents { get; set; } = null!;
 

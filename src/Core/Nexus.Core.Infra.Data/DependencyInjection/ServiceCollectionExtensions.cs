@@ -45,7 +45,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
 
         return services;
     }

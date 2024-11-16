@@ -8,7 +8,7 @@ using Nexus.Core.Infra.Data.Configurations.Users;
 
 namespace Nexus.Core.Infra.Data;
 
-internal sealed class CoreDbContext(DbContextOptions options)
+internal sealed class CoreDbContext(DbContextOptions<CoreDbContext> options)
     : DbContext(options)
 {
     public DbSet<User> Users { get; set; } = null!;
@@ -21,8 +21,6 @@ internal sealed class CoreDbContext(DbContextOptions options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.ApplyConfiguration(new UsersConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         modelBuilder.ApplyConfiguration(new PersonConfiguration());
