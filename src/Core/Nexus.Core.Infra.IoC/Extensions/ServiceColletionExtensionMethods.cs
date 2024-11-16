@@ -12,7 +12,6 @@ using Nexus.Core.Infra.Data.DependencyInjection;
 using Nexus.Core.Infra.Data.Query.DependencyInjection;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Http.Handlers;
-using Raven.DependencyInjection;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -38,15 +37,10 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreDataQuery(settings =>
         {
-            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
-            settings = new RavenSettings
-            {
-                Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
-                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
-                CertFilePath = configuration["RavenSettings:CertFilePath"],
-                CertPassword = configuration["RavenSettings:CertPassword"],
-            };
-
+            settings.Urls = (configuration["RavenSettings:Urls"] ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries);
+            settings.DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty;
+            settings.CertFilePath = configuration["RavenSettings:CertFilePath"];
+            settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
         services.AddCoreDomain(opts =>
@@ -70,15 +64,10 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreDataQuery(settings =>
         {
-            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
-            settings = new RavenSettings
-            {
-                Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
-                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
-                CertFilePath = configuration["RavenSettings:CertFilePath"],
-                CertPassword = configuration["RavenSettings:CertPassword"],
-            };
-
+            settings.Urls = (configuration["RavenSettings:Urls"] ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries);
+            settings.DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty;
+            settings.CertFilePath = configuration["RavenSettings:CertFilePath"];
+            settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
         services.AddCoreDomain(opts =>

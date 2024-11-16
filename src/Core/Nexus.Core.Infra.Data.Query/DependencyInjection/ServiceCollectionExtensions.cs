@@ -12,11 +12,6 @@ public static class ServiceCollectionExtensions
 
         action?.Invoke(options);
 
-        services.Configure((RavenSettings opts) =>
-        {
-            opts = options;
-        });
-
         services.AddRavenDb(options);
         services.AddRepositories();
 
