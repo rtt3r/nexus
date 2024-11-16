@@ -3,7 +3,7 @@ using Goal.Infra.Crosscutting.Adapters;
 
 namespace Nexus.Core.Application.TypeAdapters;
 
-public class AutoMapperAdapter(IMapper mapper) : ITypeAdapter
+internal class AutoMapperAdapter(IMapper mapper) : ITypeAdapter
 {
     private readonly IMapper mapper = mapper;
 

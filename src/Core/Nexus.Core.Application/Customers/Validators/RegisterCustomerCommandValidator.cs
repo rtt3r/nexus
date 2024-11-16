@@ -4,7 +4,7 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Application.Customers.Validators;
 
-public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
+internal class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
 {
     public RegisterCustomerCommandValidator()
     {

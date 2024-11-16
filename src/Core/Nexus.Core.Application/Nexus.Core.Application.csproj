@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Application.Abstractions" Version="2.1.0" />
+		<PackageReference Include="Goal.Application.Abstractions" Version="3.0.1" />
 		<PackageReference Include="MassTransit" Version="8.3.2-develop.2115" />
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 	</ItemGroup>

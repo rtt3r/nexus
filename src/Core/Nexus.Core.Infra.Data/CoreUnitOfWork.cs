@@ -5,7 +5,7 @@ using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Infra.Data;
 
-public sealed class CoreUnitOfWork(
+internal sealed class CoreUnitOfWork(
     CoreDbContext context,
     ICustomerRepository customerRepository,
     IUserRepository userRepository,

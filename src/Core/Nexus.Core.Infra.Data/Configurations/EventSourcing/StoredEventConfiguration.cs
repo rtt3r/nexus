@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nexus.Core.Infra.Data.EventSourcing;
+using Nexus.Core.Infra.Data.EventStore;
 
 namespace Nexus.Core.Infra.Data.Configurations.EventSourcing;
 

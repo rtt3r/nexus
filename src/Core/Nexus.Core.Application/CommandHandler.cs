@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace Nexus.Core.Application;
 
-public abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapter)
+internal abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapter)
 {
     protected readonly ICoreUnitOfWork uow = uow;
     protected readonly ITypeAdapter typeAdapter = typeAdapter;

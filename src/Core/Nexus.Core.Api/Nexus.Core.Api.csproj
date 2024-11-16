@@ -34,7 +34,6 @@
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.2-develop.2115" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-		<PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

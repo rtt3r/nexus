@@ -8,7 +8,7 @@ using Nexus.Core.Infra.Data.Configurations.Users;
 
 namespace Nexus.Core.Infra.Data;
 
-public abstract class CoreDbContext(DbContextOptions options)
+internal sealed class CoreDbContext(DbContextOptions options)
     : DbContext(options)
 {
     public DbSet<User> Users { get; set; } = null!;

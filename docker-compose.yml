@@ -3,7 +3,7 @@ name: nexus
 services:
   ravendb:
     image: ravendb/ravendb:ubuntu-latest-lts
-    container_name: ravendb.nexus.ritter.co
+    container_name: ravendb.nexus.co
     ports:
       - 8080:8080
       - 38888:38888
@@ -17,7 +17,7 @@ services:
   rabbitmq:
     hostname: "mabbit"
     image: rabbitmq:latest
-    container_name: rabbitmq.nexus.ritter.co
+    container_name: rabbitmq.nexus.co
     ports:
       - 5672:5672
       - 15672:15672
@@ -27,7 +27,7 @@ services:
 
   seq:
     image: datalust/seq:latest
-    container_name: seq.nexus.ritter.co
+    container_name: seq.nexus.co
     ports:
       - 81:80
       - 5341:5341
@@ -37,9 +37,22 @@ services:
     volumes:
       - seq-data:/var/lib/seq/data/
 
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2022-CU16-ubuntu-22.04"
+    container_name: mssql.nexus.co
+    hostname: mssql.nexus.co
+    user: root
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_PASSWORD}
+    volumes:
+      - mssql-vol:/var/opt/mssql/data
+
   postgres:
     image: postgres:latest
-    container_name: postgres.nexus.ritter.co
+    container_name: postgres.nexus.co
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -52,8 +65,8 @@ services:
 
   keycloak:
     image: "quay.io/keycloak/keycloak:latest"
-    container_name: keycloak.nexus.ritter.co
-    hostname: keycloak.ritter.co
+    container_name: keycloak.nexus.co
+    hostname: keycloak.nexus.co
     user: root
     ports:
       - "8081:8080"
@@ -69,8 +82,8 @@ services:
       - keycloak-data:/opt/keycloak/data
 
   core-api:
-    image: ${REGISTRY:-ritter.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: core-api.nexus.ritter.co
+    image: ${REGISTRY:-nexus.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-api.nexus.co
     restart: always
     build:
       context: .
@@ -80,8 +93,8 @@ services:
       - "4432:443"
 
   core-worker:
-    image: ${REGISTRY:-ritter.co}/nexus/core-worker:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: core-worker.nexus.ritter.co
+    image: ${REGISTRY:-nexus.co}/nexus/core-worker:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-worker.nexus.co
     restart: always
     build:
       context: .
@@ -91,27 +104,19 @@ services:
       - "4433:443"
 
 volumes:
-  mysql-vol:
-    name: ritter.co-nexus-mysql-vol
-    external: true
+  mssql-vol:
+    name: nexus.co.mssql-data-vol
   postgres-vol:
-    name: ritter.co-nexus-postgres-vol
-    external: true
+    name: nexus.co.postgres-vol
   ravendb-config:
-    name: ritter.co-nexus-ravendb-config-vol
-    external: true
+    name: nexus.co.ravendb-config-vol
   ravendb-data:
-    name: ritter.co-nexus-ravendb-data-vol
-    external: true
+    name: nexus.co.ravendb-data-vol
   seq-data:
-    name: ritter.co-nexus-seq-vol
-    external: true
+    name: nexus.co.seq-vol
   keycloak-data:
-    name: ritter.co-nexus-keycloak-vol
-    external: true
+    name: nexus.co.keycloak-vol
   rabbitmq-data:
-    name: ritter.co-nexus-rabbitmq-data-vol
-    external: true
+    name: nexus.co.rabbitmq-data-vol
   rabbitmq-mnesia:
-    name: ritter.co-nexus-rabbitmq-mnesia-vol
-    external: true
+    name: nexus.co.rabbitmq-mnesia-vol

@@ -25,7 +25,6 @@ public static class HostingExtensions
 
         builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
 
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
         builder.Services.AddMassTransit(x =>
         {
             x.AddDelayedMessageScheduler();
@@ -96,7 +95,6 @@ public static class HostingExtensions
 
         app.UseSerilogRequestLogging();
         app.UseExceptionHandler();
-        app.MigrateApiDbContext();
 
         if (app.Environment.IsDevelopment())
         {

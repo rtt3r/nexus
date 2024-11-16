@@ -1,5 +1,3 @@
-using Goal.Domain.Events;
-using Goal.Infra.Http.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,20 +5,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Core.Application.TypeAdapters;
-using Nexus.Core.Domain.Customers.Aggregates;
-using Nexus.Core.Domain.People.Aggregates;
-using Nexus.Core.Domain.Users.Aggregates;
-using Nexus.Core.Domain.Users.Services;
-using Nexus.Core.Infra.Data;
-using Nexus.Core.Infra.Data.EventSourcing;
-using Nexus.Core.Infra.Data.Query.Repositories.Customers;
-using Nexus.Core.Infra.Data.Repositories;
-using Nexus.Core.Infra.IoC.Providers;
+using Nexus.Core.Application.Customers.Commands;
+using Nexus.Core.Application.DependencyInjection;
+using Nexus.Core.Domain.DependencyInjection;
+using Nexus.Core.Infra.Data.DependencyInjection;
+using Nexus.Core.Infra.Data.Query.DependencyInjection;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Providers.Data;
-using Nexus.Infra.Crosscutting.Settings;
-using Nexus.Infra.Http.Handlers.Exceptions;
+using Nexus.Infra.Http.Handlers;
 using Raven.DependencyInjection;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
@@ -32,42 +23,70 @@ public static class ServiceColletionExtensionMethods
         services.AddHttpContextAccessor();
         services.AddScoped(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.User);
         services.AddScoped<AppState>();
-
-        services.Configure<UiAvatarsOptions>(configuration.GetSection("UiAvatars"));
-
-        services.AddAutoMapperTypeAdapter();
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-
         services.AddExceptionHandlers();
-        services.AddRavenDb(configuration);
 
-        services.AddCoreDbContext(configuration);
-        services.AddScoped<IGenerateUserAvatarDomainService, GenerateUserAvatarDomainService>();
-        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-        services.AddScoped<IPersonRepository, PersonRepository>();
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
+        services.AddCoreApplication(options =>
+        {
+            options.RegisterMediatRFromAssemblies(typeof(CustomerCommand).Assembly);
+        });
+
+        services.AddCoreData(options =>
+        {
+            options.UseDefaultConnectionString(configuration.GetConnectionString("DefaultConnection")!);
+            options.UseEventSourcingConnectionString(configuration.GetConnectionString("EventSourcingConnection")!);
+        });
+
+        services.AddCoreDataQuery(settings =>
+        {
+            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
+            settings = new RavenSettings
+            {
+                Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
+                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
+                CertFilePath = configuration["RavenSettings:CertFilePath"],
+                CertPassword = configuration["RavenSettings:CertPassword"],
+            };
+
+        });
+
+        services.AddCoreDomain(opts =>
+        {
+            opts.UiAvatar.BaseAddress = configuration["UiAvatars:BaseAddress"] ?? string.Empty;
+            opts.UiAvatar.DefaultBackground = configuration["UiAvatars:DefaultBackground"] ?? string.Empty;
+            opts.UiAvatar.DefaultColor = configuration["UiAvatars:DefaultColor"] ?? string.Empty;
+        });
 
         return services;
     }
 
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        services.AddAutoMapperTypeAdapter();
+        services.AddCoreApplication();
+        services.AddCoreData(options =>
+        {
+            options.UseDefaultConnectionString(configuration.GetConnectionString("DefaultConnection")!);
+            options.UseEventSourcingConnectionString(configuration.GetConnectionString("EventSourcingConnection")!);
+        });
 
-        services.AddCoreDbContext(configuration);
+        services.AddCoreDataQuery(settings =>
+        {
+            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
+            settings = new RavenSettings
+            {
+                Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
+                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
+                CertFilePath = configuration["RavenSettings:CertFilePath"],
+                CertPassword = configuration["RavenSettings:CertPassword"],
+            };
 
-        services.AddRavenDb(configuration);
+        });
 
-        services.AddEventSourcingDbContext(configuration);
-        services.AddScoped<IEventStore, SqlEventStore>();
-
-        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-        services.AddScoped<IPersonRepository, PersonRepository>();
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
+        services.AddCoreDomain(opts =>
+        {
+            opts.UiAvatar.BaseAddress = configuration["UiAvatars:BaseAddress"] ?? string.Empty;
+            opts.UiAvatar.DefaultBackground = configuration["UiAvatars:DefaultBackground"] ?? string.Empty;
+            opts.UiAvatar.DefaultColor = configuration["UiAvatars:DefaultColor"] ?? string.Empty;
+        });
 
         return services;
     }
@@ -100,66 +119,6 @@ public static class ServiceColletionExtensionMethods
                     .RequireAuthenticatedUser()
                     .RequireRole("admin");
             });
-
-        return services;
-    }
-
-    private static IServiceCollection AddAutoMapperTypeAdapter(this IServiceCollection services)
-    {
-        services.AddAutoMapper(typeof(AutoMapperAdapterFactory).Assembly);
-        services.AddTypeAdapterFactory<AutoMapperAdapterFactory>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddCoreDbContext(this IServiceCollection services, IConfiguration configuration)
-    {
-        try
-        {
-            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
-            IDbProvider dbProvider = DbProviderFactory.Core.CreateProvider(enDbProvider);
-
-            return dbProvider.Configure(services, configuration);
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Unsupported Db Provider: {configuration.GetValue<string>("DbProvider")}", ex);
-        }
-    }
-
-    private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, IConfiguration configuration)
-    {
-        try
-        {
-            DbProvider enDbProvider = configuration.GetValue<DbProvider>("DbProvider");
-            IDbProvider dbProvider = DbProviderFactory.EventSourcing.CreateProvider(enDbProvider);
-
-            return dbProvider.Configure(services, configuration);
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Unsupported Db Provider: {configuration.GetValue<string>("DbProvider")}", ex);
-        }
-    }
-
-    private static IServiceCollection AddRavenDb(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.Configure<RavenSettings>(configuration.GetSection("RavenSettings"));
-
-        services.AddRavenDbDocStore(opts =>
-        {
-            string urls = configuration["RavenSettings:Urls"] ?? string.Empty;
-            opts.Settings = new RavenSettings
-            {
-                Urls = urls.Split(',', StringSplitOptions.RemoveEmptyEntries),
-                DatabaseName = configuration["RavenSettings:DatabaseName"] ?? string.Empty,
-                CertFilePath = configuration["RavenSettings:CertFilePath"],
-                CertPassword = configuration["RavenSettings:CertPassword"],
-            };
-        });
-
-        services.AddRavenDbAsyncSession();
-        services.AddRavenDbSession();
 
         return services;
     }

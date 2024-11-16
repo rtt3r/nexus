@@ -4,7 +4,8 @@ using Nexus.Core.Domain.Customers.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
-public class CustomerRepository(CoreDbContext context) : Repository<Customer, string>(context), ICustomerRepository
+internal sealed class CustomerRepository(CoreDbContext context)
+    : Repository<Customer, string>(context), ICustomerRepository
 {
     public async Task<Customer?> GetByEmail(string email)
     {

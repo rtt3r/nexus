@@ -1,6 +1,6 @@
 export ASPNETCORE_ENVIRONMENT=Migrations
 
 dotnet ef database update \
-    --project src/Core/Nexus.Core.Infra.Data.${1:-Npgsql}/Nexus.Core.Infra.Data.${1:-Npgsql}.csproj \
+    --project src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj \
     --startup-project src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj \
-    --context ${1:-Npgsql}${2:-Core}DbContext
+    --context ${1:-Core}DbContext

@@ -13,17 +13,13 @@
 		<ProjectReference Include="..\Nexus.Core.Application\Nexus.Core.Application.csproj" />
 		<ProjectReference Include="..\Nexus.Core.Domain\Nexus.Core.Domain.csproj" />
 		<ProjectReference Include="..\Nexus.Core.Infra.Data.Query\Nexus.Core.Infra.Data.Query.csproj" />
-		<ProjectReference Include="..\Nexus.Core.Infra.Data.SqlServer\Nexus.Core.Infra.Data.SqlServer.csproj" />
-		<ProjectReference Include="..\Nexus.Core.Infra.Data.MySql\Nexus.Core.Infra.Data.MySql.csproj" />
-		<ProjectReference Include="..\Nexus.Core.Infra.Data.Npgsql\Nexus.Core.Infra.Data.Npgsql.csproj" />
 		<ProjectReference Include="..\Nexus.Core.Infra.Data\Nexus.Core.Infra.Data.csproj" />
 		<ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="RavenDB.DependencyInjection" Version="5.0.1" />
-		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="2.1.0" />
+		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="3.0.1" />
 	</ItemGroup>
 
 </Project>

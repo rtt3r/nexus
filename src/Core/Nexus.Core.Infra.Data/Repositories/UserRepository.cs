@@ -8,7 +8,8 @@ using Nexus.Core.Domain.Users.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
-public class UserRepository(CoreDbContext context) : Repository<User, string>(context), IUserRepository
+internal sealed class UserRepository(CoreDbContext context)
+    : Repository<User, string>(context), IUserRepository
 {
     public override User? Get(string key)
     {

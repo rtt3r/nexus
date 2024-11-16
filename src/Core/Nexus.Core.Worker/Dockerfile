@@ -13,13 +13,13 @@ WORKDIR /src
 
 COPY ["nuget.config", "."]
 COPY ["src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj", "src/Core/Nexus.Core.Worker/"]
-COPY ["src/Core/Nexus.Core.Application/Nexus.Core.Application.csproj", "src/Core/Nexus.Core.Application/"]
 COPY ["src/Infra/Nexus.Infra.Crosscutting/Nexus.Infra.Crosscutting.csproj", "src/Infra/Nexus.Infra.Crosscutting/"]
 COPY ["src/Infra/Nexus.Infra.Data.Query/Nexus.Infra.Data.Query.csproj", "src/Infra/Nexus.Infra.Data.Query/"]
-COPY ["src/Core/Nexus.Core.Domain/Nexus.Core.Domain.csproj", "src/Core/Nexus.Core.Domain/"]
-COPY ["src/Core/Nexus.Core.Infra.Data.Query/Nexus.Core.Infra.Data.Query.csproj", "src/Core/Nexus.Core.Infra.Data.Query/"]
+COPY ["src/Core/Nexus.Core.Application/Nexus.Core.Application.csproj", "src/Core/Nexus.Core.Application/"]
 COPY ["src/Core/Nexus.Core.Model/Nexus.Core.Model.csproj", "src/Core/Nexus.Core.Model/"]
+COPY ["src/Core/Nexus.Core.Domain/Nexus.Core.Domain.csproj", "src/Core/Nexus.Core.Domain/"]
 COPY ["src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj", "src/Core/Nexus.Core.Infra.Data/"]
+COPY ["src/Core/Nexus.Core.Infra.Data.Query/Nexus.Core.Infra.Data.Query.csproj", "src/Core/Nexus.Core.Infra.Data.Query/"]
 COPY ["src/Core/Nexus.Core.Infra.IoC/Nexus.Core.Infra.IoC.csproj", "src/Core/Nexus.Core.Infra.IoC/"]
 
 RUN dotnet restore "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj"
