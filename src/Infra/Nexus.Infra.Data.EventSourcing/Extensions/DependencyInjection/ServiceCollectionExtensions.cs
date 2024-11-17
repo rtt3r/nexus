@@ -1,9 +1,10 @@
 using Goal.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Infra.EventSourcing.EventStore;
+using Nexus.Infra.Data.EventSourcing;
+using Nexus.Infra.Data.EventSourcing.EventStore;
 
-namespace Nexus.Infra.EventSourcing.Extensions.DependencyInjection;
+namespace Nexus.Infra.Data.EventSourcing.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

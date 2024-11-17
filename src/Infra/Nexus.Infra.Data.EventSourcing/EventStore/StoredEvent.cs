@@ -1,6 +1,6 @@
 using Goal.Domain.Events;
 
-namespace Nexus.Infra.EventSourcing.EventStore;
+namespace Nexus.Infra.Data.EventSourcing.EventStore;
 
 public class StoredEvent(string aggregateId, string eventType, string data, string? user)
     : Event(aggregateId, eventType)

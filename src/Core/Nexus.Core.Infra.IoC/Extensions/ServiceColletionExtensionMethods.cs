@@ -11,7 +11,7 @@ using Nexus.Core.Domain.Extensions.DependencyInjection;
 using Nexus.Core.Infra.Data.Extensions.DependencyInjection;
 using Nexus.Core.Infra.Data.Query.DependencyInjection;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.EventSourcing.Extensions.DependencyInjection;
+using Nexus.Infra.Data.EventSourcing.Extensions.DependencyInjection;
 using Nexus.Infra.Http.Handlers;
 
 namespace Nexus.Core.Infra.IoC.Extensions;

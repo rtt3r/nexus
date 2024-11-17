@@ -2,7 +2,7 @@ using Goal.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Nexus.Infra.EventSourcing;
+namespace Nexus.Infra.Data.EventSourcing;
 
 internal sealed class EventSourcingDbContextFactory : DesignTimeDbContextFactory<EventSourcingDbContext>
 {

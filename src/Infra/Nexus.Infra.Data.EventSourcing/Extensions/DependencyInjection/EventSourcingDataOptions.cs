@@ -1,4 +1,4 @@
-namespace Nexus.Infra.EventSourcing.Extensions.DependencyInjection;
+namespace Nexus.Infra.Data.EventSourcing.Extensions.DependencyInjection;
 
 public sealed class EventSourcingDataOptions
 {

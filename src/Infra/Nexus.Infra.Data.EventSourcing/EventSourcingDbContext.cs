@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Nexus.Infra.EventSourcing.Configurations.EventSourcing;
-using Nexus.Infra.EventSourcing.EventStore;
+using Nexus.Infra.Data.EventSourcing.Configurations.EventSourcing;
+using Nexus.Infra.Data.EventSourcing.EventStore;
 
-namespace Nexus.Infra.EventSourcing;
+namespace Nexus.Infra.Data.EventSourcing;
 
 internal sealed class EventSourcingDbContext(DbContextOptions<EventSourcingDbContext> options)
     : DbContext(options)

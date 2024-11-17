@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Infra\Nexus.Infra.EventSourcing\Nexus.Infra.EventSourcing.csproj" />
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Data.EventSourcing\Nexus.Infra.Data.EventSourcing.csproj" />
 		<ProjectReference Include="..\..\Infra\Nexus.Infra.Http\Nexus.Infra.Http.csproj" />
 		<ProjectReference Include="..\Nexus.Core.Application\Nexus.Core.Application.csproj" />
 		<ProjectReference Include="..\Nexus.Core.Domain\Nexus.Core.Domain.csproj" />

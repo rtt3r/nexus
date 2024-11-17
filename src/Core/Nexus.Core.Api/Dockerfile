@@ -17,6 +17,7 @@ COPY ["src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj", "src/Core/Nexus.Core.Api/
 COPY ["src/Infra/Nexus.Infra.Http/Nexus.Infra.Http.csproj", "src/Infra/Nexus.Infra.Http/"]
 COPY ["src/Infra/Nexus.Infra.Crosscutting/Nexus.Infra.Crosscutting.csproj", "src/Infra/Nexus.Infra.Crosscutting/"]
 COPY ["src/Infra/Nexus.Infra.Data.Query/Nexus.Infra.Data.Query.csproj", "src/Infra/Nexus.Infra.Data.Query/"]
+COPY ["src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj", "src/Infra/Nexus.Infra.Data.EventSourcing/"]
 COPY ["src/Core/Nexus.Core.Application/Nexus.Core.Application.csproj", "src/Core/Nexus.Core.Application/"]
 COPY ["src/Core/Nexus.Core.Model/Nexus.Core.Model.csproj", "src/Core/Nexus.Core.Model/"]
 COPY ["src/Core/Nexus.Core.Domain/Nexus.Core.Domain.csproj", "src/Core/Nexus.Core.Domain/"]
