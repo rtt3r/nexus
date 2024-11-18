@@ -5,6 +5,7 @@ namespace Nexus.Core.Domain.Customers.Aggregates;
 public class Customer : Entity
 {
     public Customer(string name, string email, DateOnly birthdate)
+        : this()
     {
         Name = name;
         Email = email;
@@ -12,7 +13,8 @@ public class Customer : Entity
     }
 
     // Empty constructor for EF
-    protected Customer() { }
+    protected Customer()
+        : base() { }
 
     public string Name { get; private set; } = null!;
 
