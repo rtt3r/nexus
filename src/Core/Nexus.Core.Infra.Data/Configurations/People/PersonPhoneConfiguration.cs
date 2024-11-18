@@ -8,7 +8,7 @@ public sealed class PersonPhoneConfiguration : IEntityTypeConfiguration<PersonPh
 {
     public void Configure(EntityTypeBuilder<PersonPhone> builder)
     {
-        builder.ToTable("PersonPhones");
+        builder.ToTable("PersonPhones", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)

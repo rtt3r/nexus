@@ -8,7 +8,7 @@ public sealed class PersonEmailConfiguration : IEntityTypeConfiguration<PersonEm
 {
     public void Configure(EntityTypeBuilder<PersonEmail> builder)
     {
-        builder.ToTable("PersonEmails");
+        builder.ToTable("PersonEmails", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)

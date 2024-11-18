@@ -2,41 +2,61 @@
 
 export ASPNETCORE_ENVIRONMENT=Migrations
 
-function runCoreCommand {
-    echo "Scripting Core Migrations"
+# Function to update the database
+function generateScript {
+    local context=$1
+    local project=$2
+    local startupProject=$3
+    local dbContext=$4
+
+    echo "Generating $context migrations script..."
 
     dotnet ef migrations script \
-        --project src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj \
-        --startup-project src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj \
-        --context CoreDbContext
+        --project "$project" \
+        --startup-project "$startupProject" \
+        --context "$dbContext"
 }
 
-function runEventSourcingCommand {
-    echo "Scripting EventSourcing Migrations"
+# Main logic
+if [ "$#" -eq 0 ]; then
+    echo "Enter context (Core/EventSourcing)"
+    read context
 
-    dotnet ef migrations script \
-        --project src/Infra/Nexus.Infra.EventSourcing/Nexus.Infra.EventSourcing.csproj \
-        --startup-project src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj \
-        --context EventSourcingDbContext
-}
-
-if [ "$#" -eq 0 ];
-    then
-        echo "Enter context"
-        read context
-
-        if [ $context == "Core" ];
-            then
-                runCoreCommand
-            else
-                runEventSourcingCommand
-        fi
-
-    else
-        if [ $1 == "Core" ];
-            then
-                runCoreCommand
-            else
-                runEventSourcingCommand
-        fi
+    case "$context" in
+        Core)
+            generateScript "Core" \
+                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
+                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "CoreDbContext"
+            ;;
+        EventSourcing)
+            generateScript "EventSourcing" \
+                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
+                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
+                "EventSourcingDbContext"
+            ;;
+        *)
+            echo "Error: Invalid context. Please enter 'Core' or 'EventSourcing'."
+            exit 1
+            ;;
+    esac
+else
+    case "$1" in
+        Core)
+            generateScript "Core" \
+                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
+                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "CoreDbContext"
+            ;;
+        EventSourcing)
+            generateScript "EventSourcing" \
+                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
+                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
+                "EventSourcingDbContext"
+            ;;
+        *)
+            echo "Error: Invalid context. Please specify 'Core' or 'EventSourcing'."
+            exit 1
+            ;;
+    esac
 fi

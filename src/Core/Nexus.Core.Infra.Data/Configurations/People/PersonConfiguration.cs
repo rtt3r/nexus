@@ -8,7 +8,7 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {
-        builder.ToTable("People");
+        builder.ToTable("People", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -36,7 +36,7 @@ internal sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<Natu
 {
     public void Configure(EntityTypeBuilder<NaturalPerson> builder)
     {
-        builder.ToTable("NaturalPeople");
+        builder.ToTable("NaturalPeople", "Core");
 
         builder.ComplexProperty(o => o.Name, name =>
         {
@@ -57,7 +57,7 @@ internal sealed class LegalPersonConfiguration : IEntityTypeConfiguration<LegalP
 {
     public void Configure(EntityTypeBuilder<LegalPerson> builder)
     {
-        builder.ToTable("LegalPeople");
+        builder.ToTable("LegalPeople", "Core");
 
         builder.ComplexProperty(o => o.Name, name =>
         {

@@ -8,7 +8,7 @@ public class UsersConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Users");
+        builder.ToTable("Users", "Core");
 
         builder.Property(p => p.Username)
             .HasMaxLength(64)

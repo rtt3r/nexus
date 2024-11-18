@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Core.Infra.Data;
 
@@ -12,9 +13,11 @@ using Nexus.Core.Infra.Data;
 namespace Nexus.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118013409_02")]
+    partial class _02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,7 +197,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("PersonDocumentTypes", "Core");
+                    b.ToTable("PersonDocumentTypes", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.PersonEmail", b =>
@@ -280,7 +283,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                                 .HasColumnName("CorporateName");
                         });
 
-                    b.ToTable("LegalPeople", "Core");
+                    b.ToTable("LegalPeople", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.People.Aggregates.NaturalPerson", b =>
@@ -310,7 +313,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                                 .HasColumnName("LastName");
                         });
 
-                    b.ToTable("NaturalPeople", "Core");
+                    b.ToTable("NaturalPeople", (string)null);
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Users.Aggregates.User", b =>

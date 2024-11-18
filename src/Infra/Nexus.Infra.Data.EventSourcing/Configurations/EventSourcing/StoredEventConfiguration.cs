@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nexus.Infra.Data.EventSourcing.EventStore;
 
@@ -8,7 +8,7 @@ internal sealed class StoredEventConfiguration : IEntityTypeConfiguration<Stored
 {
     public void Configure(EntityTypeBuilder<StoredEvent> builder)
     {
-        builder.ToTable("StoredEvents");
+        builder.ToTable("StoredEvents", "EventSourcing");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)

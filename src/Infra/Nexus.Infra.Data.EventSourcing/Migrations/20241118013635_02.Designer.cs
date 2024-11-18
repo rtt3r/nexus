@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.Infra.Data.EventSourcing;
 
 #nullable disable
 
-namespace Nexus.Infra.EventSourcing.Migrations
+namespace Nexus.Infra.Data.EventSourcing.Migrations
 {
     [DbContext(typeof(EventSourcingDbContext))]
-    partial class EventSourcingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118013635_02")]
+    partial class _02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

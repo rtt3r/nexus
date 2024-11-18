@@ -8,7 +8,7 @@ public sealed class PersonDocumentConfiguration : IEntityTypeConfiguration<Perso
 {
     public void Configure(EntityTypeBuilder<PersonDocument> builder)
     {
-        builder.ToTable("PersonDocuments");
+        builder.ToTable("PersonDocuments", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -42,7 +42,7 @@ internal sealed class PersonDocumentTypeConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<PersonDocumentType> builder)
     {
-        builder.ToTable("PersonDocumentTypes");
+        builder.ToTable("PersonDocumentTypes", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
