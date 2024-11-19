@@ -31,7 +31,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj",
+        "${workspaceFolder}/src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -45,7 +45,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
+        "${workspaceFolder}/src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -55,7 +55,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj",
+        "${workspaceFolder}/src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -69,7 +69,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj"
+        "${workspaceFolder}/src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj"
       ],
       "problemMatcher": "$msCompile"
     },

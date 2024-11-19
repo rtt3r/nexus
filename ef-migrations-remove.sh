@@ -19,43 +19,43 @@ function removeMigrations {
 
 # Main logic
 if [ "$#" -eq 0 ]; then
-    echo "Enter context (Core/EventSourcing)"
+    echo "Enter context (Finance/EventSourcing)"
     read context
 
     case "$context" in
-        Core)
-            removeMigrations "Core" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
-                "CoreDbContext"
+        Finance)
+            removeMigrations "Finance" \
+                "src/Finance/Nexus.Finance.Infra.Data/Nexus.Finance.Infra.Data.csproj" \
+                "src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj" \
+                "FinanceDbContext"
             ;;
         EventSourcing)
             removeMigrations "EventSourcing" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
+                "src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj" \
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please enter 'Core' or 'EventSourcing'."
+            echo "Error: Invalid context. Please enter 'Finance' or 'EventSourcing'."
             exit 1
             ;;
     esac
 else
     case "$1" in
-        Core)
-            removeMigrations "Core" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
-                "CoreDbContext"
+        Finance)
+            removeMigrations "Finance" \
+                "src/Finance/Nexus.Finance.Infra.Data/Nexus.Finance.Infra.Data.csproj" \
+                "src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj" \
+                "FinanceDbContext"
             ;;
         EventSourcing)
             removeMigrations "EventSourcing" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
+                "src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj" \
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please specify 'Core' or 'EventSourcing'."
+            echo "Error: Invalid context. Please specify 'Finance' or 'EventSourcing'."
             exit 1
             ;;
     esac

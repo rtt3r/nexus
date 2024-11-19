@@ -16,25 +16,29 @@ public class Notifications
         public static Notification UnexpectedError(string message) => new("SRD-0001", message);
     }
 
-    public readonly struct Customer
+    public readonly struct Accounts
     {
-        public static readonly Notification CUSTOMER_NAME_REQUIRED = new("CST-0001", "Customer name is required");
-        public static readonly Notification CUSTOMER_NAME_LENGTH_INVALID = new("CST-0002", "Customer name length must be between 2 and 150 characters");
-        public static readonly Notification CUSTOMER_BIRTHDATE_REQUIRED = new("CST-0003", "Customer birth date is required");
-        public static readonly Notification CUSTOMER_BIRTHDATE_LENGTH_INVALID = new("CST-0004", "Customer's age must be greater than or equal to 18 years");
-        public static readonly Notification CUSTOMER_EMAIL_REQUIRED = new("CST-0005", "Customer e-mail is required");
-        public static readonly Notification CUSTOMER_EMAIL_INVALID = new("CST-0006", "Customer e-mail address is invalid");
-        public static readonly Notification CUSTOMER_ID_REQUIRED = new("CST-0007", "Customer id is required");
-        public static readonly Notification CUSTOMER_EMAIL_DUPLICATED = new("CST-0008", "Customer e-mail has already been taken");
-        public static readonly Notification CUSTOMER_NOT_FOUND = new("CST-0009", "Customer was not found");
+        public static readonly Notification NAME_REQUIRED = new("CST-0001", "Account name is required");
+        public static readonly Notification NAME_LENGTH_INVALID = new("CST-0002", "Account name length must be between 3 and 64 characters");
+        public static readonly Notification TYPE_REQUIRED = new("CST-0003", "Account type is required");
+        public static readonly Notification TYPE_LENGTH_INVALID = new("CST-0004", "Account type must be one of the following options (Wallet, CheckingAccount, Investiment, Other)");
+        public static readonly Notification FINANCIAL_INSTITUTION_ID_REQUIRED = new("CST-0005", "Financial institution id is required");
+        public static readonly Notification ICON_REQUIRED = new("CST-0006", "Icon is required");
+        public static readonly Notification ICON_LENGTH_INVALID = new("CST-0007", "Icon length must be between 1 and 16 characters");
+        public static readonly Notification ID_REQUIRED = new("CST-0008", "Account id is required");
+        public static readonly Notification NAME_DUPLICATED = new("CST-0009", "Account name has already been taken");
+        public static readonly Notification NOT_FOUND = new("CST-0010", "Account was not found");
+        public static readonly Notification FINANCIAL_INSTITUTION_NOT_FOUND = new("CST-0011", "Financial institution was not found");
+        public static readonly Notification INITIAL_BALANCE_REQUIRED = new("CST-0012", "Initial balance is required");
+        public static readonly Notification OVERDRAFT_REQUIRED = new("CST-0013", "Overdraft is required");
     }
 
     public readonly struct Person
     {
         public static readonly Notification PERSON_FIRST_NAME_REQUIRED = new("PSN-0001", "Person first name is required");
-        public static readonly Notification PERSON_FIRST_NAME_MAXIMUM_LENGTH = new("PSN-0002", "Customer first name length must be less then or equals to 50 characters");
+        public static readonly Notification PERSON_FIRST_NAME_MAXIMUM_LENGTH = new("PSN-0002", "Account first name length must be less then or equals to 50 characters");
         public static readonly Notification PERSON_LAST_NAME_REQUIRED = new("PSN-0003", "Person last name is required");
-        public static readonly Notification PERSON_LAST_NAME_MAXIMUM_LENGTH = new("PSN-0004", "Customer last name length must be less then or equals to 50 characters");
+        public static readonly Notification PERSON_LAST_NAME_MAXIMUM_LENGTH = new("PSN-0004", "Account last name length must be less then or equals to 50 characters");
         public static readonly Notification PERSON_CPF_REQUIRED = new("PSN-0005", "Person cpf is required");
         public static readonly Notification PERSON_CPF_INVALID = new("PSN-0006", "Person cpf is invalid");
     }

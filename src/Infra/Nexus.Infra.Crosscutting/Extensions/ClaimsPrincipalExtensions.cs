@@ -29,7 +29,7 @@ public static class ClaimsPrincipalExtensions
 
     public static bool TryGetClaimValue(this ClaimsPrincipal principal, string[] claimTypes, out string claimValue)
     {
-        claimValue = null!;
+        claimValue = default!;
         string? value = principal.GetClaimValue(claimTypes);
 
         if (!string.IsNullOrWhiteSpace(value))

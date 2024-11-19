@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Data.EventSourcing\Nexus.Infra.Data.EventSourcing.csproj" />
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Http\Nexus.Infra.Http.csproj" />
+		<ProjectReference Include="..\Nexus.Finance.Application\Nexus.Finance.Application.csproj" />
+		<ProjectReference Include="..\Nexus.Finance.Domain\Nexus.Finance.Domain.csproj" />
+		<ProjectReference Include="..\Nexus.Finance.Infra.Data.Query\Nexus.Finance.Infra.Data.Query.csproj" />
+		<ProjectReference Include="..\Nexus.Finance.Infra.Data\Nexus.Finance.Infra.Data.csproj" />
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="3.0.1" />
+	</ItemGroup>
+
+</Project>
