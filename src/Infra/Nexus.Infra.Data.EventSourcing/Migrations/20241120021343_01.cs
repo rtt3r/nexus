@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Nexus.Infra.EventSourcing.Migrations
+namespace Nexus.Infra.Data.EventSourcing.Migrations
 {
     /// <inheritdoc />
     public partial class _01 : Migration
@@ -11,8 +11,12 @@ namespace Nexus.Infra.EventSourcing.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "EventSourcing");
+
             migrationBuilder.CreateTable(
                 name: "StoredEvents",
+                schema: "EventSourcing",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
@@ -32,7 +36,8 @@ namespace Nexus.Infra.EventSourcing.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "StoredEvents");
+                name: "StoredEvents",
+                schema: "EventSourcing");
         }
     }
 }

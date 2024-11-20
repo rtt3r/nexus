@@ -12,8 +12,8 @@ using Nexus.Infra.Data.EventSourcing;
 namespace Nexus.Infra.Data.EventSourcing.Migrations
 {
     [DbContext(typeof(EventSourcingDbContext))]
-    [Migration("20241118013635_02")]
-    partial class _02
+    [Migration("20241120021343_01")]
+    partial class _01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

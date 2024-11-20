@@ -8,7 +8,7 @@ using Nexus.Infra.Data.EventSourcing;
 
 #nullable disable
 
-namespace Nexus.Infra.EventSourcing.Migrations
+namespace Nexus.Infra.Data.EventSourcing.Migrations
 {
     [DbContext(typeof(EventSourcingDbContext))]
     partial class EventSourcingDbContextModelSnapshot : ModelSnapshot

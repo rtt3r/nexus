@@ -50,7 +50,7 @@ internal class RegisterAccountCommandValidator : AbstractValidator<RegisterAccou
                 .WithErrorCode(Notifications.Accounts.ICON_REQUIRED.Code)
                 .DependentRules(() =>
                 {
-                    RuleFor(x => x.Name)
+                    RuleFor(x => x.Icon)
                         .Length(1, 16)
                             .WithMessage(Notifications.Accounts.ICON_LENGTH_INVALID.Message)
                             .WithErrorCode(Notifications.Accounts.ICON_LENGTH_INVALID.Code);

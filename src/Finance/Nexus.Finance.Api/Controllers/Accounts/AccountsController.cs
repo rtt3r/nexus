@@ -20,7 +20,7 @@ namespace Nexus.Finance.Api.Controllers.Accounts;
 [ApiVersion("1")]
 [Authorize("admin")]
 [Route("v{version:apiVersion}/[controller]")]
-internal class AccountsController(
+public class AccountsController(
     IAccountQueryRepository accountQueryRepository,
     IMediator mediator)
     : NexusApiController

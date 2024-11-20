@@ -23,8 +23,8 @@ internal class AccountCommandHandler(
     AppState appState)
     : CommandHandler(uow, typeAdapter),
     ICommandHandler<RegisterAccountCommand, OneOf<AccountModel, AppError>>,
-    ICommandHandler<UpdateAccountCommand, OneOf<None, AppError>>
-    //ICommandHandler<RemoveAccountCommand, OneOf<None, AppError>>
+    ICommandHandler<UpdateAccountCommand, OneOf<None, AppError>>,
+    ICommandHandler<RemoveAccountCommand, OneOf<None, AppError>>
 {
     private readonly IPublishEndpoint publishEndpoint = publishEndpoint;
     private readonly AppState appState = appState;
@@ -38,7 +38,8 @@ internal class AccountCommandHandler(
             return validation.GetError();
         }
 
-        Account? account = await uow.Accounts.GetByName(
+        Account? account = await uow.Accounts.GetFromUserByName(
+            appState.User!.UserId,
             command.Name,
             cancellationToken);
 
@@ -51,7 +52,7 @@ internal class AccountCommandHandler(
             command.FinancialInstitutionId,
             cancellationToken);
 
-        if (financialInstitution is not null)
+        if (financialInstitution is null)
         {
             return new BusinessRuleError(Notifications.Accounts.FINANCIAL_INSTITUTION_NOT_FOUND);
         }
@@ -85,7 +86,7 @@ internal class AccountCommandHandler(
             return validation.GetError();
         }
 
-        Account? account = await uow.Accounts.GetAsync(command.AccountId!, cancellationToken);
+        Account? account = await uow.Accounts.GetFromUserAsync(appState.User!.UserId, command.AccountId, cancellationToken);
 
         if (account is null)
         {
@@ -96,7 +97,7 @@ internal class AccountCommandHandler(
             command.FinancialInstitutionId,
             cancellationToken);
 
-        if (financialInstitution is not null)
+        if (financialInstitution is null)
         {
             return new BusinessRuleError(Notifications.Accounts.FINANCIAL_INSTITUTION_NOT_FOUND);
         }
@@ -108,7 +109,9 @@ internal class AccountCommandHandler(
         account.SetInitialOverdraft(command.Overdraft);
 
         if (!string.IsNullOrWhiteSpace(command.Description))
+        {
             account.SetDescription(command.Description);
+        }
 
         uow.Accounts.Update(account);
 
@@ -121,30 +124,30 @@ internal class AccountCommandHandler(
         return default(None);
     }
 
-    //public async Task<OneOf<None, AppError>> Handle(RemoveAccountCommand command, CancellationToken cancellationToken)
-    //{
-    //    OneOf<None, InputValidationError> validation = await ValidateCommandAsync<RemoveAccountCommandValidator, RemoveAccountCommand>(command, cancellationToken);
+    public async Task<OneOf<None, AppError>> Handle(RemoveAccountCommand command, CancellationToken cancellationToken)
+    {
+        OneOf<None, InputValidationError> validation = await ValidateCommandAsync<RemoveAccountCommandValidator, RemoveAccountCommand>(command, cancellationToken);
 
-    //    if (validation.IsError())
-    //    {
-    //        return validation.GetError();
-    //    }
+        if (validation.IsError())
+        {
+            return validation.GetError();
+        }
 
-    //    Account? account = await uow.Accounts.GetAsync(command.AccountId!, cancellationToken);
+        Account? account = await uow.Accounts.GetFromUserAsync(appState.User!.UserId, command.AccountId, cancellationToken);
 
-    //    if (account is null)
-    //    {
-    //        return new ResourceNotFoundError(Notifications.Account.ACCOUNT_NOT_FOUND);
-    //    }
+        if (account is null)
+        {
+            return new ResourceNotFoundError(Notifications.Accounts.NOT_FOUND);
+        }
 
-    //    uow.Accounts.Remove(account);
+        uow.Accounts.Remove(account);
 
-    //    await uow.CommitAsync(cancellationToken);
+        await uow.CommitAsync(cancellationToken);
 
-    //    await publishEndpoint.Publish(
-    //        new AccountRemovedEvent(command.AccountId!, appState.User!.UserId),
-    //        cancellationToken);
+        await publishEndpoint.Publish(
+            new AccountRemovedEvent(command.AccountId, appState.User!.UserId),
+            cancellationToken);
 
-    //    return default(None);
-    //}
+        return default(None);
+    }
 }

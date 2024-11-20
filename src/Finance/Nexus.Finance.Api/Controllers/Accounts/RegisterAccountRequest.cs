@@ -12,7 +12,7 @@ public class RegisterAccountRequest(
     decimal overdraft)
 {
     public string Name { get; } = name;
-    public string Description { get; } = description;
+    public string? Description { get; } = description;
     public string Type { get; } = type;
     public string FinancialInstitutionId { get; } = financialInstitutionId;
     public string Icon { get; } = icon;

@@ -32,6 +32,8 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.HasIndex(p => p.UserId);
 
+        builder.HasIndex(p => new { p.Id, p.UserId });
+
         builder.HasIndex(p => new { p.UserId, p.Name })
             .IsUnique();
     }
