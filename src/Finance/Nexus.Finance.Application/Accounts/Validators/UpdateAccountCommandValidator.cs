@@ -5,10 +5,15 @@ using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Finance.Application.Accounts.Validators;
 
-internal class RegisterAccountCommandValidator : AbstractValidator<RegisterAccountCommand>
+internal class UpdateAccountCommandValidator : AbstractValidator<UpdateAccountCommand>
 {
-    public RegisterAccountCommandValidator()
+    public UpdateAccountCommandValidator()
     {
+        RuleFor(c => c.AccountId)
+            .NotEmpty()
+                .WithMessage(Notifications.Accounts.ID_REQUIRED.Message)
+                .WithErrorCode(Notifications.Accounts.ID_REQUIRED.Code);
+
         RuleFor(c => c.Name)
             .NotEmpty()
                 .WithMessage(Notifications.Accounts.NAME_REQUIRED.Message)
@@ -22,7 +27,7 @@ internal class RegisterAccountCommandValidator : AbstractValidator<RegisterAccou
                 });
 
         RuleFor(c => c.Description)
-            .Length(3, 64)
+            .Length(1, 256)
                 .WithMessage(Notifications.Accounts.DESCRIPTION_LENGTH_INVALID.Message)
                 .WithErrorCode(Notifications.Accounts.DESCRIPTION_LENGTH_INVALID.Code)
             .When(c => !string.IsNullOrWhiteSpace(c.Description));

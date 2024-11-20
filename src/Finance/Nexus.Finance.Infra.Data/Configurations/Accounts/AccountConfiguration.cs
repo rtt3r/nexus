@@ -30,6 +30,8 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasMaxLength(36)
             .IsRequired();
 
+        builder.HasIndex(p => p.UserId);
+
         builder.HasIndex(p => new { p.UserId, p.Name })
             .IsUnique();
     }

@@ -31,6 +31,7 @@ public class Notifications
         public static readonly Notification FINANCIAL_INSTITUTION_NOT_FOUND = new("CST-0011", "Financial institution was not found");
         public static readonly Notification INITIAL_BALANCE_REQUIRED = new("CST-0012", "Initial balance is required");
         public static readonly Notification OVERDRAFT_REQUIRED = new("CST-0013", "Overdraft is required");
+        public static readonly Notification DESCRIPTION_LENGTH_INVALID = new("CST-0014", "Account description length must be less than 256 characters");
     }
 
     public readonly struct Person

@@ -4,7 +4,7 @@ using OneOf.Types;
 
 namespace Nexus.Finance.Application.Accounts.Commands;
 
-public record UpdateAccountCommand(string Id, string Name, string Description, string Type, string FinancialInstitutionId, string Icon, decimal InitialBalance, decimal Overdraft)
+public record UpdateAccountCommand(string AccountId, string Name, string? Description, string Type, string FinancialInstitutionId, string Icon, decimal InitialBalance, decimal Overdraft)
     : AccountCommand<OneOf<None, AppError>>
 {
 }

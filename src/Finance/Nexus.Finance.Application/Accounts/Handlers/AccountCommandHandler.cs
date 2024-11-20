@@ -22,8 +22,8 @@ internal class AccountCommandHandler(
     IPublishEndpoint publishEndpoint,
     AppState appState)
     : CommandHandler(uow, typeAdapter),
-    ICommandHandler<RegisterAccountCommand, OneOf<AccountModel, AppError>>
-    //ICommandHandler<UpdateAccountCommand, OneOf<None, AppError>>,
+    ICommandHandler<RegisterAccountCommand, OneOf<AccountModel, AppError>>,
+    ICommandHandler<UpdateAccountCommand, OneOf<None, AppError>>
     //ICommandHandler<RemoveAccountCommand, OneOf<None, AppError>>
 {
     private readonly IPublishEndpoint publishEndpoint = publishEndpoint;
@@ -38,8 +38,7 @@ internal class AccountCommandHandler(
             return validation.GetError();
         }
 
-        Account? account = await uow.Accounts.GetByUserAndName(
-            appState.User!.UserId,
+        Account? account = await uow.Accounts.GetByName(
             command.Name,
             cancellationToken);
 
@@ -58,7 +57,7 @@ internal class AccountCommandHandler(
         }
 
         account = Account.CreateAccount(
-            appState.User.UserId!,
+            appState.User!.UserId,
             command.Name,
             command.Description,
             command.Type,
@@ -77,41 +76,50 @@ internal class AccountCommandHandler(
         return ProjectAs<AccountModel>(account);
     }
 
-    //public async Task<OneOf<None, AppError>> Handle(UpdateAccountCommand command, CancellationToken cancellationToken)
-    //{
-    //    OneOf<None, InputValidationError> validation = await ValidateCommandAsync<UpdateAccountCommandValidator, UpdateAccountCommand>(command, cancellationToken);
+    public async Task<OneOf<None, AppError>> Handle(UpdateAccountCommand command, CancellationToken cancellationToken)
+    {
+        OneOf<None, InputValidationError> validation = await ValidateCommandAsync<UpdateAccountCommandValidator, UpdateAccountCommand>(command, cancellationToken);
 
-    //    if (validation.IsError())
-    //    {
-    //        return validation.GetError();
-    //    }
+        if (validation.IsError())
+        {
+            return validation.GetError();
+        }
 
-    //    Account? account = await uow.Accounts.GetAsync(command.AccountId!, cancellationToken);
+        Account? account = await uow.Accounts.GetAsync(command.AccountId!, cancellationToken);
 
-    //    if (account is null)
-    //    {
-    //        return new ResourceNotFoundError(Notifications.Account.ACCOUNT_NOT_FOUND);
-    //    }
+        if (account is null)
+        {
+            return new ResourceNotFoundError(Notifications.Accounts.NOT_FOUND);
+        }
 
-    //    if (await uow.Accounts.HasAnotherWithEmailAsync(command.AccountId!, command.Email!))
-    //    {
-    //        return new BusinessRuleError(Notifications.Account.ACCOUNT_EMAIL_DUPLICATED);
-    //    }
+        FinancialInstitution? financialInstitution = await uow.FinancialInstitutions.GetAsync(
+            command.FinancialInstitutionId,
+            cancellationToken);
 
-    //    account.UpdateName(command.Name!);
-    //    account.UpdateBirthdate(command.Birthdate!.Value);
-    //    account.UpdateEmail(command.Email!);
+        if (financialInstitution is not null)
+        {
+            return new BusinessRuleError(Notifications.Accounts.FINANCIAL_INSTITUTION_NOT_FOUND);
+        }
 
-    //    uow.Accounts.Update(account);
+        account.SetName(command.Name);
+        account.SetType(command.Type);
+        account.SetFinancialInstitution(financialInstitution!);
+        account.SetInitialBalance(command.InitialBalance);
+        account.SetInitialOverdraft(command.Overdraft);
 
-    //    await uow.CommitAsync(cancellationToken);
+        if (!string.IsNullOrWhiteSpace(command.Description))
+            account.SetDescription(command.Description);
 
-    //    await publishEndpoint.Publish(
-    //        new AccountUpdatedEvent(account.Id, appState.User!.UserId),
-    //        cancellationToken);
+        uow.Accounts.Update(account);
 
-    //    return default(None);
-    //}
+        await uow.CommitAsync(cancellationToken);
+
+        await publishEndpoint.Publish(
+            new AccountUpdatedEvent(account.Id, appState.User!.UserId),
+            cancellationToken);
+
+        return default(None);
+    }
 
     //public async Task<OneOf<None, AppError>> Handle(RemoveAccountCommand command, CancellationToken cancellationToken)
     //{

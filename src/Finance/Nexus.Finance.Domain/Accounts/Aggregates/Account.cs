@@ -29,7 +29,7 @@ public class Account : Entity
         Overdraft = overdraft;
     }
 
-    public static Account CreateAccount(string userId, string name, string description, string type, FinancialInstitution financialInstitution, decimal initialBalance, decimal overdraft)
+    public static Account CreateAccount(string userId, string name, string? description, string type, FinancialInstitution financialInstitution, decimal initialBalance, decimal overdraft)
     {
         var account = new Account(
             userId,
@@ -42,12 +42,27 @@ public class Account : Entity
 
         if (!string.IsNullOrWhiteSpace(description))
         {
-            account.Describe(description);
+            account.SetDescription(description);
         }
 
         return account;
     }
 
-    internal void Describe(string description)
+    public void SetDescription(string description)
         => Description = description;
+
+    public void SetName(string name)
+        => Name = name;
+
+    public void SetType(string type)
+        => Type = Enum.Parse<AccountType>(type, true);
+
+    public void SetFinancialInstitution(FinancialInstitution financialInstitution)
+        => FinancialInstitution = financialInstitution;
+
+    public void SetInitialBalance(decimal initialBalance)
+        => InitialBalance = initialBalance;
+
+    public void SetInitialOverdraft(decimal overdraft)
+        => Overdraft = overdraft;
 }
