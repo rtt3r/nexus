@@ -20,7 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="3.0.1" />
+		<PackageReference Include="Goal.Infra.Http.Abstractions" Version="3.1.0" />
 	</ItemGroup>
 
 </Project>

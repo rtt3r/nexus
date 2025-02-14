@@ -1,19 +1,16 @@
 using System.Text.Json.Serialization;
 using Asp.Versioning;
-using Asp.Versioning.ApiExplorer;
 using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.OpenApi.Models;
-using Nexus.Finance.Api.Swagger;
+using Nexus.Finance.Api.Infra.OpenApi;
 using Nexus.Finance.Infra.IoC.Extensions;
 using Nexus.Infra.Crosscutting.Extensions;
 using Nexus.Infra.Http.JsonNamePolicies;
 using Nexus.Infra.Http.ValueProviders;
+using Scalar.AspNetCore;
 using Serilog;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nexus.Finance.Api;
 
@@ -68,8 +65,13 @@ public static class HostingExtensions
 
         builder.Services.AddEndpointsApiExplorer();
 
-        builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureApiSwaggerOptions>();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddOpenApi("v1", options =>
+        {
+            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+            options.AddDocumentTransformer<ServerHostTransformer>();
+            options.AddOperationTransformer<SnakeCaseQueryOperationTransformer>();
+            options.AddSchemaTransformer<SnakeCaseSchemaTransformer>();
+        });
 
         builder.Services.AddKeycloak(builder.Configuration);
 
@@ -100,35 +102,18 @@ public static class HostingExtensions
         {
             IdentityModelEventSource.ShowPII = true;
 
-            app.UseSwagger(c =>
+            app.MapOpenApi();
+            app.MapScalarApiReference("api-docs", options =>
             {
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
-                {
-                    swaggerDoc.Servers =
-                    [
-                        new OpenApiServer
-                        {
-                            Url = $"{httpReq.Scheme}://{httpReq.Host.Value}"
-                        }
-                    ];
-                });
-            });
-            app.UseSwaggerUI(c =>
-            {
-                IApiVersionDescriptionProvider apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-                foreach (string groupName in apiVersionDescriptionProvider.ApiVersionDescriptions.Select(p => p.GroupName))
-                {
-                    c.SwaggerEndpoint(
-                        $"/swagger/{groupName}/swagger.json",
-                        groupName.ToUpperInvariant());
-                }
-
-                c.OAuthClientId(app.Configuration["Keycloak:Resource"]);
-                c.OAuthClientSecret(app.Configuration["Keycloak:Credentials:Secret"]);
-                c.OAuthAppName("Nexus Finance Api");
-
-                c.DisplayRequestDuration();
-                c.RoutePrefix = string.Empty;
+                // Fluent API
+                options
+                    .WithTitle("Finance API")
+                    .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11)
+                    .WithOAuth2Authentication(oauth =>
+                    {
+                        oauth.ClientId = app.Configuration["Keycloak:Resource"];
+                        oauth.Scopes = app.Configuration["Keycloak:Scopes"]?.Split(' ');
+                    });
             });
         }
         else

@@ -9,13 +9,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="3.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+		<PackageReference Include="Goal.Infra.Data.Abstractions" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

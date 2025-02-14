@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Goal.Infra.Data.RavenDB" Version="1.2.1" />
-		<PackageReference Include="Goal.Infra.Data.Query.Abstractions" Version="3.0.1" />
-		<PackageReference Include="RavenDB.Client" Version="6.2.1" />
+		<PackageReference Include="Goal.Infra.Data.Query.Abstractions" Version="3.1.0" />
+		<PackageReference Include="RavenDB.Client" Version="7.0.0" />
 	</ItemGroup>
 </Project>

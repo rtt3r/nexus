@@ -9,18 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="11.10.0" />
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="OneOf" Version="3.0.271" />
 		<PackageReference Include="IdentityModel" Version="7.0.0" />
-		<PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.5.3" />
-		<PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.5.3" />
-		<PackageReference Include="Keycloak.AuthServices.Common" Version="2.5.3" />
-		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+		<PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.6.0" />
+		<PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.6.0" />
+		<PackageReference Include="Keycloak.AuthServices.Common" Version="2.6.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
 		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
 		<PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
 		<PackageReference Include="Serilog.Exceptions" Version="8.4.0+build.694" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
-		<PackageReference Include="Goal.Infra.Crosscutting" Version="3.0.1" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+		<PackageReference Include="Goal.Infra.Crosscutting" Version="3.1.0" />
 	</ItemGroup>
 
 </Project>

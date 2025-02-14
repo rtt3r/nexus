@@ -8,6 +8,17 @@ grant_type=client_credentials
 
 ###
 
+POST http://192.168.0.151:8081/realms/nexus/protocol/openid-connect/token
+  # -H Authorization: Basic bmV4dXMtY2xpOg==
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password
+&client_id=nexus-cli
+&username=ritter
+&password=pdh82w45
+
+###
+
 @authToken = {{login.response.body.access_token}}
 
 ###
