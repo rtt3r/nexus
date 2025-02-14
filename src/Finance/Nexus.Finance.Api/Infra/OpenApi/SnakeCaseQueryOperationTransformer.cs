@@ -1,3 +1,4 @@
+using Goal.Infra.Crosscutting.Extensions;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 using Nexus.Infra.Crosscutting.Extensions;
@@ -6,13 +7,15 @@ namespace Nexus.Finance.Api.Infra.OpenApi;
 
 internal class SnakeCaseQueryOperationTransformer : IOpenApiOperationTransformer
 {
-    public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
+    public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
-        foreach (OpenApiParameter item in operation.Parameters ?? [])
+        if (operation.Parameters is null)
         {
-            item.Name = item.Name.ToSnakeCase();
+            return Task.CompletedTask;
         }
 
-        await Task.CompletedTask;
+        operation.Parameters.ForEach(p => p.Name = p.Name.ToSnakeCase());
+
+        return Task.CompletedTask;
     }
 }

@@ -1,26 +1,34 @@
-﻿using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
 namespace Nexus.Finance.Api.Infra.OpenApi;
 
 internal sealed class ServerHostTransformer : IOpenApiDocumentTransformer
 {
-    private readonly IHttpContextAccessor httpContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ServerHostTransformer(IHttpContextAccessor httpContextAccessor)
     {
-        this.httpContextAccessor = httpContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
+    public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
-        document.Servers = [
-            new OpenApiServer
-            {
-                Url = $"{httpContextAccessor.HttpContext?.Request.Scheme}://{httpContextAccessor.HttpContext?.Request.Host.Value}"
-            }
+        HttpContext? httpContext = _httpContextAccessor.HttpContext;
+
+        if (httpContext == null)
+        {
+            return Task.CompletedTask;
+        }
+
+        string scheme = httpContext.Request.Scheme ?? "http";
+        string host = httpContext.Request.Host.Value ?? "localhost";
+
+        document.Servers =
+        [
+            new OpenApiServer { Url = $"{scheme}://{host}" }
         ];
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }
