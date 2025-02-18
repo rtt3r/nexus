@@ -75,7 +75,40 @@ public static class HostingExtensions
 
         builder.Services.AddKeycloak(builder.Configuration);
 
-        builder.Services.AddCors();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("Development", policyBuilder =>
+            {
+                policyBuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+
+            options.AddPolicy("Staging", policyBuilder =>
+            {
+                string[] origins = (builder.Configuration["Cors:Origins"] ?? string.Empty)
+                    .Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+                policyBuilder
+                    .WithOrigins(origins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+
+            options.AddPolicy("Production", policyBuilder =>
+            {
+                string[] origins = (builder.Configuration["Cors:Origins"] ?? string.Empty)
+                    .Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+                policyBuilder
+                    .WithOrigins(origins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
 
         return builder.Build();
     }
@@ -126,17 +159,7 @@ public static class HostingExtensions
 
         app.UseAuthentication();
 
-        app.UseCors(builder =>
-        {
-            string[] origins = (app.Configuration["Cors:Origins"] ?? string.Empty)
-                .Split(';', StringSplitOptions.RemoveEmptyEntries);
-
-            builder
-                .WithOrigins(origins)
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
+        app.UseCors(app.Environment.EnvironmentName);
 
         app.UseAuthorization();
         app.MapControllers();
