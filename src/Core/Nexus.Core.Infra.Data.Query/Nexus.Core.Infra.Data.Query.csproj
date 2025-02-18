@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RavenDB.DependencyInjection" Version="5.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infra\Nexus.Infra.Data.Query\Nexus.Infra.Data.Query.csproj" />
+	  <ProjectReference Include="..\Nexus.Core.Model\Nexus.Core.Model.csproj" />
+	</ItemGroup>
+</Project>

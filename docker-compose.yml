@@ -56,7 +56,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: "nexus_finance_dev,keycloak"
+      POSTGRES_MULTIPLE_DATABASES: "nexus_core_dev,keycloak"
     ports:
       - "5432:5432"
     volumes:
@@ -81,24 +81,24 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
 
-  finance-api:
-    image: ${REGISTRY:-nexus.co}/nexus/finance-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: finance-api.nexus.co
+  core-api:
+    image: ${REGISTRY:-nexus.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-api.nexus.co
     restart: always
     build:
       context: .
-      dockerfile: src/Finance/Nexus.Finance.Api/Dockerfile
+      dockerfile: src/Core/Nexus.Core.Api/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"
 
-  finance-worker:
-    image: ${REGISTRY:-nexus.co}/nexus/finance-worker:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: finance-worker.nexus.co
+  core-worker:
+    image: ${REGISTRY:-nexus.co}/nexus/core-worker:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-worker.nexus.co
     restart: always
     build:
       context: .
-      dockerfile: src/Finance/Nexus.Finance.Worker/Dockerfile
+      dockerfile: src/Core/Nexus.Core.Worker/Dockerfile
     ports:
       - "8003:80"
       - "4433:443"

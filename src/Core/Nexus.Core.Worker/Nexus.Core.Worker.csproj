@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UserSecretsId>2f4b9409-42ef-413c-b041-1d084c1063fe</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+		<LangVersion>latest</LangVersion>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\net9.0\Nexus.Core.Worker.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\net9.0\Nexus.Core.Worker.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nexus.Core.Application\Nexus.Core.Application.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Model\Nexus.Core.Model.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data.Query\Nexus.Core.Infra.Data.Query.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.IoC\Nexus.Core.Infra.IoC.csproj" />
+	</ItemGroup>
+
+</Project>

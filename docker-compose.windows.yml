@@ -18,16 +18,16 @@ services:
         condition: service_healthy
         restart: true
 
-  finance-api:
+  core-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_finance_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_core_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4432
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-      - ASPNETCORE_RavenSettings__DatabaseName=NexusFinance
+      - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Keycloak__Realm=nexus
@@ -58,16 +58,16 @@ services:
         condition: service_healthy
         restart: true
 
-  finance-worker:
+  core-worker:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_finance_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_core_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4433
       - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-      - ASPNETCORE_RavenSettings__DatabaseName=NexusFinance
+      - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200

@@ -25,7 +25,7 @@ trim_trailing_whitespace = false
 # C# files
 [*.cs]
 
-#### Finance EditorConfig Options ####
+#### Core EditorConfig Options ####
 
 # Indentation and spacing
 indent_size = 4

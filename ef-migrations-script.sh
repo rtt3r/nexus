@@ -19,43 +19,43 @@ function generateScript {
 
 # Main logic
 if [ "$#" -eq 0 ]; then
-    echo "Enter context (Finance/EventSourcing)"
+    echo "Enter context (Core/EventSourcing)"
     read context
 
     case "$context" in
-        Finance)
-            generateScript "Finance" \
-                "src/Finance/Nexus.Finance.Infra.Data/Nexus.Finance.Infra.Data.csproj" \
-                "src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj" \
-                "FinanceDbContext"
+        Core)
+            generateScript "Core" \
+                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
+                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "CoreDbContext"
             ;;
         EventSourcing)
             generateScript "EventSourcing" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj" \
+                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please enter 'Finance' or 'EventSourcing'."
+            echo "Error: Invalid context. Please enter 'Core' or 'EventSourcing'."
             exit 1
             ;;
     esac
 else
     case "$1" in
-        Finance)
-            generateScript "Finance" \
-                "src/Finance/Nexus.Finance.Infra.Data/Nexus.Finance.Infra.Data.csproj" \
-                "src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj" \
-                "FinanceDbContext"
+        Core)
+            generateScript "Core" \
+                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
+                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "CoreDbContext"
             ;;
         EventSourcing)
             generateScript "EventSourcing" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Finance/Nexus.Finance.Worker/Nexus.Finance.Worker.csproj" \
+                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please specify 'Finance' or 'EventSourcing'."
+            echo "Error: Invalid context. Please specify 'Core' or 'EventSourcing'."
             exit 1
             ;;
     esac

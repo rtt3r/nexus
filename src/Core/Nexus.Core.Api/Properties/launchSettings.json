@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Development": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:7193;http://localhost:5193",
+      "dotnetRunMessages": true
+    },
+    "VSCode": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_DbProvider": "Npgsql",
+        "ASPNETCORE_ConnectionStrings__DefaultConnection": "Server=localhost;Port=3306;Database=nexus_core_dev;Uid=root;Pwd=BeycL18545#f;",
+        "ASPNETCORE_ConnectionStrings__Seq": "http://localhost:5341",
+        "ASPNETCORE_ConnectionStrings__RabbitMq": "amqp://guest:guest@localhost:5672",
+        "ASPNETCORE_URLS": "https://localhost:7193;http://localhost:5193",
+        "ASPNETCORE_HTTPS_PORT": "7193",
+        "ASPNETCORE_RavenSettings__Urls": "http://localhost:8080",
+        "ASPNETCORE_RavenSettings__DatabaseName": "NexusCore",
+        "ASPNETCORE_RavenSettings__CertFilePath": "",
+        "ASPNETCORE_RavenSettings__CertPassword": "",
+        "ASPNETCORE_Keycloak__Realm": "nexus",
+        "ASPNETCORE_Keycloak__AuthServerUrl": "http://172.22.32.1:8081",
+        "ASPNETCORE_Keycloak__SslRequired": "none",
+        "ASPNETCORE_Keycloak__Resource": "nexus-cli",
+        "ASPNETCORE_Keycloak__VerifyTokenAudience": "true",
+        "ASPNETCORE_Keycloak__Scopes": "email profile",
+        "ASPNETCORE_Keycloak__ConfidentialPort": "0",
+        "ASPNETCORE_Cors__Origins": "https://localhost:4432;http://localhost:8002;http://localhost:4200;http://localhost:5193",
+        "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx"
+      },
+      "applicationUrl": "https://localhost:7193;http://localhost:5193",
+      "dotnetRunMessages": true
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTPS_PORTS": "443",
+        "ASPNETCORE_HTTP_PORTS": "80"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}

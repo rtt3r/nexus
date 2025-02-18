@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Goal.Application.Abstractions" Version="3.1.0" />
+		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Domain\Nexus.Core.Domain.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Infra.Data\Nexus.Core.Infra.Data.csproj" />
+		<ProjectReference Include="..\Nexus.Core.Model\Nexus.Core.Model.csproj" />
+	</ItemGroup>
+
+</Project>

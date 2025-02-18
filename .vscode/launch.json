@@ -2,13 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Finance Launch (api)",
-      "type": "financeclr",
+      "name": ".NET Core Launch (api)",
+      "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "debug",
-      "program": "${workspaceFolder}/src/Finance/Nexus.Finance.Api/bin/Debug/net9.0/Nexus.Finance.Api.dll",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net9.0/Nexus.Core.Api.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/Finance/Nexus.Finance.Api",
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Api",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
@@ -31,13 +31,13 @@
       "sourceFileMap": {}
     },
     {
-      "name": ".NET Finance Launch (worker)",
-      "type": "financeclr",
+      "name": ".NET Core Launch (worker)",
+      "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "debug",
-      "program": "${workspaceFolder}/src/Finance/Nexus.Finance.Worker/bin/Debug/net9.0/Nexus.Finance.Worker.dll",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Worker/bin/Debug/net9.0/Nexus.Core.Worker.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/Finance/Nexus.Finance.Worker",
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Worker",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
@@ -57,8 +57,8 @@
       "type": "docker",
       "request": "launch",
       "preLaunchTask": "docker-run: debug",
-      "netFinance": {
-        "appProject": "${workspaceFolder}/src/Finance/Nexus.Finance.Api/Nexus.Finance.Api.csproj"
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
       }
     }
   ]
