@@ -11,8 +11,10 @@ services:
       - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
       - RAVEN_Setup_Mode=None
       - RAVEN_License_Eula_Accepted=true
+      - RAVEN_License_Path=/ravendb/license/license.json
     volumes:
       - ravendb-data:/var/lib/ravendb/data
+      - ${APPDATA}\RavenDB\license:/ravendb/license
 
   rabbitmq:
     hostname: "mabbit"
