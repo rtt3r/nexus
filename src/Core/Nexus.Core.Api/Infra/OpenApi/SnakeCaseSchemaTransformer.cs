@@ -16,7 +16,7 @@ internal class SnakeCaseSchemaTransformer : IOpenApiSchemaTransformer
         return Task.CompletedTask;
     }
 
-    private static IDictionary<string, OpenApiSchema> TransformProperties(IDictionary<string, OpenApiSchema> properties)
+    private static Dictionary<string, OpenApiSchema> TransformProperties(IDictionary<string, OpenApiSchema> properties)
     {
         return properties?.ToDictionary(
             item => item.Key.ToSnakeCase(),

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Core.Application.Accounts.Commands;
+using Nexus.Core.Application.Persons.Commands;
 using Nexus.Core.Application.Extensions.DependencyInjection;
 using Nexus.Core.Domain.Extensions.DependencyInjection;
 using Nexus.Core.Infra.Data.Extensions.DependencyInjection;
@@ -27,7 +27,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreApplication(options =>
         {
-            options.RegisterMediatRFromAssemblies(typeof(AccountCommand).Assembly);
+            options.RegisterMediatRFromAssemblies(typeof(PersonCommand).Assembly);
         });
 
         services.AddCoreData(options =>
@@ -43,7 +43,7 @@ public static class ServiceColletionExtensionMethods
             settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
-        services.AddCoreDomain(opts => { });
+        services.AddCoreDomain();
 
         return services;
     }
@@ -70,7 +70,7 @@ public static class ServiceColletionExtensionMethods
             settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
-        services.AddCoreDomain(opts => { });
+        services.AddCoreDomain();
 
         return services;
     }

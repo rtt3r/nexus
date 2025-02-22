@@ -1,14 +1,12 @@
 using Goal.Domain;
-using Nexus.Core.Domain.Accounts.Aggregates;
+using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Infra.Data;
 
 public interface ICoreUnitOfWork : IUnitOfWork
 {
-    IAccountRepository Accounts { get; }
-    IFinancialInstitutionRepository FinancialInstitutions { get; }
-    //ITransactionCategoryRepository TransactionCategories { get; }
-    //ITransactionPaymentMethodRepository TransactionPaymentMethods { get; }
-    //ITransactionRepository Transactions { get; }
-    //ITransactionSubCategoryRepository TransactionSubCategories { get; }
+    IPersonRepository Persons { get; }
+    INaturalPersonRepository NaturalPersons { get; }
+    ILegalEntityRepository LegalEntities { get; }
+    IDocumentTypeRepository DocumentTypes { get; }
 }

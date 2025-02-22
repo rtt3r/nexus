@@ -16,39 +16,28 @@ public class Notifications
         public static Notification UnexpectedError(string message) => new("SRD-0001", message);
     }
 
-    public readonly struct Accounts
-    {
-        public static readonly Notification NAME_REQUIRED = new("CST-0001", "Account name is required");
-        public static readonly Notification NAME_LENGTH_INVALID = new("CST-0002", "Account name length must be between 3 and 64 characters");
-        public static readonly Notification TYPE_REQUIRED = new("CST-0003", "Account type is required");
-        public static readonly Notification TYPE_LENGTH_INVALID = new("CST-0004", "Account type must be one of the following options (Wallet, CheckingAccount, Investiment, Other)");
-        public static readonly Notification FINANCIAL_INSTITUTION_ID_REQUIRED = new("CST-0005", "Financial institution id is required");
-        public static readonly Notification ICON_REQUIRED = new("CST-0006", "Icon is required");
-        public static readonly Notification ICON_LENGTH_INVALID = new("CST-0007", "Icon length must be between 1 and 16 characters");
-        public static readonly Notification ID_REQUIRED = new("CST-0008", "Account id is required");
-        public static readonly Notification NAME_DUPLICATED = new("CST-0009", "Account name has already been taken");
-        public static readonly Notification NOT_FOUND = new("CST-0010", "Account was not found");
-        public static readonly Notification FINANCIAL_INSTITUTION_NOT_FOUND = new("CST-0011", "Financial institution was not found");
-        public static readonly Notification INITIAL_BALANCE_REQUIRED = new("CST-0012", "Initial balance is required");
-        public static readonly Notification OVERDRAFT_REQUIRED = new("CST-0013", "Overdraft is required");
-        public static readonly Notification DESCRIPTION_LENGTH_INVALID = new("CST-0014", "Account description length must be less than 256 characters");
-    }
-
     public readonly struct Person
     {
         public static readonly Notification PERSON_FIRST_NAME_REQUIRED = new("PSN-0001", "Person first name is required");
-        public static readonly Notification PERSON_FIRST_NAME_MAXIMUM_LENGTH = new("PSN-0002", "Account first name length must be less then or equals to 50 characters");
+        public static readonly Notification PERSON_FIRST_NAME_LENGTH = new("PSN-0002", "Person first name length must be less then or equals to 50 characters");
         public static readonly Notification PERSON_LAST_NAME_REQUIRED = new("PSN-0003", "Person last name is required");
-        public static readonly Notification PERSON_LAST_NAME_MAXIMUM_LENGTH = new("PSN-0004", "Account last name length must be less then or equals to 50 characters");
+        public static readonly Notification PERSON_LAST_NAME_LENGTH = new("PSN-0004", "Person last name length must be less then or equals to 50 characters");
         public static readonly Notification PERSON_CPF_REQUIRED = new("PSN-0005", "Person cpf is required");
         public static readonly Notification PERSON_CPF_INVALID = new("PSN-0006", "Person cpf is invalid");
-    }
-
-    public readonly struct User
-    {
-        public static readonly Notification USER_NOT_FOUND = new("USR-0001", "User was not found");
-        public static readonly Notification USER_ID_REQUIRED = new("USR-0002", "User id is required");
-        public static readonly Notification USER_BIOGRAPHY_MAXIMUM_LENGTH = new("USR-0003", "User biography length must be less then or equals to 1024 characters");
-        public static readonly Notification USER_HEADLINE_MAXIMUM_LENGTH = new("USR-0004", "User headline length must be less then or equals to 128 characters");
+        public static readonly Notification PERSON_CPF_DUPLICATED = new("PSN-0007", "Person cpf is duplicated");
+        public static readonly Notification PERSON_BIRTHDATE_REQUIRED = new("PSN-0008", "Person birth date is required");
+        public static readonly Notification PERSON_BIRTHDATE_LENGTH_INVALID = new("PSN-0009", "Person's age must be greater than or equal to 18 years");
+        public static readonly Notification PERSON_EMAIL_REQUIRED = new("PSN-0010", "Person e-mail is required");
+        public static readonly Notification PERSON_EMAIL_INVALID = new("PSN-0011", "Person e-mail address is invalid");
+        public static readonly Notification PERSON_EMAIL_DUPLICATED = new("PSN-0012", "Person e-mail has already been taken");
+        public static readonly Notification PERSON_GENDER_INVALID = new("PSN-0013", "Person's gender is invalid");
+        public static readonly Notification PERSON_ADDRESS_LIST_REQUIRED = new("PSN-0014", "At least one address is required");
+        public static readonly Notification PERSON_EMAIL_LIST_REQUIRED = new("PSN-0015", "At least one email is required");
+        public static readonly Notification PERSON_PHONE_NUMBER_LIST_REQUIRED = new("PSN-0016", "At least one phone number is required");
+        public static readonly Notification PERSON_PHONE_NUMBER_REQUIRED = new("PSN-0017", "Person phone number is required");
+        public static readonly Notification PERSON_PHONE_NUMBER_INVALID = new("PSN-0018", "Person phone number is invalid");
+        public static readonly Notification PERSON_PHONE_COUNTRY_CODE_REQUIRED = new("PSN-0019", "Person phone country code is required");
+        public static readonly Notification PERSON_PHONE_COUNTRY_CODE_INVALID = new("PSN-0020", "Person phone country code is invalid");
+        public static readonly Notification ID_REQUIRED = new("PSN-0021", "Person id is required");
     }
 }

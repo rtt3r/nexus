@@ -11,7 +11,7 @@ public record ApiResponse(bool IsSucceeded, params Notification[] Messages)
         => new(true, data, []);
 
     public static ApiResponse Fail(IEnumerable<Notification> messages)
-        => Fail(messages.ToArray());
+        => Fail([.. messages]);
 
     public static ApiResponse Fail(params Notification[] messages)
         => new(false, messages);

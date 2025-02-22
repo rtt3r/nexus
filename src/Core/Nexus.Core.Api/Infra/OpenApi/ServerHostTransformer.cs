@@ -3,18 +3,11 @@ using Microsoft.OpenApi.Models;
 
 namespace Nexus.Core.Api.Infra.OpenApi;
 
-internal sealed class ServerHostTransformer : IOpenApiDocumentTransformer
+internal sealed class ServerHostTransformer(IHttpContextAccessor httpContextAccessor) : IOpenApiDocumentTransformer
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public ServerHostTransformer(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
-        HttpContext? httpContext = _httpContextAccessor.HttpContext;
+        HttpContext? httpContext = httpContextAccessor.HttpContext;
 
         if (httpContext == null)
         {

@@ -6,28 +6,20 @@ using Microsoft.OpenApi.Models;
 
 namespace Nexus.Core.Api.Infra.OpenApi;
 
-internal sealed class BearerSecuritySchemeTransformer : IOpenApiDocumentTransformer
+internal sealed class BearerSecuritySchemeTransformer(
+    IAuthenticationSchemeProvider authenticationSchemeProvider,
+    IConfiguration configuration)
+    : IOpenApiDocumentTransformer
 {
-    private readonly IAuthenticationSchemeProvider _authenticationSchemeProvider;
-    private readonly IConfiguration _configuration;
-
-    public BearerSecuritySchemeTransformer(
-        IAuthenticationSchemeProvider authenticationSchemeProvider,
-        IConfiguration configuration)
-    {
-        _authenticationSchemeProvider = authenticationSchemeProvider;
-        _configuration = configuration;
-    }
-
     public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
-        if (!(await _authenticationSchemeProvider.GetAllSchemesAsync())
+        if (!(await authenticationSchemeProvider.GetAllSchemesAsync())
             .Any(authScheme => authScheme.Name == "Bearer"))
         {
             return;
         }
 
-        var keycloakOptions = _configuration
+        var keycloakOptions = configuration
             .GetSection(KeycloakAuthenticationOptions.Section)
             .Get<KeycloakAuthenticationOptions>();
 

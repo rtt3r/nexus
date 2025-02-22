@@ -31,15 +31,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Infra.Crosscutting", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Infra.Data.Query", "src\Infra\Nexus.Infra.Data.Query\Nexus.Infra.Data.Query.csproj", "{1BE1A393-160D-453F-9FF6-D121C7CBD09B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Core", "2. Core", "{05C94A9C-DB3F-459C-9E07-833982EB7763}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{05C94A9C-DB3F-459C-9E07-833982EB7763}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1. Presentation", "2.1. Presentation", "{E310A2A0-E889-4108-A348-35C462445AEC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1. Presentation", "1.1. Presentation", "{E310A2A0-E889-4108-A348-35C462445AEC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2. Application", "2.2. Application", "{0CF85462-144A-4E84-B9A7-2F0ACCD51832}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2. Application", "1.2. Application", "{0CF85462-144A-4E84-B9A7-2F0ACCD51832}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.3. Domain", "2.3. Domain", "{E98BF070-B173-4ED1-AC45-B8A719E647CF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3. Domain", "1.3. Domain", "{E98BF070-B173-4ED1-AC45-B8A719E647CF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.4. Infrastructure", "2.4. Infrastructure", "{7D6E78DC-A990-49CD-BE53-D9D98636D797}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.4. Infrastructure", "1.4. Infrastructure", "{7D6E78DC-A990-49CD-BE53-D9D98636D797}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Core.Api", "src\Core\Nexus.Core.Api\Nexus.Core.Api.csproj", "{CB115A98-BCFA-4BCD-AC91-763C1C130C11}"
 EndProject
