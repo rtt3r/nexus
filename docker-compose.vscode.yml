@@ -41,12 +41,11 @@ services:
       - ASPNETCORE_UiAvatars__DefaultBackground=0D8ABC
       - ASPNETCORE_UiAvatars__DefaultColor=FFF
       - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-      - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+      - ${APPDATA}\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}\ASP.NET\Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}\ASP.NET\Https:/root/.aspnet/https:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -71,12 +70,11 @@ services:
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-      - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+      - ${APPDATA}\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}\ASP.NET\Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}\ASP.NET\Https:/root/.aspnet/https:ro
     depends_on:
       postgres:
         condition: service_healthy
