@@ -21,12 +21,11 @@ internal class PersonCommandHandler(
     ITypeAdapter typeAdapter,
     IPublishEndpoint publishEndpoint,
     AppState appState)
-    : CommandHandler(uow, typeAdapter),
+    : CommandHandler(uow, publishEndpoint, typeAdapter),
     ICommandHandler<RegisterNaturalPersonCommand, OneOf<PersonModel, AppError>>,
     ICommandHandler<UpdatePersonCommand, OneOf<None, AppError>>,
     ICommandHandler<RemovePersonCommand, OneOf<None, AppError>>
 {
-    private readonly IPublishEndpoint publishEndpoint = publishEndpoint;
     private readonly AppState appState = appState;
 
     public async Task<OneOf<PersonModel, AppError>> Handle(RegisterNaturalPersonCommand command, CancellationToken cancellationToken)
@@ -47,7 +46,7 @@ internal class PersonCommandHandler(
             return new BusinessRuleError(Notifications.Person.PERSON_CPF_DUPLICATED);
         }
 
-        DocumentType cpf = await uow.DocumentTypes.GetByName(Domains.DocumentTypes.CPF, cancellationToken);
+        DocumentType? cpf = await uow.DocumentTypes.GetByName(Domains.DocumentTypes.CPF, cancellationToken);
 
         if (cpf is null)
         {
@@ -106,7 +105,7 @@ internal class PersonCommandHandler(
 
         await uow.CommitAsync(cancellationToken);
 
-        await publishEndpoint.Publish(
+        await RaiseEvent(
             new NaturalPersonCreatedEvent(person.Id, appState.User!.UserId),
             cancellationToken);
 

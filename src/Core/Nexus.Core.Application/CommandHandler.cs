@@ -1,8 +1,10 @@
 using FluentValidation;
 using Goal.Application.Commands;
 using Goal.Application.Extensions;
+using Goal.Domain.Events;
 using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Crosscutting.Collections;
+using MassTransit;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting.Errors;
 using OneOf;
@@ -10,9 +12,10 @@ using OneOf.Types;
 
 namespace Nexus.Core.Application;
 
-internal abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAdapter)
+internal abstract class CommandHandler(ICoreUnitOfWork uow, IPublishEndpoint publishEndpoint, ITypeAdapter typeAdapter)
 {
     protected readonly ICoreUnitOfWork uow = uow;
+    protected readonly IPublishEndpoint publishEndpoint = publishEndpoint;
     protected readonly ITypeAdapter typeAdapter = typeAdapter;
 
     protected static async Task<OneOf<None, InputValidationError>> ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
@@ -57,4 +60,12 @@ internal abstract class CommandHandler(ICoreUnitOfWork uow, ITypeAdapter typeAda
         where TSource : class
         where TProjection : class, new()
         => typeAdapter.AdaptPagedList<TSource, TProjection>(source);
+
+    protected async Task RaiseEvent<T>(T @event, CancellationToken cancellationToken)
+        where T : class, IEvent
+    {
+        await publishEndpoint.Publish(
+            @event,
+            cancellationToken);
+    }
 }

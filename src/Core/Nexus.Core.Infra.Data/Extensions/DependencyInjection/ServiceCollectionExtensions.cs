@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nexus.Core.Domain.Persons.Aggregates;
+using Nexus.Core.Infra.Data.Repositories;
 
 namespace Nexus.Core.Infra.Data.Extensions.DependencyInjection;
 
@@ -28,7 +30,10 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        //services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+        services.AddScoped<ILegalEntityRepository, LegalEntityRepository>();
+        services.AddScoped<INaturalPersonRepository, NaturalPersonRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
 
         return services;
     }
