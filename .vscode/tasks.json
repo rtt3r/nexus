@@ -11,7 +11,11 @@
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     },
     {
       "label": "debug",
@@ -31,7 +35,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj",
+        "${workspaceFolder}/src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -45,7 +49,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
+        "${workspaceFolder}/src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj"
       ],
       "problemMatcher": "$msCompile"
     },

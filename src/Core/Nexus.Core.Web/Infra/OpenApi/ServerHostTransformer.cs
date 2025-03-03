@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace Nexus.Core.Api.Infra.OpenApi;
+namespace Nexus.Core.Web.Infra.OpenApi;
 
 internal sealed class ServerHostTransformer(IHttpContextAccessor httpContextAccessor) : IOpenApiDocumentTransformer
 {

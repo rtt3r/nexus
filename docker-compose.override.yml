@@ -1,5 +1,5 @@
 services:
-  core-api:
+  core-web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=Npgsql

@@ -1,13 +1,12 @@
 using FluentValidation;
-using Nexus.Core.Application.Persons.Commands;
 using Nexus.Core.Domain.Persons.Aggregates;
 using Nexus.Infra.Crosscutting.Constants;
 
-namespace Nexus.Core.Application.Persons.Validators;
+namespace Nexus.Core.Application.Persons.CreatePerson;
 
-internal class RegisterPersonCommandValidator : AbstractValidator<RegisterNaturalPersonCommand>
+internal class CreatePersonCommandValidator : AbstractValidator<CreatePersonCommand>
 {
-    public RegisterPersonCommandValidator()
+    public CreatePersonCommandValidator()
     {
         RuleFor(c => c.FisrtName)
             .NotEmpty()
@@ -89,14 +88,14 @@ internal class RegisterPersonCommandValidator : AbstractValidator<RegisterNatura
         });
     }
 
-    private class RegisterPersonAddressCommandValidator : AbstractValidator<RegisterNaturalPersonCommand.Address>
+    private class RegisterPersonAddressCommandValidator : AbstractValidator<CreatePersonAddressCommand>
     {
         public RegisterPersonAddressCommandValidator()
         {
         }
     }
 
-    private class RegisterPersonEmailCommandValidator : AbstractValidator<RegisterNaturalPersonCommand.Email>
+    private class RegisterPersonEmailCommandValidator : AbstractValidator<CreatePersonEmailCommand>
     {
         public RegisterPersonEmailCommandValidator()
         {
@@ -114,7 +113,7 @@ internal class RegisterPersonCommandValidator : AbstractValidator<RegisterNatura
         }
     }
 
-    private class RegisterPersonPhoneNumberCommandValidator : AbstractValidator<RegisterNaturalPersonCommand.PhoneNumber>
+    private class RegisterPersonPhoneNumberCommandValidator : AbstractValidator<CreatePersonPhoneNumberCommand>
     {
         public RegisterPersonPhoneNumberCommandValidator()
         {

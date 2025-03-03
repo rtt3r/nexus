@@ -1,4 +1,4 @@
-using Nexus.Core.Api;
+using Nexus.Core.Web;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

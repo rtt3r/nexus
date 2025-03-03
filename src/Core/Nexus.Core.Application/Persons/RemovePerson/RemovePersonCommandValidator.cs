@@ -1,8 +1,7 @@
 using FluentValidation;
-using Nexus.Core.Application.Persons.Commands;
 using Nexus.Infra.Crosscutting.Constants;
 
-namespace Nexus.Core.Application.Persons.Validators;
+namespace Nexus.Core.Application.Persons.RemovePerson;
 
 internal class RemovePersonCommandValidator : AbstractValidator<RemovePersonCommand>
 {

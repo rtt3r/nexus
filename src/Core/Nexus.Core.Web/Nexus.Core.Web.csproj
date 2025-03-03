@@ -14,11 +14,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\net9.0\Nexus.Core.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\net9.0\Nexus.Core.Web.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\net9.0\Nexus.Core.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\net9.0\Nexus.Core.Web.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

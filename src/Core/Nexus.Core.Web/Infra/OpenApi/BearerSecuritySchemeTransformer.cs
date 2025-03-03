@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
-namespace Nexus.Core.Api.Infra.OpenApi;
+namespace Nexus.Core.Web.Infra.OpenApi;
 
 internal sealed class BearerSecuritySchemeTransformer(
     IAuthenticationSchemeProvider authenticationSchemeProvider,
@@ -19,11 +19,14 @@ internal sealed class BearerSecuritySchemeTransformer(
             return;
         }
 
-        var keycloakOptions = configuration
+        KeycloakAuthenticationOptions? keycloakOptions = configuration
             .GetSection(KeycloakAuthenticationOptions.Section)
             .Get<KeycloakAuthenticationOptions>();
 
-        if (keycloakOptions?.KeycloakUrlRealm is null) return;
+        if (keycloakOptions?.KeycloakUrlRealm is null)
+        {
+            return;
+        }
 
         document.Components ??= new OpenApiComponents();
         document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
@@ -59,7 +62,7 @@ internal sealed class BearerSecuritySchemeTransformer(
             }] = Array.Empty<string>()
         };
 
-        foreach (var operation in document.Paths.Values.SelectMany(path => path.Operations.Values))
+        foreach (OpenApiOperation? operation in document.Paths.Values.SelectMany(path => path.Operations.Values))
         {
             operation.Security.Add(securityRequirement);
         }

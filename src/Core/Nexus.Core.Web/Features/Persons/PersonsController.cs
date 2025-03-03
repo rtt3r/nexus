@@ -6,15 +6,17 @@ using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nexus.Core.Application.Persons.Commands;
+using Nexus.Core.Application.Persons.RemovePerson;
 using Nexus.Core.Infra.Data.Query.Repositories.Persons;
 using Nexus.Core.Model.Persons;
+using Nexus.Core.Web.Features.Persons.CreatePerson;
+using Nexus.Core.Web.Features.Persons.UpdatePerson;
 using Nexus.Infra.Crosscutting.Errors;
 using Nexus.Infra.Http.Controllers;
 using OneOf;
 using OneOf.Types;
 
-namespace Nexus.Core.Api.Controllers.Persons;
+namespace Nexus.Core.Web.Features.Persons;
 
 [ApiController]
 [ApiVersion("1")]
@@ -54,7 +56,7 @@ public class PersonsController(
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<ApiResponse<NaturalPerson>>> Post([FromBody] RegisterPersonRequest request)
+    public async Task<ActionResult<ApiResponse<NaturalPerson>>> Post([FromBody] CreatePersonRequest request)
     {
         OneOf<NaturalPerson, AppError> result = await mediator.Send<OneOf<NaturalPerson, AppError>>(request.ToCommand());
 

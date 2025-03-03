@@ -18,7 +18,7 @@ services:
         condition: service_healthy
         restart: true
 
-  core-api:
+  core-web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=Npgsql

@@ -6,9 +6,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "debug",
-      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net9.0/Nexus.Core.Api.dll",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Web/bin/Debug/net9.0/Nexus.Core.Web.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Api",
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Web",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
@@ -54,7 +54,7 @@
       "request": "launch",
       "preLaunchTask": "docker-run: debug",
       "netCore": {
-        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
+        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj"
       }
     }
   ]

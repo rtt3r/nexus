@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 using Nexus.Infra.Crosscutting.Extensions;
 
-namespace Nexus.Core.Api.Infra.OpenApi;
+namespace Nexus.Core.Web.Infra.OpenApi;
 
 internal class SnakeCaseSchemaTransformer : IOpenApiSchemaTransformer
 {

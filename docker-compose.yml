@@ -83,13 +83,13 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
 
-  core-api:
-    image: ${REGISTRY:-nexus.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: core-api.nexus.co
+  core-web:
+    image: ${REGISTRY:-nexus.co}/nexus/core-web:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-web.nexus.co
     restart: always
     build:
       context: .
-      dockerfile: src/Core/Nexus.Core.Api/Dockerfile
+      dockerfile: src/Core/Nexus.Core.Web/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"

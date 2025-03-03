@@ -4,15 +4,15 @@ using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Logging;
-using Nexus.Core.Api.Infra.OpenApi;
 using Nexus.Core.Infra.IoC.Extensions;
+using Nexus.Core.Web.Infra.OpenApi;
 using Nexus.Infra.Crosscutting.Extensions;
 using Nexus.Infra.Http.JsonNamePolicies;
 using Nexus.Infra.Http.ValueProviders;
 using Scalar.AspNetCore;
 using Serilog;
 
-namespace Nexus.Core.Api;
+namespace Nexus.Core.Web;
 
 public static class HostingExtensions
 {
