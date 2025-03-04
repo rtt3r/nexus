@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "Nexus.sln"
+  "dotnet.defaultSolution": "Nexus.sln",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

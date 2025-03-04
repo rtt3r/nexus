@@ -2,16 +2,24 @@ using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public class Address : Entity
+public sealed class Address : Entity
 {
-    protected Address()
+    private Address()
     {
     }
 
-    public Address(string type, string zipCode, string street, string number, string neighborhood, string city, string state, string country)
+    public Address(AddressType type, string zipCode, string street, string number, string neighborhood, string city, string state, string country)
         : this()
     {
-        Type = Enum.Parse<AddressType>(type);
+        ArgumentException.ThrowIfNullOrWhiteSpace(zipCode, nameof(zipCode));
+        ArgumentException.ThrowIfNullOrWhiteSpace(street, nameof(street));
+        ArgumentException.ThrowIfNullOrWhiteSpace(number, nameof(number));
+        ArgumentException.ThrowIfNullOrWhiteSpace(neighborhood, nameof(neighborhood));
+        ArgumentException.ThrowIfNullOrWhiteSpace(city, nameof(city));
+        ArgumentException.ThrowIfNullOrWhiteSpace(state, nameof(state));
+        ArgumentException.ThrowIfNullOrWhiteSpace(country, nameof(country));
+
+        Type = type;
         ZipCode = zipCode;
         Street = street;
         Number = number;
@@ -31,8 +39,18 @@ public class Address : Entity
     public string City { get; private set; } = default!;
     public string State { get; private set; } = default!;
     public string Country { get; private set; } = default!;
+    public bool Active { get; private set; } = true;
     public Person Person { get; private set; } = default!;
 
     public void SetComplement(string complement)
-        => Complement = complement;
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(complement, nameof(complement));
+        Complement = complement;
+    }
+
+    public void Activate()
+        => Active = true;
+
+    public void Inactivate()
+        => Active = false;
 }

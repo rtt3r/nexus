@@ -1,25 +1,24 @@
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public class NaturalPerson : Person
+public abstract class NaturalPerson : Person
 {
     protected NaturalPerson()
-        : base(PersonType.Natural)
+        : base()
     {
     }
 
-    public NaturalPerson(string firstName, string lastName)
-        : this()
+    public NaturalPerson(string name, string cpf)
+        : base(PersonType.Natural, name)
     {
-        Name = new NaturalPersonName(firstName, lastName);
+        AddDocument(DocumentType.Cpf, cpf);
     }
 
-    public NaturalPersonName Name { get; protected set; } = default!;
     public Gender? Gender { get; protected set; }
-    public DateOnly? Birthdate { get; protected set; }
+    public DateOnly? DateOfBirth { get; protected set; }
 
-    public void SetGender(string gender)
-        => Gender = Enum.Parse<Gender>(gender);
+    public virtual void SetGender(Gender gender)
+        => Gender = gender;
 
-    public void SetBirthdate(DateOnly? birthdate)
-        => Birthdate = birthdate;
+    public virtual void SetBirthdate(DateOnly birthdate)
+        => DateOfBirth = birthdate;
 }

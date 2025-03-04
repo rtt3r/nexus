@@ -19,6 +19,11 @@ public sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasMaxLength(64)
             .IsRequired();
 
+        builder.Property(p => p.Type)
+            .HasMaxLength(32)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.Property(p => p.ZipCode)
             .HasMaxLength(16)
             .IsRequired();

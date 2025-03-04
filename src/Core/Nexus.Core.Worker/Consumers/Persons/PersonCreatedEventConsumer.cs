@@ -13,12 +13,12 @@ public class PersonCreatedEventConsumer(
     IEventStore eventStore,
     ITypeAdapter typeAdapter,
     ILogger<PersonCreatedEventConsumer> logger)
-    : EventConsumer<NaturalPersonCreatedEvent>(eventStore, logger)
+    : EventConsumer<CompanyCreatedEvent>(eventStore, logger)
 {
     private readonly IPersonQueryRepository customerQueryRepository = customerQueryRepository;
     private readonly ICoreUnitOfWork uow = uow;
 
-    protected override async Task HandleEvent(NaturalPersonCreatedEvent @event, CancellationToken cancellationToken = default)
+    protected override async Task HandleEvent(CompanyCreatedEvent @event, CancellationToken cancellationToken = default)
     {
         Person? person = await uow.Persons.GetAsync(@event.AggregateId, cancellationToken);
 

@@ -8,5 +8,4 @@ public interface ICoreUnitOfWork : IUnitOfWork
     IPersonRepository Persons { get; }
     INaturalPersonRepository NaturalPersons { get; }
     ILegalEntityRepository LegalEntities { get; }
-    IDocumentTypeRepository DocumentTypes { get; }
 }

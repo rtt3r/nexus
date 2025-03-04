@@ -1,18 +1,34 @@
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public class LegalEntity : Person
+public abstract class LegalEntity : Person
 {
     protected LegalEntity()
-        : base(PersonType.Legal)
+        : base()
     {
     }
 
-    protected LegalEntity(LegalEntityName name)
-        : this()
+    public LegalEntity(string companyName, string brandName, string cnpj)
+        : base(PersonType.Legal, companyName)
     {
-        Name = name;
+        SetBrandName(brandName);
+        AddDocument(DocumentType.Cnpj, cnpj);
     }
 
-    public LegalEntityName Name { get; protected set; } = default!;
-    public DateOnly? OpenedAt { get; protected set; }
+    public string BrandName { get; protected set; } = default!;
+    public DateOnly? OpeningDate { get; protected set; } = default!;
+
+    public virtual void SetOpeningDate(DateOnly openingDate)
+        => OpeningDate = openingDate;
+
+    public virtual void SetCompanyName(string companyName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(companyName, nameof(companyName));
+        Name = companyName;
+    }
+
+    public virtual void SetBrandName(string brandName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(brandName, nameof(brandName));
+        BrandName = brandName;
+    }
 }

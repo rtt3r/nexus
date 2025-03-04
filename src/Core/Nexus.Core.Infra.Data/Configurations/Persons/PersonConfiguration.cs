@@ -15,14 +15,20 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
             .HasMaxLength(64)
             .IsRequired();
 
-        builder.Property(p => p.Type)
-            .HasMaxLength(7);
+        builder.Property(p => p.PersonType)
+            .HasConversion<string>()
+            .HasMaxLength(32)
+            .IsRequired();
+
+        builder.Property(p => p.Name)
+            .HasMaxLength(256)
+            .IsRequired();
 
         builder.HasMany(p => p.Documents)
             .WithOne(p => p.Person)
             .HasForeignKey(p => p.PersonId);
 
-        builder.HasMany(p => p.Phones)
+        builder.HasMany(p => p.Contacts)
             .WithOne(p => p.Person)
             .HasForeignKey(p => p.PersonId);
 
@@ -38,18 +44,11 @@ internal sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<Natu
     {
         builder.ToTable("NaturalPersons", "Core");
 
-        builder.ComplexProperty(o => o.Name, name =>
-        {
-            name.Property(p => p.FirstName)
-                .HasColumnName(nameof(NaturalPersonName.FirstName))
-                .HasMaxLength(128)
-                .IsRequired();
+        builder.Property(p => p.Gender)
+            .HasConversion<string>()
+            .HasMaxLength(16);
 
-            name.Property(p => p.LastName)
-                .HasColumnName(nameof(NaturalPersonName.LastName))
-                .HasMaxLength(128)
-                .IsRequired();
-        });
+        builder.Property(p => p.DateOfBirth);
     }
 }
 
@@ -57,19 +56,12 @@ internal sealed class LegalEntityConfiguration : IEntityTypeConfiguration<LegalE
 {
     public void Configure(EntityTypeBuilder<LegalEntity> builder)
     {
-        builder.ToTable("LegalPersons", "Core");
+        builder.ToTable("LegalEntities", "Core");
 
-        builder.ComplexProperty(o => o.Name, name =>
-        {
-            name.Property(p => p.BrandName)
-                .HasColumnName(nameof(LegalEntityName.BrandName))
-                .HasMaxLength(128)
-                .IsRequired();
+        builder.Property(p => p.BrandName)
+            .HasMaxLength(256)
+            .IsRequired();
 
-            name.Property(p => p.CompanyName)
-                .HasColumnName(nameof(LegalEntityName.CompanyName))
-                .HasMaxLength(256)
-                .IsRequired();
-        });
+        builder.Property(p => p.OpeningDate);
     }
 }

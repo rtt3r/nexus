@@ -1,15 +1,10 @@
 using Goal.Application.Commands;
 using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
-using Nexus.Core.Domain.Persons.Aggregates;
-using Nexus.Core.Domain.Persons.Events;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
-using Nexus.Infra.Crosscutting.Constants;
 using Nexus.Infra.Crosscutting.Errors;
-using Nexus.Infra.Crosscutting.Extensions;
 using OneOf;
-using OneOf.Types;
 using PersonModel = Nexus.Core.Model.Persons.NaturalPerson;
 
 namespace Nexus.Core.Application.Persons.CreatePerson;
@@ -24,87 +19,81 @@ internal class CreatePersonCommandHandler(
 {
     private readonly AppState appState = appState;
 
-    public async Task<OneOf<PersonModel, AppError>> Handle(CreatePersonCommand command, CancellationToken cancellationToken)
-    {
-        OneOf<None, InputValidationError> validation = await ValidateCommandAsync<CreatePersonCommandValidator, CreatePersonCommand>(command, cancellationToken);
+    public Task<OneOf<PersonModel, AppError>> Handle(CreatePersonCommand request, CancellationToken cancellationToken) => throw new NotImplementedException();
 
-        if (validation.IsError())
-        {
-            return validation.GetError();
-        }
+    //public async Task<OneOf<PersonModel, AppError>> Handle(CreatePersonCommand command, CancellationToken cancellationToken)
+    //{
+    //    OneOf<None, InputValidationError> validation = await ValidateCommandAsync<CreatePersonCommandValidator, CreatePersonCommand>(command, cancellationToken);
 
-        NaturalPerson? person = await uow.NaturalPersons.GetByCpf(
-            command.Cpf,
-            cancellationToken);
+    //    if (validation.IsError())
+    //    {
+    //        return validation.GetError();
+    //    }
 
-        if (person is not null)
-        {
-            return new BusinessRuleError(Notifications.Person.PERSON_CPF_DUPLICATED);
-        }
+    //    NaturalPerson? person = await uow.NaturalPersons.GetByCpf(
+    //        command.Cpf,
+    //        cancellationToken);
 
-        DocumentType? cpf = await uow.DocumentTypes.GetByName(Domains.DocumentTypes.CPF, cancellationToken);
+    //    if (person is not null)
+    //    {
+    //        return new BusinessRuleError(Notifications.Person.PERSON_CPF_DUPLICATED);
+    //    }
 
-        if (cpf is null)
-        {
-            return new BusinessRuleError(Notifications.Person.PERSON_CPF_INVALID);
-        }
+    //    person = new NaturalPerson(
+    //        command.FisrtName,
+    //        command.LastName,
+    //        command.Cpf);
 
-        person = new NaturalPerson(
-            command.FisrtName,
-            command.LastName);
+    //    if (command.Birthdate is not null)
+    //    {
+    //        person.SetBirthdate(command.Birthdate);
+    //    }
 
-        if (command.Birthdate is not null)
-        {
-            person.SetBirthdate(command.Birthdate);
-        }
+    //    if (command.Gender is not null)
+    //    {
+    //        person.SetGender(command.Gender);
+    //    }
 
-        if (command.Gender is not null)
-        {
-            person.SetGender(command.Gender);
-        }
+    //    Address address;
 
-        person.AddDocument(cpf, command.Cpf);
+    //    foreach (CreatePersonAddressCommand item in command.Addresses)
+    //    {
+    //        address = person.AddAddress(
+    //            item.Type,
+    //            item.ZipCode,
+    //            item.Street,
+    //            item.Number,
+    //            item.Neighborhood,
+    //            item.City,
+    //            item.State,
+    //            item.Country);
 
-        Address address;
+    //        if (!string.IsNullOrWhiteSpace(item.Complement))
+    //        {
+    //            address.SetComplement(item.Complement);
+    //        }
+    //    }
 
-        foreach (CreatePersonAddressCommand item in command.Addresses)
-        {
-            address = person.AddAddress(
-                item.Type,
-                item.ZipCode,
-                item.Street,
-                item.Number,
-                item.Neighborhood,
-                item.City,
-                item.State,
-                item.Country);
+    //    foreach (CreatePersonPhoneNumberCommand item in command.PhoneNumbers)
+    //    {
+    //        person.AddContact(
+    //            item.CountryCode,
+    //            item.Number);
+    //    }
 
-            if (!string.IsNullOrWhiteSpace(item.Complement))
-            {
-                address.SetComplement(item.Complement);
-            }
-        }
+    //    foreach (CreatePersonEmailCommand item in command.Emails)
+    //    {
+    //        person.AddEmail(item.Address);
+    //    }
 
-        foreach (CreatePersonPhoneNumberCommand item in command.PhoneNumbers)
-        {
-            person.AddPhone(
-                item.CountryCode,
-                item.Number);
-        }
+    //    await uow.Persons.AddAsync(person, cancellationToken);
 
-        foreach (CreatePersonEmailCommand item in command.Emails)
-        {
-            person.AddEmail(item.Address);
-        }
+    //    await uow.CommitAsync(cancellationToken);
 
-        await uow.Persons.AddAsync(person, cancellationToken);
+    //    await RaiseEvent(
+    //        new NaturalPersonCreatedEvent(person.Id, appState.User!.UserId),
+    //        cancellationToken);
 
-        await uow.CommitAsync(cancellationToken);
-
-        await RaiseEvent(
-            new NaturalPersonCreatedEvent(person.Id, appState.User!.UserId),
-            cancellationToken);
-
-        return ProjectAs<PersonModel>(person);
-    }
+    //    return ProjectAs<PersonModel>(person);
+    //}
 }

@@ -30,7 +30,6 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
         services.AddScoped<ILegalEntityRepository, LegalEntityRepository>();
         services.AddScoped<INaturalPersonRepository, NaturalPersonRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();

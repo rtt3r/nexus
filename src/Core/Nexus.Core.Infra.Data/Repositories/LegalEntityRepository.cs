@@ -1,7 +1,6 @@
-﻿using Goal.Infra.Data;
+using Goal.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Nexus.Core.Domain.Persons.Aggregates;
-using Nexus.Infra.Crosscutting.Constants;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
@@ -12,7 +11,7 @@ internal sealed class LegalEntityRepository(CoreDbContext context)
     {
         return await Context.Set<LegalEntity>()
             .FirstOrDefaultAsync(
-                p => p.Documents.Any(d => d.Type.Name == Domains.DocumentTypes.CNPJ && d.Number == cnpj),
+                p => p.Documents.Any(d => d.Type == DocumentType.Cnpj && d.Number == cnpj),
                 cancellationToken);
     }
 }
