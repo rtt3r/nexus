@@ -9,7 +9,7 @@ internal class RemovePersonCommandValidator : AbstractValidator<RemovePersonComm
     {
         RuleFor(c => c.PersonId)
             .NotEmpty()
-                .WithMessage(Notifications.Person.ID_REQUIRED.Message)
-                .WithErrorCode(Notifications.Person.ID_REQUIRED.Code);
+                .WithMessage(Notifications.Person.PERSON_ID_REQUIRED.Message)
+                .WithErrorCode(Notifications.Person.PERSON_ID_REQUIRED.Code);
     }
 }

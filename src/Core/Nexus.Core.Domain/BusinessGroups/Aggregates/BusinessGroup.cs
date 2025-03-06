@@ -15,7 +15,7 @@ public class BusinessGroup : Entity
     {
     }
 
-    protected BusinessGroup(string name)
+    public BusinessGroup(string name)
         : this()
     {
         SetName(name);
@@ -31,6 +31,12 @@ public class BusinessGroup : Entity
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(description, nameof(description));
         Description = description;
+    }
+
+    public void SetTaxId(string taxId)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(taxId, nameof(taxId));
+        TaxId = taxId;
     }
 
     public void Activate()

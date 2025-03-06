@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Nexus.Core.Application.TypeAdapters.Profiles;
+namespace Nexus.Core.Application.Persons;
 
 internal class PersonsProfile : Profile
 {
