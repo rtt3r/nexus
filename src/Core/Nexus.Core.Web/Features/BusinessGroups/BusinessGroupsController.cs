@@ -6,6 +6,7 @@ using Goal.Infra.Http.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nexus.Core.Application.BusinessGroups.DeleteBusinessGroup;
 using Nexus.Core.Infra.Data.Query.Repositories.BusinessGroups;
 using Nexus.Core.Model.BusinessGroups;
 using Nexus.Core.Web.Features.BusinessGroups.CreateBusinessGroup;
@@ -86,20 +87,20 @@ public class BusinessGroupsController(
            );
     }
 
-    // [HttpDelete("{id}")]
-    // [ProducesResponseType(StatusCodes.Status202Accepted)]
-    // [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
-    // [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
-    // [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    // public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string id)
-    // {
-    //     OneOf<None, AppError> result = await mediator.Send<OneOf<None, AppError>>(new RemoveBusinessGroupCommand(id));
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
+    public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string id)
+    {
+        OneOf<None, AppError> result = await mediator.Send<OneOf<None, AppError>>(new DeleteBusinessGroupCommand { Id = id });
 
-    //     return result
-    //        .Match<ActionResult<ApiResponse>>(
-    //            none => Accepted(ApiResponse.Success()),
-    //            error => Error(error)
-    //        );
-    // }
+        return result
+           .Match<ActionResult<ApiResponse>>(
+               none => Accepted(ApiResponse.Success()),
+               error => Error(error)
+           );
+    }
 }

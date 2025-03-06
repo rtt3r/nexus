@@ -12,21 +12,21 @@ using OneOf.Types;
 using static Nexus.Infra.Crosscutting.Constants.Notifications.BusinessGroup;
 using static Nexus.Infra.Crosscutting.Constants.Notifications.Shared;
 
-namespace Nexus.Core.Application.BusinessGroups.UpdateBusinessGroup;
+namespace Nexus.Core.Application.BusinessGroups.DeleteBusinessGroup;
 
-internal class UpdateBusinessGroupCommandHandler(
+internal class DeleteBusinessGroupCommandHandler(
     ICoreUnitOfWork uow,
     ITypeAdapter typeAdapter,
     IPublishEndpoint publishEndpoint,
     AppState appState)
     : CommandHandler(uow, publishEndpoint, typeAdapter),
-    ICommandHandler<UpdateBusinessGroupCommand, OneOf<None, AppError>>
+    ICommandHandler<DeleteBusinessGroupCommand, OneOf<None, AppError>>
 {
     private readonly AppState appState = appState;
 
-    public async Task<OneOf<None, AppError>> Handle(UpdateBusinessGroupCommand command, CancellationToken cancellationToken)
+    public async Task<OneOf<None, AppError>> Handle(DeleteBusinessGroupCommand command, CancellationToken cancellationToken)
     {
-        OneOf<None, InputValidationError> validation = await ValidateCommandAsync<UpdateBusinessGroupValidator, UpdateBusinessGroupCommand>(command, cancellationToken);
+        OneOf<None, InputValidationError> validation = await ValidateCommandAsync<DeleteBusinessGroupValidator, DeleteBusinessGroupCommand>(command, cancellationToken);
 
         if (validation.IsError())
         {
@@ -40,19 +40,7 @@ internal class UpdateBusinessGroupCommandHandler(
             return new ResourceNotFoundError(BUSINESS_GROUP_NOT_FOUND);
         }
 
-        buisnessGroup.SetName(command.Name);
-
-        if (command.Description is not null)
-        {
-            buisnessGroup.SetDescription(command.Description);
-        }
-
-        if (command.TaxId is not null)
-        {
-            buisnessGroup.SetTaxId(command.TaxId);
-        }
-
-        uow.BusinessGroups.Update(buisnessGroup);
+        buisnessGroup.Inactivate();
 
         if (!await CommitAsync(cancellationToken))
         {
@@ -60,7 +48,7 @@ internal class UpdateBusinessGroupCommandHandler(
         }
 
         await RaiseEvent(
-            new BusinessGroupUpdatedEvent(buisnessGroup.Id, appState.User!.UserId),
+            new BusinessGroupDeletedEvent(buisnessGroup.Id, appState.User!.UserId),
             cancellationToken);
 
         return default(None);

@@ -13,7 +13,7 @@ public class Notifications
         public static readonly Notification SERVICE_UNAVAILABLE = new(nameof(SERVICE_UNAVAILABLE), $"One or more services may be unavailable");
         public static readonly Notification SAVING_DATA_FAILURE = new(nameof(SAVING_DATA_FAILURE), "Opss... An error occurred while saving the data");
 
-        public static Notification UnexpectedError(string message) => new("SRD-0001", message);
+        public static Notification UnexpectedError(string message) => new(nameof(UNEXPECTED_ERROR), message);
     }
 
     public readonly struct Person

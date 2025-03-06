@@ -10,6 +10,7 @@ using Nexus.Infra.Crosscutting.Extensions;
 using OneOf;
 using OneOf.Types;
 using static Nexus.Infra.Crosscutting.Constants.Notifications.BusinessGroup;
+using static Nexus.Infra.Crosscutting.Constants.Notifications.Shared;
 using BusinessGroupDto = Nexus.Core.Model.BusinessGroups.BusinessGroup;
 
 namespace Nexus.Core.Application.BusinessGroups.CreateBusinessGroup;
@@ -56,7 +57,10 @@ internal class CreateBusinessGroupCommandHandler(
 
         await uow.BusinessGroups.AddAsync(buisnessGroup, cancellationToken);
 
-        await uow.CommitAsync(cancellationToken);
+        if (!await CommitAsync(cancellationToken))
+        {
+            return new BusinessRuleError(SAVING_DATA_FAILURE);
+        }
 
         await RaiseEvent(
             new BusinessGroupCreatedEvent(buisnessGroup.Id, appState.User!.UserId),

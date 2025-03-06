@@ -8,6 +8,9 @@ internal sealed class UpdateBusinessGroupValidator : AbstractValidator<UpdateBus
 {
     public UpdateBusinessGroupValidator()
     {
+        RuleFor(c => c.Id)
+            .NotEmpty().WithNotification(BUSINESS_GROUP_ID_REQUIRED);
+
         RuleFor(c => c.Name)
             .NotEmpty().WithNotification(BUSINESS_GROUP_NAME_REQUIRED)
             .DependentRules(() =>

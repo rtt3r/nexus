@@ -68,4 +68,7 @@ internal abstract class CommandHandler(ICoreUnitOfWork uow, IPublishEndpoint pub
             @event,
             cancellationToken);
     }
+
+    protected async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
+        => (await uow.CommitAsync(cancellationToken)) > 0;
 }
