@@ -1,9 +1,9 @@
 using AutoMapper;
 using Goal.Infra.Crosscutting.Adapters;
 
-namespace Nexus.Core.Application.TypeAdapters;
+namespace Nexus.Infra.Http.TypeAdapters;
 
-internal class AutoMapperAdapter(IMapper mapper) : ITypeAdapter
+public sealed class AutoMapperAdapter(IMapper mapper) : ITypeAdapter
 {
     private readonly IMapper mapper = mapper;
 

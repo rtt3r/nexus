@@ -3,11 +3,13 @@ using Asp.Versioning;
 using Goal.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.IdentityModel.Logging;
 using Nexus.Core.Infra.IoC.Extensions;
 using Nexus.Core.Web.Infra.OpenApi;
 using Nexus.Infra.Crosscutting.Extensions;
 using Nexus.Infra.Http.JsonNamePolicies;
+using Nexus.Infra.Http.ParameterTransformers;
 using Nexus.Infra.Http.ValueProviders;
 using Scalar.AspNetCore;
 using Serilog;
@@ -21,6 +23,10 @@ public static class HostingExtensions
         builder.Host.UseSerilog((_, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
 
         builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
+        builder.Services.AddAutoMapperTypeAdapter(options =>
+        {
+            options.RegisterAutoMapperAssemblies(typeof(HostingExtensions).Assembly);
+        });
 
         builder.Services.AddMassTransit(x =>
         {
@@ -55,6 +61,7 @@ public static class HostingExtensions
             {
                 options.EnableEndpointRouting = false;
                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
+                options.Conventions.Add(new RouteTokenTransformerConvention(new ToKebabParameterTransformer()));
             })
             .AddJsonOptions(options =>
             {
