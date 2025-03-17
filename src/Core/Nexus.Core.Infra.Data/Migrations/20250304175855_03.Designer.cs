@@ -25,7 +25,7 @@ namespace Nexus.Core.Infra.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.BusinessGroup", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -53,10 +53,10 @@ namespace Nexus.Core.Infra.Data.Migrations
                         .IsUnique()
                         .HasFilter("[TaxId] IS NOT NULL");
 
-                    b.ToTable("BusinessGroups", "Core");
+                    b.ToTable("Companies", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.UserCompany", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.UserCompany", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -276,7 +276,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.ToTable("LegalEntities", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>
                 {
                     b.HasBaseType("Nexus.Core.Domain.Persons.Aggregates.LegalEntity");
 
@@ -284,7 +284,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("BusinessGroupId")
+                    b.Property<string>("CompanyId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
@@ -298,16 +298,16 @@ namespace Nexus.Core.Infra.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.HasIndex("BusinessGroupId");
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("HeadquartersId");
 
                     b.ToTable("Companies", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.UserCompany", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.UserCompany", b =>
                 {
-                    b.HasOne("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", "Company")
+                    b.HasOne("Nexus.Core.Domain.Companies.Aggregates.Company", "Company")
                         .WithMany("Users")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -358,31 +358,31 @@ namespace Nexus.Core.Infra.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>
                 {
-                    b.HasOne("Nexus.Core.Domain.BusinessGroups.Aggregates.BusinessGroup", "BusinessGroup")
+                    b.HasOne("Nexus.Core.Domain.Companies.Aggregates.Company", "Company")
                         .WithMany("Companies")
-                        .HasForeignKey("BusinessGroupId")
+                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", "Headquarters")
+                    b.HasOne("Nexus.Core.Domain.Companies.Aggregates.Company", "Headquarters")
                         .WithMany("Branches")
                         .HasForeignKey("HeadquartersId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Nexus.Core.Domain.Persons.Aggregates.LegalEntity", null)
                         .WithOne()
-                        .HasForeignKey("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", "Id")
+                        .HasForeignKey("Nexus.Core.Domain.Companies.Aggregates.Company", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BusinessGroup");
+                    b.Navigation("Company");
 
                     b.Navigation("Headquarters");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.BusinessGroup", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>
                 {
                     b.Navigation("Companies");
                 });
@@ -396,7 +396,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Documents");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.BusinessGroups.Aggregates.Company", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>
                 {
                     b.Navigation("Branches");
 

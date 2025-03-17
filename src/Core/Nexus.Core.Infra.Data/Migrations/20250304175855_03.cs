@@ -11,14 +11,14 @@ public partial class _03 : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropIndex(
-            name: "IX_BusinessGroups_TaxId",
+            name: "IX_Companies_TaxId",
             schema: "Core",
-            table: "BusinessGroups");
+            table: "Companies");
 
         migrationBuilder.AlterColumn<string>(
             name: "TaxId",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             type: "nvarchar(32)",
             maxLength: 32,
             nullable: true,
@@ -29,7 +29,7 @@ public partial class _03 : Migration
         migrationBuilder.AlterColumn<string>(
             name: "Description",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             type: "nvarchar(256)",
             maxLength: 256,
             nullable: true,
@@ -38,9 +38,9 @@ public partial class _03 : Migration
             oldMaxLength: 256);
 
         migrationBuilder.CreateIndex(
-            name: "IX_BusinessGroups_TaxId",
+            name: "IX_Companies_TaxId",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             column: "TaxId",
             unique: true,
             filter: "[TaxId] IS NOT NULL");
@@ -50,14 +50,14 @@ public partial class _03 : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropIndex(
-            name: "IX_BusinessGroups_TaxId",
+            name: "IX_Companies_TaxId",
             schema: "Core",
-            table: "BusinessGroups");
+            table: "Companies");
 
         migrationBuilder.AlterColumn<string>(
             name: "TaxId",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             type: "nvarchar(32)",
             maxLength: 32,
             nullable: false,
@@ -70,7 +70,7 @@ public partial class _03 : Migration
         migrationBuilder.AlterColumn<string>(
             name: "Description",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             type: "nvarchar(256)",
             maxLength: 256,
             nullable: false,
@@ -81,9 +81,9 @@ public partial class _03 : Migration
             oldNullable: true);
 
         migrationBuilder.CreateIndex(
-            name: "IX_BusinessGroups_TaxId",
+            name: "IX_Companies_TaxId",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             column: "TaxId",
             unique: true);
     }

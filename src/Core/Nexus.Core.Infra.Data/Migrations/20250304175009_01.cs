@@ -14,7 +14,7 @@ public partial class _01 : Migration
             name: "Core");
 
         migrationBuilder.CreateTable(
-            name: "BusinessGroups",
+            name: "Companies",
             schema: "Core",
             columns: table => new
             {
@@ -26,7 +26,7 @@ public partial class _01 : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_BusinessGroups", x => x.Id);
+                table.PrimaryKey("PK_Companies", x => x.Id);
             });
 
         migrationBuilder.CreateTable(
@@ -151,7 +151,7 @@ public partial class _01 : Migration
             columns: table => new
             {
                 Id = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                BusinessGroupId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                CompanyId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                 HeadquartersId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                 CompanyType = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                 BranchCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
@@ -160,10 +160,10 @@ public partial class _01 : Migration
             {
                 table.PrimaryKey("PK_Companies", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_Companies_BusinessGroups_BusinessGroupId",
-                    column: x => x.BusinessGroupId,
+                    name: "FK_Companies_Companies_CompanyId",
+                    column: x => x.CompanyId,
                     principalSchema: "Core",
-                    principalTable: "BusinessGroups",
+                    principalTable: "Companies",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
                 table.ForeignKey(
@@ -205,17 +205,17 @@ public partial class _01 : Migration
             });
 
         migrationBuilder.CreateIndex(
-            name: "IX_BusinessGroups_TaxId",
+            name: "IX_Companies_TaxId",
             schema: "Core",
-            table: "BusinessGroups",
+            table: "Companies",
             column: "TaxId",
             unique: true);
 
         migrationBuilder.CreateIndex(
-            name: "IX_Companies_BusinessGroupId",
+            name: "IX_Companies_CompanyId",
             schema: "Core",
             table: "Companies",
-            column: "BusinessGroupId");
+            column: "CompanyId");
 
         migrationBuilder.CreateIndex(
             name: "IX_Companies_HeadquartersId",
@@ -273,7 +273,7 @@ public partial class _01 : Migration
             schema: "Core");
 
         migrationBuilder.DropTable(
-            name: "BusinessGroups",
+            name: "Companies",
             schema: "Core");
 
         migrationBuilder.DropTable(

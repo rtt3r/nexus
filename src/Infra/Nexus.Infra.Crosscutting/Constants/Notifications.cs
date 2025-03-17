@@ -41,14 +41,46 @@ public class Notifications
         public static readonly Notification PERSON_ID_REQUIRED = new(nameof(PERSON_ID_REQUIRED), "ID is required");
     }
 
-    public readonly struct BusinessGroup
+    public readonly struct Addresses
     {
-        public static readonly Notification BUSINESS_GROUP_NAME_REQUIRED = new(nameof(BUSINESS_GROUP_NAME_REQUIRED), "Name is required.");
-        public static readonly Notification BUSINESS_GROUP_NAME_LENGTH = new(nameof(BUSINESS_GROUP_NAME_LENGTH), "Name length must be less then or equals to 128 characters.");
-        public static readonly Notification BUSINESS_GROUP_NAME_DUPLICATED = new(nameof(BUSINESS_GROUP_NAME_DUPLICATED), "Already exists another Business Group with the same name.");
-        public static readonly Notification BUSINESS_GROUP_DESCRIPTION_LENGTH = new(nameof(BUSINESS_GROUP_DESCRIPTION_LENGTH), "Name length must be less then or equals to 256 characters.");
-        public static readonly Notification BUSINESS_GROUP_TAX_ID_LENGTH = new(nameof(BUSINESS_GROUP_TAX_ID_LENGTH), "Tax ID length must be less then or equals to 32 characters.");
-        public static readonly Notification BUSINESS_GROUP_ID_REQUIRED = new(nameof(BUSINESS_GROUP_ID_REQUIRED), "ID is required");
-        public static readonly Notification BUSINESS_GROUP_NOT_FOUND = new(nameof(BUSINESS_GROUP_NOT_FOUND), "Business Group not found.");
+        public static readonly Notification ZIP_CODE_REQUIRED = new(nameof(ZIP_CODE_REQUIRED), "Zip code is required.");
+        public static readonly Notification ZIP_CODE_INVALID_FORMAT = new(nameof(ZIP_CODE_INVALID_FORMAT), "Zip code must be a valid 8-digit number.");
+        public static readonly Notification STREET_REQUIRED = new(nameof(STREET_REQUIRED), "Street is required.");
+        public static readonly Notification STREET_MAX_LENGTH = new(nameof(STREET_MAX_LENGTH), "Street must not exceed 150 characters.");
+        public static readonly Notification NUMBER_REQUIRED = new(nameof(NUMBER_REQUIRED), "Number is required.");
+        public static readonly Notification NUMBER_MAX_LENGTH = new(nameof(NUMBER_MAX_LENGTH), "Number must not exceed 10 characters.");
+        public static readonly Notification NEIGHBORHOOD_REQUIRED = new(nameof(NEIGHBORHOOD_REQUIRED), "Neighborhood is required.");
+        public static readonly Notification NEIGHBORHOOD_MAX_LENGTH = new(nameof(NEIGHBORHOOD_MAX_LENGTH), "Neighborhood must not exceed 100 characters.");
+        public static readonly Notification CITY_REQUIRED = new(nameof(CITY_REQUIRED), "City is required.");
+        public static readonly Notification CITY_MAX_LENGTH = new(nameof(CITY_MAX_LENGTH), "City must not exceed 100 characters.");
+        public static readonly Notification STATE_REQUIRED = new(nameof(STATE_REQUIRED), "State is required.");
+        public static readonly Notification STATE_MAX_LENGTH = new(nameof(STATE_MAX_LENGTH), "State must be exactly 2 characters.");
+        public static readonly Notification COUNTRY_REQUIRED = new(nameof(COUNTRY_REQUIRED), "Country is required.");
+        public static readonly Notification COUNTRY_MAX_LENGTH = new(nameof(COUNTRY_MAX_LENGTH), "Country must not exceed 100 characters.");
+        public static readonly Notification COMPLEMENT_MAX_LENGTH = new(nameof(COMPLEMENT_MAX_LENGTH), "Complement must not exceed 100 characters.");
+    }
+
+    public readonly struct Contacts
+    {
+        public static readonly Notification CONTACT_NAME_REQUIRED = new(nameof(CONTACT_NAME_REQUIRED), "Contact name is required.");
+        public static readonly Notification CONTACT_NAME_MAX_LENGTH = new(nameof(CONTACT_NAME_MAX_LENGTH), "Contact name must not exceed 100 characters.");
+        public static readonly Notification EMAIL_INVALID_FORMAT = new(nameof(EMAIL_INVALID_FORMAT), "Invalid email format.");
+        public static readonly Notification LANDLINE_PHONE_INVALID_FORMAT = new(nameof(LANDLINE_PHONE_INVALID_FORMAT), "Invalid landline phone format.");
+        public static readonly Notification MOBILE_PHONE_INVALID_FORMAT = new(nameof(MOBILE_PHONE_INVALID_FORMAT), "Invalid mobile phone format.");
+        public static readonly Notification WHATSAPP_INVALID_FORMAT = new(nameof(WHATSAPP_INVALID_FORMAT), "Invalid WhatsApp phone format.");
+    }
+
+    public readonly struct Companies
+    {
+        public static readonly Notification COMPANY_NAME_REQUIRED = new(nameof(COMPANY_NAME_REQUIRED), "Company name is required.");
+        public static readonly Notification COMPANY_NAME_MAX_LENGTH = new(nameof(COMPANY_NAME_MAX_LENGTH), "Company name must not exceed 100 characters.");
+        public static readonly Notification COMPANY_NAME_DUPLICATED = new(nameof(COMPANY_NAME_DUPLICATED), "Company name is duplicated.");
+        public static readonly Notification BRANDING_NAME_REQUIRED = new(nameof(BRANDING_NAME_REQUIRED), "Branding name is required.");
+        public static readonly Notification BRANDING_NAME_MAX_LENGTH = new(nameof(BRANDING_NAME_MAX_LENGTH), "Branding name must not exceed 100 characters.");
+        public static readonly Notification CNPJ_REQUIRED = new(nameof(CNPJ_REQUIRED), "CNPJ is required.");
+        public static readonly Notification CNPJ_INVALID_FORMAT = new(nameof(CNPJ_INVALID_FORMAT), "CNPJ must be a valid 14-digit number.");
+        public static readonly Notification ADDRESS_REQUIRED = new(nameof(ADDRESS_REQUIRED), "Address is required.");
+        public static readonly Notification CONTACTS_REQUIRED = new(nameof(CONTACTS_REQUIRED), "At least one contact must be provided.");
+        public static readonly Notification CONTACT_AT_LEAST_ONE_REQUIRED = new(nameof(CONTACT_AT_LEAST_ONE_REQUIRED), "A contact must have at least one phone number, WhatsApp, or email.");
     }
 }
