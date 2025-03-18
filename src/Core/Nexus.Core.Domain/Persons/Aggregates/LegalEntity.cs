@@ -1,6 +1,6 @@
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public abstract class LegalEntity : Person
+public class LegalEntity : Person
 {
     protected LegalEntity()
         : base()

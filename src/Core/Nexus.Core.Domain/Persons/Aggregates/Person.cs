@@ -2,7 +2,7 @@ using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public abstract class Person : Entity
+public class Person : Entity
 {
     public PersonType PersonType { get; protected set; } = default!;
     public string Name { get; protected set; } = default!;

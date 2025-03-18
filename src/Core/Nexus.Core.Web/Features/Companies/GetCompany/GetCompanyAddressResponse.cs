@@ -1,6 +1,6 @@
-namespace Nexus.Core.Web.Features.Companies.CreateCompany;
+namespace Nexus.Core.Web.Features.Companies.GetCompany;
 
-public sealed class CreateCompanyAddressResponse
+public sealed class GetCompanyAddressResponse
 {
     public string Type { get; set; } = default!;
     public string ZipCode { get; set; } = default!;

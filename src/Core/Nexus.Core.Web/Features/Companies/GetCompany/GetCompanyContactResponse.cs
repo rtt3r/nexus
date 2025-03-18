@@ -1,6 +1,6 @@
-namespace Nexus.Core.Web.Features.Companies.CreateCompany;
+namespace Nexus.Core.Web.Features.Companies.GetCompany;
 
-public sealed class CreateCompanyContactResponse
+public sealed class GetCompanyContactResponse
 {
     public string Type { get; set; } = default!;
     public string Name { get; set; } = default!;
