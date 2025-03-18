@@ -45,8 +45,4 @@
 		<ProjectReference Include="..\Nexus.Core.Model\Nexus.Core.Model.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Features\" />
-	</ItemGroup>
-
 </Project>

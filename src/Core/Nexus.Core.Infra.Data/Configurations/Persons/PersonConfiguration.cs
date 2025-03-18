@@ -61,7 +61,5 @@ internal sealed class LegalEntityConfiguration : IEntityTypeConfiguration<LegalE
         builder.Property(p => p.BrandName)
             .HasMaxLength(256)
             .IsRequired();
-
-        builder.Property(p => p.OpeningDate);
     }
 }

@@ -3,7 +3,6 @@ using Goal.Infra.Crosscutting.Adapters;
 using MassTransit;
 using Nexus.Core.Domain.Companies.Aggregates;
 using Nexus.Core.Domain.Companies.Events;
-using Nexus.Core.Domain.Persons.Aggregates;
 using Nexus.Core.Infra.Data;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Crosscutting.Errors;
@@ -41,7 +40,7 @@ internal class CreateCompanyCommandHandler(
             return new BusinessRuleError(COMPANY_NAME_DUPLICATED);
         }
 
-        Company company = CreateNewCompany(command);
+        Company company = CompanyFactory.CreateNewCompany(command);
 
         await uow.Companies.AddAsync(company, cancellationToken);
         await CommitAsync(cancellationToken);
@@ -50,62 +49,5 @@ internal class CreateCompanyCommandHandler(
 
         return ProjectAs<CompanyDto>(company);
     }
-
-    private static Company CreateNewCompany(CreateCompanyCommand command)
-    {
-        var company = new Company(command.CompanyName, command.BrandingName, command.Cnpj);
-
-        Address address = company.AddAddress(
-            AddressType.Principal,
-            command.Address.ZipCode,
-            command.Address.Street,
-            command.Address.Number,
-            command.Address.Neighborhood,
-            command.Address.City,
-            command.Address.State,
-            command.Address.Country);
-
-        if (!string.IsNullOrWhiteSpace(command.Address.Complement))
-        {
-            address.SetComplement(command.Address.Complement);
-        }
-
-        AddContacts(company, command.Contacts);
-        AddDocuments(company, command.MunicipalRegistration, command.StateRegistration);
-
-        if (!string.IsNullOrWhiteSpace(command.Logo))
-        {
-            company.SetLogo(command.Logo);
-        }
-
-        return company;
-    }
-
-    private static void AddContacts(Company company, IEnumerable<CreateCompanyCommand.CreateCompanyContactCommand> contacts)
-    {
-        foreach (CreateCompanyCommand.CreateCompanyContactCommand contact in contacts)
-        {
-            company.AddContact(
-                ContactType.Primary,
-                contact.Name,
-                contact.Email,
-                contact.LandlinePhone,
-                contact.MobilePhone,
-                contact.Whatsapp);
-        }
-    }
-
-    private static void AddDocuments(Company company, string? municipalRegistration, string? stateRegistration)
-    {
-        if (!string.IsNullOrWhiteSpace(municipalRegistration))
-        {
-            company.AddDocument(DocumentType.MunicipalRegistration, municipalRegistration);
-        }
-
-        if (!string.IsNullOrWhiteSpace(stateRegistration))
-        {
-            company.AddDocument(DocumentType.StateRegistration, stateRegistration);
-        }
-    }
-
 }
+

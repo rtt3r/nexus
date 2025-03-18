@@ -15,10 +15,6 @@ public abstract class LegalEntity : Person
     }
 
     public string BrandName { get; protected set; } = default!;
-    public DateOnly? OpeningDate { get; protected set; } = default!;
-
-    public virtual void SetOpeningDate(DateOnly openingDate)
-        => OpeningDate = openingDate;
 
     public virtual void SetCompanyName(string companyName)
     {
