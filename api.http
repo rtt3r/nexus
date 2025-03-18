@@ -23,22 +23,44 @@ grant_type=password
 
 ###
 
-GET http://localhost:8002/v1/businessgroups
+GET http://localhost:8002/v1/companies
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 Accept: application/json
 
 ###
 
-POST http://localhost:8002/v1/businessgroups
+POST http://localhost:8002/v1/companies
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "ritter.co",
-  "description": null,
-  "tax_id": null
+  "company_name": "Antônia e Leandro Eletrônica ME",
+  "branding_name": "Antônia e Leandro Eletrônica",
+  "cnpj": "41307387000100",
+  "state_registration": "209475537813",
+  "municipal_registration": null,
+  "logo": null,
+  "address": {
+    "zip_code": "02079008",
+    "street": "Rua Raimundo Carrut",
+    "number": "179",
+    "complement": null,
+    "neighborhood": "Vila Isolina Mazzei",
+    "city": "São Paulo",
+    "state": "RS",
+    "country": "Brasil"
+  },
+  "contacts": [
+    {
+      "name": "Antônia",
+      "email": "qualidade@antoniaeleandroeletronicame.com.br",
+      "landline_phone": "1135988387",
+      "mobile_phone": "11985840490",
+      "whatsapp": "11985840490"
+    }
+  ]
 }
 
 ###

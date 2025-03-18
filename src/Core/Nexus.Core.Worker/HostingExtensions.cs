@@ -12,6 +12,11 @@ public static class HostingExtensions
     {
         builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
 
+        builder.Services.AddAutoMapperTypeAdapter(options =>
+        {
+            options.RegisterAutoMapperAssemblies(typeof(HostingExtensions).Assembly);
+        });
+
         builder.Services.ConfigureWorkerServices(builder.Configuration, builder.Environment);
 
         builder.Services.AddMassTransit(x =>

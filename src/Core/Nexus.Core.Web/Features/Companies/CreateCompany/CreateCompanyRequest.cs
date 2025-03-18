@@ -21,7 +21,7 @@ public class CreateCompanyRequest
             BrandingName = BrandingName,
             Cnpj = Cnpj,
             StateRegistration = StateRegistration,
-            MunicipalRegistration = StateRegistration,
+            MunicipalRegistration = MunicipalRegistration,
             Logo = Logo,
             Address = new CreateCompanyCommand.CreateCompanyAddressCommand
             {

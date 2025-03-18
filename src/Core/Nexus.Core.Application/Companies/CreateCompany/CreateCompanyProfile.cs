@@ -10,9 +10,13 @@ internal class CreateCompanyProfile : Profile
     {
         CreateMap<Domain.Companies.Aggregates.Company, Company>()
             .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.BrandingName, opt => opt.MapFrom(src => src.BrandName))
+            .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.CompanyType, opt => opt.MapFrom(src => src.CompanyType.ToString()))
-            .ForMember(dest => dest.MunicipalRegistration, opt => opt.ConvertUsing(new CreateCompanyDocumentConverter(Domain.Persons.Aggregates.DocumentType.MunicipalRegistration)))
-            .ForMember(dest => dest.StateRegistration, opt => opt.ConvertUsing(new CreateCompanyDocumentConverter(Domain.Persons.Aggregates.DocumentType.StateRegistration)));
+            .ForMember(dest => dest.Cnpj, opt => opt.MapFrom<CnpjResolver>())
+            .ForMember(dest => dest.MunicipalRegistration, opt => opt.MapFrom<MunicipalRegistrationResolver>())
+            .ForMember(dest => dest.StateRegistration, opt => opt.MapFrom<StateRegistrationResolver>());
 
         CreateMap<Domain.Persons.Aggregates.Address, Address>()
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.ToString()));
@@ -22,9 +26,21 @@ internal class CreateCompanyProfile : Profile
     }
 }
 
-internal class CreateCompanyDocumentConverter(Domain.Persons.Aggregates.DocumentType documentType)
-    : IValueConverter<Domain.Companies.Aggregates.Company, string?>
+internal class CnpjResolver : IValueResolver<Domain.Companies.Aggregates.Company, Company, string>
 {
-    public string? Convert(Domain.Companies.Aggregates.Company sourceMember, ResolutionContext context)
-        => sourceMember.Documents.FirstOrDefault(d => d.Type == documentType)?.Number;
+    public string Resolve(Domain.Companies.Aggregates.Company source, Company destination, string destMember, ResolutionContext context)
+        => source.Documents.First(d => d.Type == Domain.Persons.Aggregates.DocumentType.Cnpj).Number;
 }
+
+internal class MunicipalRegistrationResolver : IValueResolver<Domain.Companies.Aggregates.Company, Company, string?>
+{
+    public string? Resolve(Domain.Companies.Aggregates.Company source, Company destination, string? destMember, ResolutionContext context)
+        => source.Documents.FirstOrDefault(d => d.Type == Domain.Persons.Aggregates.DocumentType.MunicipalRegistration)?.Number;
+}
+
+internal class StateRegistrationResolver : IValueResolver<Domain.Companies.Aggregates.Company, Company, string?>
+{
+    public string? Resolve(Domain.Companies.Aggregates.Company source, Company destination, string? destMember, ResolutionContext context)
+        => source.Documents.FirstOrDefault(d => d.Type == Domain.Persons.Aggregates.DocumentType.StateRegistration)?.Number;
+}
+

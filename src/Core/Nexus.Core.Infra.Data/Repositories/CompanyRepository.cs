@@ -1,11 +1,19 @@
 using Goal.Infra.Data;
+using Microsoft.EntityFrameworkCore;
 using Nexus.Core.Domain.Companies.Aggregates;
+using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Repositories;
 
 internal sealed class CompanyRepository(CoreDbContext context)
     : Repository<Company>(context), ICompanyRepository
 {
-    public Task<Company?> GetByCnpjAsync(string name, CancellationToken cancellationToken)
-        => throw new NotImplementedException();
+    public async Task<Company?> GetByCnpjAsync(string cnpj, CancellationToken cancellationToken)
+    {
+        return await Context
+            .Set<Company>()
+            .FirstOrDefaultAsync(
+                c => c.Documents.Any(d => d.Type == DocumentType.Cnpj && d.Number == cnpj),
+                cancellationToken);
+    }
 }
