@@ -47,7 +47,7 @@ public class CompaniesController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<Company>> GetById([FromRoute] string id)
+    public async Task<ActionResult<GetCompanyResponse>> GetById([FromRoute] string id)
     {
         Company? company = await companyQueryRepository.LoadAsync(id);
 
@@ -61,12 +61,12 @@ public class CompaniesController(
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<ApiResponse<Company>>> Post([FromBody] CreateCompanyRequest request)
+    public async Task<ActionResult<ApiResponse<CreateCompanyResponse>>> Post([FromBody] CreateCompanyRequest request)
     {
         OneOf<Company, AppError> result = await mediator.Send<OneOf<Company, AppError>>(request.ToCommand());
 
         return result
-            .Match<ActionResult<ApiResponse<Company>>>(
+            .Match<ActionResult<ApiResponse<CreateCompanyResponse>>>(
                 company => CreatedAtRoute(
                     GET_BY_ID_ROUTE,
                     new { id = company.CompanyId },
