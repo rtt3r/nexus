@@ -9,11 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Domain.Abstractions" Version="3.1.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Infra\Nexus.Infra.Crosscutting\Nexus.Infra.Crosscutting.csproj" />
+		<PackageReference Include="Goal.Domain.Abstractions" Version="3.2.2" />
 	</ItemGroup>
 
 </Project>

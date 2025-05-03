@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Core.Domain.Accounts.Aggregates;
+using Nexus.Core.Domain.Companies.Aggregates;
+using Nexus.Core.Domain.Persons.Aggregates;
 using Nexus.Core.Infra.Data.Repositories;
 
 namespace Nexus.Core.Infra.Data.Extensions.DependencyInjection;
@@ -30,8 +31,9 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IAccountRepository, AccountRepository>();
-        services.AddScoped<IFinancialInstitutionRepository, FinancialInstitutionRepository>();
+        services.AddScoped<ILegalEntityRepository, LegalEntityRepository>();
+        services.AddScoped<INaturalPersonRepository, NaturalPersonRepository>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
 
         return services;
     }

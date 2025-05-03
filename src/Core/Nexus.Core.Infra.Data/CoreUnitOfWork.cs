@@ -1,23 +1,17 @@
 using Goal.Infra.Data;
-using Nexus.Core.Domain.Accounts.Aggregates;
-using Nexus.Core.Domain.Transactions.Aggregates;
+using Nexus.Core.Domain.Companies.Aggregates;
+using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Infra.Data;
 
 internal sealed class CoreUnitOfWork(
     CoreDbContext context,
-    IAccountRepository accounts,
-    IFinancialInstitutionRepository financialInstitutions)
-    //ITransactionCategoryRepository transactionCategories,
-    //ITransactionPaymentMethodRepository transactionPaymentMethods,
-    //ITransactionRepository transactions,
-    //ITransactionSubCategoryRepository transactionSubCategories)
+    INaturalPersonRepository naturalPersons,
+    ILegalEntityRepository legalEntities,
+    ICompanyRepository companies)
     : UnitOfWork(context), ICoreUnitOfWork
 {
-    public IAccountRepository Accounts { get; } = accounts;
-    public IFinancialInstitutionRepository FinancialInstitutions { get; } = financialInstitutions;
-    //public ITransactionCategoryRepository TransactionCategories { get; } = transactionCategories;
-    //public ITransactionPaymentMethodRepository TransactionPaymentMethods { get; } = transactionPaymentMethods;
-    //public ITransactionRepository Transactions { get; } = transactions;
-    //public ITransactionSubCategoryRepository TransactionSubCategories { get; } = transactionSubCategories;
+    public INaturalPersonRepository NaturalPersons { get; } = naturalPersons;
+    public ILegalEntityRepository LegalEntities { get; } = legalEntities;
+    public ICompanyRepository Companies { get; } = companies;
 }

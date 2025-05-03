@@ -18,7 +18,7 @@ services:
         condition: service_healthy
         restart: true
 
-  core-api:
+  core-web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=Npgsql
@@ -34,7 +34,7 @@ services:
       - ASPNETCORE_Keycloak__Realm=nexus
       - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.175:8081
       - ASPNETCORE_Keycloak__SslRequired=none
-      - ASPNETCORE_Keycloak__Resource=nexus-cli
+      - ASPNETCORE_Keycloak__Resource=nexus-ui
       - ASPNETCORE_Keycloak__VerifyTokenAudience=true
       - ASPNETCORE_Keycloak__Scopes=email profile nexus-ui-client-scope
       - ASPNETCORE_Keycloak__ConfidentialPort=0
@@ -42,8 +42,6 @@ services:
       - ASPNETCORE_UiAvatars__DefaultBackground=0D8ABC
       - ASPNETCORE_UiAvatars__DefaultColor=FFF
       - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
       - ~/.microsoft/usersecrets\:/root/.microsoft/usersecrets
       - ~/.aspnet/https:/root/.aspnet/https/
@@ -73,8 +71,6 @@ services:
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
       - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
       - ~/.microsoft/usersecrets\:/root/.microsoft/usersecrets
       - ~/.aspnet/https:/root/.aspnet/https/

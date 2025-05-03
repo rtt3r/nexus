@@ -26,7 +26,7 @@ if [ "$#" -eq 0 ]; then
         Core)
             updateDatabase "Core" \
                 "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
         EventSourcing)
@@ -45,7 +45,7 @@ else
         Core)
             updateDatabase "Core" \
                 "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
         EventSourcing)

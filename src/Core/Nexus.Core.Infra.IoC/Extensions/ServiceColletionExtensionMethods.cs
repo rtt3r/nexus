@@ -1,3 +1,4 @@
+using Goal.Infra.Crosscutting.Adapters;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.Core.Application.Accounts.Commands;
+using Nexus.Core.Application.Companies.CreateCompany;
 using Nexus.Core.Application.Extensions.DependencyInjection;
 using Nexus.Core.Domain.Extensions.DependencyInjection;
 using Nexus.Core.Infra.Data.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using Nexus.Core.Infra.Data.Query.DependencyInjection;
 using Nexus.Infra.Crosscutting;
 using Nexus.Infra.Data.EventSourcing.Extensions.DependencyInjection;
 using Nexus.Infra.Http.Handlers;
+using Nexus.Infra.Http.TypeAdapters;
 
 namespace Nexus.Core.Infra.IoC.Extensions;
 
@@ -27,7 +29,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddCoreApplication(options =>
         {
-            options.RegisterMediatRFromAssemblies(typeof(AccountCommand).Assembly);
+            options.RegisterMediatRFromAssemblies(typeof(CreateCompanyCommand).Assembly);
         });
 
         services.AddCoreData(options =>
@@ -43,7 +45,7 @@ public static class ServiceColletionExtensionMethods
             settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
-        services.AddCoreDomain(opts => { });
+        services.AddCoreDomain();
 
         return services;
     }
@@ -70,7 +72,21 @@ public static class ServiceColletionExtensionMethods
             settings.CertPassword = configuration["RavenSettings:CertPassword"];
         });
 
-        services.AddCoreDomain(opts => { });
+        services.AddCoreDomain();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAutoMapperTypeAdapter(this IServiceCollection services, Action<TypeAdapterOptions>? action = null)
+    {
+        var options = new TypeAdapterOptions();
+
+        action?.Invoke(options);
+
+        services.AddAutoMapper([.. options.AutoMapperAssemblies, typeof(CoreApplicationOptions).Assembly]);
+
+        services.AddSingleton<ITypeAdapterFactory, AutoMapperAdapterFactory>();
+        services.AddSingleton(factory => factory.GetService<ITypeAdapterFactory>()!.Create());
 
         return services;
     }

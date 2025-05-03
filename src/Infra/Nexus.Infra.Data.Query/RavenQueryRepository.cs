@@ -1,6 +1,6 @@
 using Goal.Infra.Crosscutting.Collections;
 using Goal.Infra.Data.Query;
-using Goal.Infra.Data.Raven;
+using Nexus.Infra.Data.Query.Extensions;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 

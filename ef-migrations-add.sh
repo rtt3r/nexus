@@ -36,7 +36,7 @@ if [ "$#" -eq 0 ]; then
         Core)
             addMigration "Core" "$name" \
                 "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
         EventSourcing)
@@ -55,7 +55,7 @@ else
         Core)
             addMigration "Core" "$2" \
                 "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" \
+                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
         EventSourcing)

@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Goal.Domain.Events;
-using Nexus.Infra.Data.EventSourcing;
 
 namespace Nexus.Infra.Data.EventSourcing.EventStore;
 

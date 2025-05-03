@@ -1,4 +1,3 @@
-# @name login
 POST http://localhost:8081/realms/master/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -8,23 +7,66 @@ grant_type=client_credentials
 
 ###
 
-POST http://localhost:8081/realms/nexus/protocol/openid-connect/token
-  # -H Authorization: Basic bmV4dXMtY2xpOg==
+# @name login
+POST http://192.168.0.175:8081/realms/nexus/protocol/openid-connect/token
+Authorization: Basic bmV4dXMtdWk6NDR3Z3Nvd1BoWUQ2V29jR1lRMGh5MlFVVFpTNGdFSFo=
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=password
-&client_id=nexus-cli
+&client_id=nexus-ui
 &username=ritter
 &password=pdh82w45
 
 ###
 
-@authToken = {{login.response.body.access_token}}
+@auth_token = {{login.response.body.access_token}}
+
+###
+
+GET http://localhost:8002/v1/companies
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+Accept: application/json
+
+###
+
+POST http://localhost:8002/v1/companies
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "company_name": "Antônia e Leandro Eletrônica ME",
+  "branding_name": "Antônia e Leandro Eletrônica",
+  "cnpj": "41307387000100",
+  "state_registration": "209475537813",
+  "municipal_registration": null,
+  "logo": null,
+  "address": {
+    "zip_code": "02079008",
+    "street": "Rua Raimundo Carrut",
+    "number": "179",
+    "complement": null,
+    "neighborhood": "Vila Isolina Mazzei",
+    "city": "São Paulo",
+    "state": "RS",
+    "country": "Brasil"
+  },
+  "contacts": [
+    {
+      "name": "Antônia",
+      "email": "qualidade@antoniaeleandroeletronicame.com.br",
+      "landline_phone": "1135988387",
+      "mobile_phone": "11985840490",
+      "whatsapp": "11985840490"
+    }
+  ]
+}
 
 ###
 
 # @name get-users
 GET http://localhost:8081/admin/realms/nexus/users
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 Accept: application/json

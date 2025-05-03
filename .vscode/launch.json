@@ -6,9 +6,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "debug",
-      "program": "${workspaceFolder}/src/Core/Nexus.Core.Api/bin/Debug/net9.0/Nexus.Core.Api.dll",
+      "program": "${workspaceFolder}/src/Core/Nexus.Core.Web/bin/Debug/net9.0/Nexus.Core.Web.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Api",
+      "cwd": "${workspaceFolder}/src/Core/Nexus.Core.Web",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
@@ -18,12 +18,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:7193;http://localhost:5193",
         "ASPNETCORE_HTTPS_PORT": "4432",
-        "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx",
         "ASPNETCORE_Keycloak__Realm": "nexus",
         "ASPNETCORE_Keycloak__AuthServerUrl": "http://172.22.32.1:8081",
         "ASPNETCORE_Keycloak__SslRequired": "none",
-        "ASPNETCORE_Keycloak__Resource": "nexus-cli",
+        "ASPNETCORE_Keycloak__Resource": "nexus-ui",
         "ASPNETCORE_Keycloak__VerifyTokenAudience": "true",
         "ASPNETCORE_Keycloak__Scopes": "email profile nexus-ui-client-scope",
         "ASPNETCORE_Keycloak__ConfidentialPort": "0"
@@ -46,9 +44,7 @@
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:7194;http://localhost:5194",
-        "ASPNETCORE_HTTPS_PORT": "4433",
-        "ASPNETCORE_Kestrel__Certificates__Default__Password": "fd7ccf84-1ff8-4817-9ecd-f0a2047ea262",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "${userHome}/.aspnet/https/Development.pfx"
+        "ASPNETCORE_HTTPS_PORT": "4433"
       },
       "sourceFileMap": {}
     },
@@ -58,7 +54,7 @@
       "request": "launch",
       "preLaunchTask": "docker-run: debug",
       "netCore": {
-        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj"
+        "appProject": "${workspaceFolder}/src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj"
       }
     }
   ]

@@ -11,17 +11,10 @@ public static class PaginationExtensions
     {
         ArgumentNullException.ThrowIfNull(pageSearch);
 
-        IRavenQueryable<T> queryableList = source;
+        source = source.Skip(pageSearch.PageIndex * pageSearch.PageSize);
+        source = source.Take(pageSearch.PageSize);
 
-        if (!string.IsNullOrWhiteSpace(pageSearch.SortBy))
-        {
-            queryableList = queryableList.OrderBy(pageSearch.SortBy, pageSearch.SortDirection);
-        }
-
-        queryableList = queryableList.Skip(pageSearch.PageIndex * pageSearch.PageSize);
-        queryableList = queryableList.Take(pageSearch.PageSize);
-
-        return queryableList;
+        return source;
     }
 
     public static IPagedList<T> ToPagedList<T>(this IRavenQueryable<T> source, IPageSearch pageSearch)
@@ -35,7 +28,7 @@ public static class PaginationExtensions
 
         return new PagedList<T>(
             data,
-            stats.TotalResults);
+            (int)stats.TotalResults);
     }
 
     public static async Task<IPagedList<T>> ToPagedListAsync<T>(this IRavenQueryable<T> source, IPageSearch pageSearch, CancellationToken cancellationToken = new CancellationToken())
@@ -49,6 +42,6 @@ public static class PaginationExtensions
 
         return new PagedList<T>(
             data,
-            stats.TotalResults);
+            (int)stats.TotalResults);
     }
 }
