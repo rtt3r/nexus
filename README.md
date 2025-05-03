@@ -2,143 +2,153 @@
 <br />
 <p align="center">
   <img src="docs/images/logo.png" alt="Logo" width="80" height="80">
-  <h3 align="center">API - Sistema Administrativo Empresarial</h3>
+  <h3 align="center">Nexus - Business Administration System</h3>
   <p align="center">
-    Uma API moderna em .NET 9 para sistemas administrativos empresariais.
+    A modern API in .NET 9 for business administration systems.
     <br />
-    <a href="#getting-started"><strong>Guia de instalação »</strong></a>
+    <a href="#getting-started"><strong>Installation Guide »</strong></a>
     <br />
     <br />
-    <!-- Links opcionais -->
-    <a href="https://github.com/your_username/your_repo">Repositório</a>
+    <a href="https://github.com/rtt3r/nexus">Repository</a>
     ·
-    <a href="https://github.com/your_username/your_repo/issues">Reportar Bug</a>
+    <a href="https://github.com/rtt3r/nexus/issues">Report Bug</a>
     ·
-    <a href="https://github.com/your_username/your_repo/issues">Sugerir Funcionalidade</a>
+    <a href="https://github.com/rtt3r/nexus/issues">Request Feature</a>
   </p>
 </p>
 
-## 📋 Sobre o Projeto
+## 📋 About the Project
 
-Esta API foi desenvolvida com o objetivo de servir como base para um sistema administrativo empresarial completo e modular. Utiliza ASP.NET Core (.NET 9) e segue boas práticas de desenvolvimento, visando escalabilidade, segurança e facilidade de manutenção.
+This API was developed as a base for a complete and modular business administration system. It uses ASP.NET Core (.NET 9) and follows development best practices, focusing on scalability, security, and maintainability.
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Technologies Used
 
 - ASP.NET Core 9 (Web API)
 - C#
 - Entity Framework Core
 - SQL Server / PostgreSQL
-- Docker (opcional)
-- Autenticação via Keycloak (SSO)
+- Docker
+- Keycloak Authentication (SSO)
 
-## ⚙️ Primeiros Passos
+## ⚙️ Getting Started
 
-Estas instruções ajudarão você a configurar o ambiente de desenvolvimento local.
+These instructions will help you set up the development environment locally.
 
-### ✅ Pré-requisitos
+### ✅ Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/)
-- [Visual Studio 2022+](https://visualstudio.microsoft.com/) ou [VS Code](https://code.visualstudio.com/)
-- Git
-- Powershell (para execução de script de certificados)
-- (Opcional) Docker e Docker Compose
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download)
+- [Visual Studio 2022+](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/downloads)
+- Powershell (to run certificate scripts)
+- (Optional) [Docker + Docker Compose](https://www.docker.com/products/docker-desktop/)
 
-### 📦 Instalação
+### 📦 Installation
 
-1. **Clone o repositório:**
+1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your_username/your_repo.git
-   cd your_repo
+   git clone https://github.com/rtt3r/nexus.git
+   cd nexus
    ```
 
-2. **Configure os arquivos de ambiente:**
+2. **Configure the environment files:**
 
-   - Copie o arquivo `.env` de exemplo (ou utilize o que está incluído):
+   - Create a `.env` file in the project root:
 
-     ```bash
-     cp .env.example .env
-     ```
+     Fill in the required values (usernames, passwords, connection strings, etc).
 
-     Preencha os valores necessários (usuários, senhas, strings de conexão, etc).  
-     Exemplo de conteúdo do `.env`:
+     Example `.env` content:
 
      ```
+     SEQ_PWD_HASH=YourPasswordHashHere
+     POSTGRES_USER=postgress
+     POSTGRES_PASSWORD=postgress
      MSSQL_USER_ID=sa
-     MSSQL_PASSWORD=SuaSenhaSegura123
-     KC_ADMIN_PWD=admin
-     ...
+     MSSQL_PASSWORD=YourSuperSecurePasswordHere
+     KC_ADMIN_PWD=YourSuperSecurePasswordHere
+     KC_DB_USERNAME=postgress
+     KC_DB_PASSWORD=postgress
+     RMQ_USER=guest
+     RMQ_PWD=guest
      ```
 
-3. **Configure os feeds do NuGet:**
+     See [https://blog.datalust.co/setting-an-initial-password-when-deploying-seq-to-docker](https://blog.datalust.co/setting-an-initial-password-when-deploying-seq-to-docker)
 
-   - Se ainda não estiver configurado, adicione o arquivo `nuget.config` ao diretório raiz (o seu já está pronto):
+3. **Configure NuGet feeds:**
 
-     ```xml
-     <?xml version="1.0" encoding="utf-8"?>
-     <configuration>
-       <packageSources>
-         <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-         <!-- Outras fontes, se necessário -->
-       </packageSources>
-     </configuration>
-     ```
+   - If not already configured, add the `nuget.config` file to the root directory:
 
-4. **Configure os certificados de desenvolvimento HTTPS:**
+   ```xml
+   <?xml version="1.0" encoding="utf-8"?>
+   <configuration>
+     <packageSources>
+       <add key="packages.ritter.co"
+         value="https://pkgs.dev.azure.com/andersonritter/_packaging/packages.ritter.co/nuget/v3/index.json" />
+     </packageSources>
+     <packageSourceCredentials>
+       <packages.ritter.co>
+         <add key="username"
+           value="YourPersonalAccessTokensHere" />
+         <add key="cleartextpassword"
+           value="YourPersonalAccessTokensHere" />
+       </packages.ritter.co>
+     </packageSourceCredentials>
+   </configuration>
+   ```
 
-   Execute o script abaixo no PowerShell (Windows):
+4. **Set up HTTPS development certificates:**
+
+   Run the follow script in PowerShell (Windows):
 
    ```powershell
-   ./scripts/dev-certs.ps1
+   mkdir $Env:USERPROFILE/.aspnet/https
+
+   dotnet dev-certs https -ep $Env:USERPROFILE/.aspnet/https/Development.pfx -p c1bc6816-f70f-42e3-a71f-4ab75a294755
+   dotnet dev-certs https --trust
+   dotnet dev-certs https --check
    ```
 
-   Isso criará e aplicará os certificados necessários para HTTPS local.
+   This will create and apply the necessary certificates for local HTTPS.
 
-5. **Restaure os pacotes NuGet:**
+5. **Restore NuGet packages:**
 
    ```bash
    dotnet restore
    ```
 
-6. **Execute a aplicação:**
+6. **Run the application:**
 
    ```bash
-   dotnet run --project src/SeuProjeto.Api
+   ./docker-up.sh vscode
    ```
 
-   A API estará disponível em: `https://localhost:5001`
+   The API will be available at: `https://localhost:4432`
 
-## 📌 Uso
+## 📌 Usage
 
-Você pode interagir com a API via Swagger ou Postman. O Swagger estará disponível em:
+You can interact with the API via OpenAPI or Postman. The OpenAPI documentation will be available at:
 
 ```
-https://localhost:5001/swagger
+https://localhost:4432/api-docs
 ```
 
 ## 🛣️ Roadmap
 
-- [ ] Módulo de Autenticação e Autorização
-- [ ] CRUD Genérico
-- [ ] Módulo Financeiro
-- [ ] Módulo de Estoque
-- [ ] Documentação completa da API
+- [ ] Authentication and Authorization Module
+- [ ] Generic CRUD
+- [ ] Finance Module
+- [ ] Inventory Module
+- [ ] Full API Documentation
 
-## 🤝 Contribuindo
+## 🤝 Contributing
 
-Sinta-se à vontade para contribuir! Toda ajuda é bem-vinda.
+See [CONTRIBUTING](./CONTRIBUTING.md)
 
-1. Fork este repositório
-2. Crie uma branch (`git checkout -b feature/SuaFeature`)
-3. Commit suas alterações (`git commit -m 'Adiciona nova feature'`)
-4. Push na branch (`git push origin feature/SuaFeature`)
-5. Abra um Pull Request
+## 📝 License
 
-## 📝 Licença
+Distributed under the MIT License. See `LICENSE` for more information.
 
-Distribuído sob a Licença MIT. Veja `LICENSE` para mais informações.
+## 📬 Contact
 
-## 📬 Contato
-
-Seu Nome - [@seu_twitter](https://twitter.com/seu_usuario) - seuemail@exemplo.com  
-Link do Projeto: [https://github.com/your_username/your_repo](https://github.com/your_username/your_repo)
+- Anderson Ritter de Souza - [@ritter.ander](https://www.instagram.com/ritter.ander) - anderdsouza@gmail.com
+- Project Link: [https://github.com/rtt3r/nexus](https://github.com/rtt3r/nexus)
