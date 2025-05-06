@@ -8,7 +8,7 @@ grant_type=client_credentials
 ###
 
 # @name login
-POST http://192.168.0.175:8081/realms/nexus/protocol/openid-connect/token
+POST http://192.168.0.133:8081/realms/nexus/protocol/openid-connect/token
 Authorization: Basic bmV4dXMtdWk6NDR3Z3Nvd1BoWUQ2V29jR1lRMGh5MlFVVFpTNGdFSFo=
 Content-Type: application/x-www-form-urlencoded
 
