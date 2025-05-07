@@ -37,7 +37,7 @@ fi
 
 dbContext="${context}DbContext"
 migrationsProject="src/$context/Nexus.$context.Infra.Data/Nexus.$context.Infra.Data.csproj"
-startupProject="src/$context/Nexus.$context.Web/Nexus.$context.Web.csproj"
+startupProject="src/$context/Nexus.$context.Api/Nexus.$context.Api.csproj"
 
 if [ "$context" == "EventSourcing" ]; then
     migrationsProject="src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj"

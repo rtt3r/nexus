@@ -57,11 +57,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Core.Worker", "src\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Infra.Data.EventSourcing", "src\Infra\Nexus.Infra.Data.EventSourcing\Nexus.Infra.Data.EventSourcing.csproj", "{0AE6D698-7CC9-4DB6-974D-FD12E586DC01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Core.Web", "src\Core\Nexus.Core.Web\Nexus.Core.Web.csproj", "{FBB62D9A-412F-0CA0-2546-7466C72829D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Core.Api", "src\Core\Nexus.Core.Api\Nexus.Core.Api.csproj", "{FBB62D9A-412F-0CA0-2546-7466C72829D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Hcm", "2. Hcm", "{32490384-52C5-C4A9-46F5-A97E9D144A0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Hcm.Web", "src\Hcm\Nexus.Hcm.Web\Nexus.Hcm.Web.csproj", "{BA27A583-52C8-4913-9AD0-14822780A901}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Hcm.Api", "src\Hcm\Nexus.Hcm.Api\Nexus.Hcm.Api.csproj", "{BA27A583-52C8-4913-9AD0-14822780A901}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1. Presentation", "2.1. Presentation", "{EC5B203A-C41A-429B-8903-39151D371607}"
 EndProject

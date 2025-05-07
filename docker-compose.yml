@@ -90,7 +90,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: src/Core/Nexus.Core.Web/Dockerfile
+      dockerfile: src/Core/Nexus.Core.Api/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"
@@ -112,7 +112,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: src/Hcm/Nexus.Hcm.Web/Dockerfile
+      dockerfile: src/Hcm/Nexus.Hcm.Api/Dockerfile
     ports:
       - "8004:80"
       - "4434:443"

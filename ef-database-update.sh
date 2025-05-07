@@ -28,7 +28,7 @@ fi
 # Compose paths and context name based on input
 dbContext="${context}DbContext"
 migrationsProject="src/$context/Nexus.$context.Infra.Data/Nexus.$context.Infra.Data.csproj"
-startupProject="src/$context/Nexus.$context.Web/Nexus.$context.Web.csproj"
+startupProject="src/$context/Nexus.$context.Api/Nexus.$context.Api.csproj"
 
 # Handle special context exceptions
 if [ "$context" == "EventSourcing" ]; then
