@@ -18,7 +18,7 @@ services:
         condition: service_healthy
         restart: true
 
-  core-web:
+  core-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
@@ -86,7 +86,7 @@ services:
         condition: service_healthy
         restart: true
 
-  hcm-web:
+  hcm-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=nexus_dev;Persist Security Info=False;User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;

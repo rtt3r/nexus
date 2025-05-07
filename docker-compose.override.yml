@@ -1,5 +1,5 @@
 services:
-  core-web:
+  core-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=Npgsql
@@ -51,7 +51,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  hcm-web:
+  hcm-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_DbProvider=Npgsql
