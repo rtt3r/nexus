@@ -9,7 +9,7 @@ public static class CompanyFactory
     {
         var company = new Company(command.CompanyName, command.BrandingName, command.Cnpj);
 
-        Address address = company.AddAddress(
+        PersonAddress address = company.AddAddress(
             AddressType.Principal,
             command.Address.ZipCode,
             command.Address.Street,
@@ -53,12 +53,12 @@ public static class CompanyFactory
     {
         if (!string.IsNullOrWhiteSpace(municipalRegistration))
         {
-            company.AddDocument(DocumentType.MunicipalRegistration, municipalRegistration);
+            // company.AddDocument(DocumentType.MunicipalRegistration, municipalRegistration);
         }
 
         if (!string.IsNullOrWhiteSpace(stateRegistration))
         {
-            company.AddDocument(DocumentType.StateRegistration, stateRegistration);
+            // company.AddDocument(DocumentType.StateRegistration, stateRegistration);
         }
     }
 }

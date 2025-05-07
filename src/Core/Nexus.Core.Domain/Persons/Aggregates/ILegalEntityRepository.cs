@@ -4,5 +4,5 @@ namespace Nexus.Core.Domain.Persons.Aggregates;
 
 public interface ILegalEntityRepository : IRepository<LegalEntity>
 {
-    Task<LegalEntity?> GetByCnpj(string cnpj, CancellationToken cancellationToken);
+    Task<LegalEntity?> GetByCnpjAsync(string cnpj, CancellationToken cancellationToken);
 }

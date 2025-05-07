@@ -13,7 +13,7 @@ internal sealed class CompanyRepository(CoreDbContext context)
         return await Context
             .Set<Company>()
             .FirstOrDefaultAsync(
-                c => c.Documents.Any(d => d.Type == DocumentType.Cnpj && d.Number == cnpj),
+                c => c.Documents.Any(d => d.Document.Name == "Cnpj" && d.Value == cnpj),
                 cancellationToken);
     }
 }

@@ -2,14 +2,14 @@ using Goal.Domain.Aggregates;
 
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public sealed class Contact : Entity
+public sealed class PersonContact : Entity
 {
-    private Contact()
+    private PersonContact()
         : base()
     {
     }
 
-    public Contact(ContactType type, string name, string email, string landlinePhone, string mobilePhone, string whatsapp)
+    public PersonContact(ContactType type, string name, string email, string landlinePhone, string mobilePhone, string whatsapp)
         : this()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));

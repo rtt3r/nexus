@@ -9,23 +9,19 @@ public sealed class Document : Entity
     {
     }
 
-    public Document(DocumentType type, string number)
+    public Document(string name)
+        : this()
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(number, nameof(number));
-
-        Type = type;
-        Number = number;
+        SetName(name);
     }
 
-    public string PersonId { get; private set; } = default!;
-    public DocumentType Type { get; private set; } = default!;
-    public string Number { get; private set; } = default!;
-    public bool Active { get; private set; } = true;
-    public Person Person { get; private set; } = default!;
+    public string Name { get; private set; } = default!;
+    public IEnumerable<PersonDocument> PersonDocuments { get; private set; } = new List<PersonDocument>();
+    public IEnumerable<DocumentAttribute> Attributes { get; private set; } = new List<DocumentAttribute>();
 
-    public void Activate()
-        => Active = true;
-
-    public void Inactivate()
-        => Active = false;
+    public void SetName(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
+        Name = name;
+    }
 }

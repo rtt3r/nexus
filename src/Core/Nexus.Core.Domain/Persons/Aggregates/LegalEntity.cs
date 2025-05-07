@@ -11,7 +11,7 @@ public class LegalEntity : Person
         : base(PersonType.Legal, companyName)
     {
         SetBrandName(brandName);
-        AddDocument(DocumentType.Cnpj, cnpj);
+        // AddDocument(DocumentType.Cnpj, cnpj);
     }
 
     public string BrandName { get; protected set; } = default!;

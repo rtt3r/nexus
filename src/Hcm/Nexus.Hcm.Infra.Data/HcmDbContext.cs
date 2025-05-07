@@ -13,8 +13,8 @@ internal sealed class HcmDbContext(DbContextOptions<HcmDbContext> options)
     public DbSet<Document> Documents { get; set; } = default!;
     public DbSet<DocumentAttribute> DocumentAttributes { get; set; } = default!;
     public DbSet<PersonDocumentAttribute> PersonDocumentAttributes { get; set; } = default!;
-    public DbSet<PersonAddress> Addresses { get; set; } = default!;
-    public DbSet<PersonContact> Contacts { get; set; } = default!;
+    public DbSet<PersonAddress> PersonAddresses { get; set; } = default!;
+    public DbSet<PersonContact> PersonContacts { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

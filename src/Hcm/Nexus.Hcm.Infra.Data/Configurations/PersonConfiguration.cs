@@ -4,7 +4,7 @@ using Nexus.Hcm.Domain.Persons.Aggregates;
 
 namespace Nexus.Hcm.Infra.Data.Configurations;
 
-public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
+internal sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {
@@ -38,7 +38,7 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
     }
 }
 
-public sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<NaturalPerson>
+internal sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<NaturalPerson>
 {
     public void Configure(EntityTypeBuilder<NaturalPerson> builder)
     {
@@ -52,7 +52,7 @@ public sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<Natura
     }
 }
 
-public sealed class PersonDocumentConfiguration : IEntityTypeConfiguration<PersonDocument>
+internal sealed class PersonDocumentConfiguration : IEntityTypeConfiguration<PersonDocument>
 {
     public void Configure(EntityTypeBuilder<PersonDocument> builder)
     {
@@ -80,10 +80,11 @@ public sealed class PersonDocumentConfiguration : IEntityTypeConfiguration<Perso
 
         builder.HasMany(p => p.Attributes)
             .WithOne(p => p.Document)
-            .HasForeignKey(p => p.DocumentId);
+            .HasForeignKey(p => p.DocumentId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
-public sealed class PersonDocumentAttributeConfiguration : IEntityTypeConfiguration<PersonDocumentAttribute>
+internal sealed class PersonDocumentAttributeConfiguration : IEntityTypeConfiguration<PersonDocumentAttribute>
 {
     public void Configure(EntityTypeBuilder<PersonDocumentAttribute> builder)
     {

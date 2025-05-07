@@ -1,14 +1,15 @@
 using Goal.Domain.Aggregates;
+using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Domain.Persons.Aggregates;
 
-public sealed class Address : Entity
+public sealed class PersonAddress : Entity
 {
-    private Address()
+    private PersonAddress()
     {
     }
 
-    public Address(AddressType type, string zipCode, string street, string number, string neighborhood, string city, string state, string country)
+    public PersonAddress(AddressType type, string zipCode, string street, string number, string neighborhood, string city, string state, string country)
         : this()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(zipCode, nameof(zipCode));

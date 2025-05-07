@@ -4,9 +4,9 @@ using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Infra.Data.Configurations.Persons;
 
-public sealed class ContactConfiguration : IEntityTypeConfiguration<Contact>
+internal sealed class ContactConfiguration : IEntityTypeConfiguration<PersonContact>
 {
-    public void Configure(EntityTypeBuilder<Contact> builder)
+    public void Configure(EntityTypeBuilder<PersonContact> builder)
     {
         builder.ToTable("PersonContacts", "Core");
         builder.HasKey(p => p.Id);

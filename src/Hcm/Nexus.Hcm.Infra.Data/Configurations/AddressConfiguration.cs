@@ -4,7 +4,7 @@ using Nexus.Hcm.Domain.Persons.Aggregates;
 
 namespace Nexus.Hcm.Infra.Data.Configurations;
 
-public sealed class AddressConfiguration : IEntityTypeConfiguration<PersonAddress>
+internal sealed class AddressConfiguration : IEntityTypeConfiguration<PersonAddress>
 {
     public void Configure(EntityTypeBuilder<PersonAddress> builder)
     {

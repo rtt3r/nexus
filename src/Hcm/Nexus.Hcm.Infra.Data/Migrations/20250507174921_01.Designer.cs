@@ -12,7 +12,7 @@ using Nexus.Hcm.Infra.Data;
 namespace Nexus.Hcm.Infra.Data.Migrations
 {
     [DbContext(typeof(HcmDbContext))]
-    [Migration("20250507114536_01")]
+    [Migration("20250507174921_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -235,6 +235,8 @@ namespace Nexus.Hcm.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DocumentId");
+
                     b.HasIndex("PersonId", "DocumentId", "Value")
                         .IsUnique();
 
@@ -326,7 +328,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                 {
                     b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Document", "Document")
                         .WithMany("PersonDocuments")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -352,7 +354,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocument", "Document")
                         .WithMany("Attributes")
                         .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Attribute");

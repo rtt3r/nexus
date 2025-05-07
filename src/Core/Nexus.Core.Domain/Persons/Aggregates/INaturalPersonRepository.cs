@@ -4,5 +4,5 @@ namespace Nexus.Core.Domain.Persons.Aggregates;
 
 public interface INaturalPersonRepository : IRepository<NaturalPerson>
 {
-    Task<NaturalPerson?> GetByCpf(string cpf, CancellationToken cancellationToken);
+    Task<NaturalPerson?> GetByCpfAsync(string cpf, CancellationToken cancellationToken);
 }

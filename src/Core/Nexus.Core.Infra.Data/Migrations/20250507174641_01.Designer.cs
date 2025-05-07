@@ -12,7 +12,7 @@ using Nexus.Core.Infra.Data;
 namespace Nexus.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20250318002618_01")]
+    [Migration("20250507174641_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -56,7 +56,75 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.ToTable("UserCompanies", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Address", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Document", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents", "Core");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.DocumentAttribute", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("DocumentId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("DocumentAttributes", "Core");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Person", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PersonType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Persons", "Core");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonAddress", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -121,7 +189,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.ToTable("PersonAddresses", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Contact", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonContact", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -172,7 +240,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.ToTable("PersonContacts", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Document", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonDocument", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -181,7 +249,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("DocumentId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
@@ -191,43 +259,53 @@ namespace Nexus.Core.Infra.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId", "Type", "Number")
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("PersonId", "DocumentId", "Value")
                         .IsUnique();
 
                     b.ToTable("PersonDocuments", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Person", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonDocumentAttribute", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                    b.Property<string>("AttributeId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("DocumentId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PersonType")
+                    b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons", "Core");
+                    b.HasIndex("AttributeId");
 
-                    b.UseTptMappingStrategy();
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("PersonDocumentAttributes", "Core");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.LegalEntity", b =>
@@ -288,7 +366,18 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Address", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.DocumentAttribute", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.Persons.Aggregates.Document", "Document")
+                        .WithMany("Attributes")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonAddress", b =>
                 {
                     b.HasOne("Nexus.Core.Domain.Persons.Aggregates.Person", "Person")
                         .WithMany("Addresses")
@@ -299,7 +388,7 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Contact", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonContact", b =>
                 {
                     b.HasOne("Nexus.Core.Domain.Persons.Aggregates.Person", "Person")
                         .WithMany("Contacts")
@@ -310,15 +399,42 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Document", b =>
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonDocument", b =>
                 {
+                    b.HasOne("Nexus.Core.Domain.Persons.Aggregates.Document", "Document")
+                        .WithMany("PersonDocuments")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Nexus.Core.Domain.Persons.Aggregates.Person", "Person")
                         .WithMany("Documents")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Document");
+
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonDocumentAttribute", b =>
+                {
+                    b.HasOne("Nexus.Core.Domain.Persons.Aggregates.DocumentAttribute", "Attribute")
+                        .WithMany()
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Nexus.Core.Domain.Persons.Aggregates.PersonDocument", "Document")
+                        .WithMany("Attributes")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attribute");
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.LegalEntity", b =>
@@ -355,6 +471,13 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Headquarters");
                 });
 
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Document", b =>
+                {
+                    b.Navigation("Attributes");
+
+                    b.Navigation("PersonDocuments");
+                });
+
             modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.Person", b =>
                 {
                     b.Navigation("Addresses");
@@ -362,6 +485,11 @@ namespace Nexus.Core.Infra.Data.Migrations
                     b.Navigation("Contacts");
 
                     b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("Nexus.Core.Domain.Persons.Aggregates.PersonDocument", b =>
+                {
+                    b.Navigation("Attributes");
                 });
 
             modelBuilder.Entity("Nexus.Core.Domain.Companies.Aggregates.Company", b =>

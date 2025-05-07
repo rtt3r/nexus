@@ -7,11 +7,11 @@ namespace Nexus.Core.Infra.Data.Repositories;
 internal sealed class NaturalPersonRepository(CoreDbContext context)
     : Repository<NaturalPerson, string>(context), INaturalPersonRepository
 {
-    public async Task<NaturalPerson?> GetByCpf(string cpf, CancellationToken cancellationToken)
+    public async Task<NaturalPerson?> GetByCpfAsync(string cpf, CancellationToken cancellationToken)
     {
         return await Context.Set<NaturalPerson>()
             .FirstOrDefaultAsync(
-                p => p.Documents.Any(d => d.Type == DocumentType.Cpf && d.Number == cpf),
+                c => c.Documents.Any(d => d.Document.Name == "Cpf" && d.Value == cpf),
                 cancellationToken);
     }
 }

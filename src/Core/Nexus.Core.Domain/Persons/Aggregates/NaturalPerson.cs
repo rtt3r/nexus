@@ -7,10 +7,9 @@ public class NaturalPerson : Person
     {
     }
 
-    public NaturalPerson(string name, string cpf)
+    public NaturalPerson(string name)
         : base(PersonType.Natural, name)
     {
-        AddDocument(DocumentType.Cpf, cpf);
     }
 
     public Gender? Gender { get; protected set; }

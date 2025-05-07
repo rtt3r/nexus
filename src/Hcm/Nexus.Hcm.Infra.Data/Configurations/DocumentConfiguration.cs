@@ -4,7 +4,7 @@ using Nexus.Hcm.Domain.Persons.Aggregates;
 
 namespace Nexus.Hcm.Infra.Data.Configurations;
 
-public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
+internal sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
     public void Configure(EntityTypeBuilder<Document> builder)
     {
@@ -21,7 +21,7 @@ public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
 
         builder.HasMany(p => p.PersonDocuments)
             .WithOne(p => p.Document)
-            .HasForeignKey(p => p.PersonId);
+            .HasForeignKey(p => p.DocumentId);
 
         builder.HasMany(p => p.Attributes)
             .WithOne(p => p.Document)
@@ -29,7 +29,7 @@ public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
     }
 }
 
-public sealed class DocumentAttributeConfiguration : IEntityTypeConfiguration<DocumentAttribute>
+internal sealed class DocumentAttributeConfiguration : IEntityTypeConfiguration<DocumentAttribute>
 {
     public void Configure(EntityTypeBuilder<DocumentAttribute> builder)
     {
