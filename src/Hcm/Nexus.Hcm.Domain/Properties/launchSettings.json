@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Nexus.Hcm.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "AspNetCore_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56589;http://localhost:56590"
+    }
+  }
+}

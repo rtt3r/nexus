@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Development": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api-docs",
+      "environmentVariables": {
+        "AspNetCore_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:7193;http://localhost:5193",
+      "dotnetRunMessages": true
+    },
+    "VSCode": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api-docs",
+      "environmentVariables": {
+        "AspNetCore_ENVIRONMENT": "Development",
+        "AspNetCore_DbProvider": "Npgsql",
+        "AspNetCore_ConnectionStrings__DefaultConnection": "Server=localhost;Port=3306;Database=nexus_hcm_dev;Uid=root;Pwd=BeycL18545#f;",
+        "AspNetCore_ConnectionStrings__Seq": "http://localhost:5341",
+        "AspNetCore_ConnectionStrings__RabbitMq": "amqp://guest:guest@localhost:5672",
+        "AspNetCore_URLS": "https://localhost:7193;http://localhost:5193",
+        "AspNetCore_HTTPS_PORT": "7193",
+        "AspNetCore_RavenSettings__Urls": "http://localhost:8080",
+        "AspNetCore_RavenSettings__DatabaseName": "NexusHcm",
+        "AspNetCore_RavenSettings__CertFilePath": "",
+        "AspNetCore_RavenSettings__CertPassword": "",
+        "AspNetCore_Keycloak__Realm": "nexus",
+        "AspNetCore_Keycloak__AuthServerUrl": "http://172.22.32.1:8081",
+        "AspNetCore_Keycloak__SslRequired": "none",
+        "AspNetCore_Keycloak__Resource": "nexus-ui",
+        "AspNetCore_Keycloak__VerifyTokenAudience": "true",
+        "AspNetCore_Keycloak__Scopes": "email profile",
+        "AspNetCore_Keycloak__ConfidentialPort": "0",
+        "AspNetCore_Cors__Origins": "https://localhost:4432;http://localhost:8002;http://localhost:4200;http://localhost:5193"
+      },
+      "applicationUrl": "https://localhost:7193;http://localhost:5193",
+      "dotnetRunMessages": true
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api-docs",
+      "environmentVariables": {
+        "AspNetCore_HTTPS_PORTS": "443",
+        "AspNetCore_HTTP_PORTS": "80"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}
