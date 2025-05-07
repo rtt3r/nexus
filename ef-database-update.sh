@@ -19,56 +19,23 @@ function updateDatabase {
 
 # Main logic
 if [ "$#" -eq 0 ]; then
-    echo "Enter context (Core/Hcm/EventSourcing)"
+    echo "Enter context (e.g. Core, Hcm, EventSourcing):"
     read context
-
-    case "$context" in
-        Core)
-            updateDatabase "Core" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
-                "CoreDbContext"
-            ;;
-        Hcm)
-            updateDatabase "Hcm" \
-                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
-                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
-                "HcmDbContext"
-            ;;
-        EventSourcing)
-            updateDatabase "EventSourcing" \
-                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
-                "EventSourcingDbContext"
-            ;;
-        *)
-            echo "Error: Invalid context. Please enter 'Core', 'Hcm' or 'EventSourcing'."
-            exit 1
-            ;;
-    esac
 else
-    case "$1" in
-        Core)
-            updateDatabase "Core" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
-                "CoreDbContext"
-            ;;
-        Hcm)
-            updateDatabase "Hcm" \
-                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
-                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
-                "HcmDbContext"
-            ;;
-        EventSourcing)
-            updateDatabase "EventSourcing" \
-                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
-                "EventSourcingDbContext"
-            ;;
-        *)
-            echo "Error: Invalid context. Please specify 'Core', 'Hcm' or 'EventSourcing'."
-            exit 1
-            ;;
-    esac
+    context=$1
 fi
+
+# Compose paths and context name based on input
+dbContext="${context}DbContext"
+migrationsProject="src/$context/Nexus.$context.Infra.Data/Nexus.$context.Infra.Data.csproj"
+startupProject="src/$context/Nexus.$context.Web/Nexus.$context.Web.csproj"
+
+# Handle special context exceptions
+if [ "$context" == "EventSourcing" ]; then
+    migrationsProject="src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj"
+    startupProject="src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj"
+    dbContext="EventSourcingDbContext"
+fi
+
+# Call update
+updateDatabase "$context" "$migrationsProject" "$startupProject" "$dbContext"

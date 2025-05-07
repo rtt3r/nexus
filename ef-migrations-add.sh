@@ -6,7 +6,7 @@ export ASPNETCORE_ENVIRONMENT=Migrations
 function addMigration {
     local context=$1
     local name=$2
-    local project=$3
+    local migrationsProject=$3
     local startupProject=$4
     local dbContext=$5
 
@@ -18,67 +18,31 @@ function addMigration {
     echo "Adding migration '$name' to $context"
 
     dotnet ef migrations add "$name" \
-        --project "$project" \
+        --project "$migrationsProject" \
         --startup-project "$startupProject" \
         --context "$dbContext" \
         --output-dir Migrations
 }
 
-# Main logic
-if [ "$#" -eq 0 ]; then
-    echo "Enter context (Core/Hcm/EventSourcing)"
+# Input handling
+if [ "$#" -lt 1 ]; then
+    echo "Enter context (e.g. Core, Hcm, EventSourcing):"
     read context
-
-    echo "Enter migration name"
+    echo "Enter migration name:"
     read name
-
-    case "$context" in
-        Core)
-            addMigration "Core" "$name" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
-                "CoreDbContext"
-            ;;
-        Hcm)
-            addMigration "Hcm" "$name" \
-                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
-                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
-                "HcmDbContext"
-            ;;
-        EventSourcing)
-            addMigration "EventSourcing" "$name" \
-                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
-                "EventSourcingDbContext"
-            ;;
-        *)
-            echo "Error: Invalid context. Please enter 'Core', 'Hcm' or 'EventSourcing'."
-            exit 1
-            ;;
-    esac
 else
-    case "$1" in
-        Core)
-            addMigration "Core" "$2" \
-                "src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" \
-                "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
-                "CoreDbContext"
-            ;;
-        Hcm)
-            addMigration "Hcm" "$2" \
-                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
-                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
-                "HcmDbContext"
-            ;;
-        EventSourcing)
-            addMigration "EventSourcing" "$2" \
-                "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
-                "src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" \
-                "EventSourcingDbContext"
-            ;;
-        *)
-            echo "Error: Invalid context. Please specify 'Core', 'Hcm' or 'EventSourcing'."
-            exit 1
-            ;;
-    esac
+    context=$1
+    name=$2
 fi
+
+dbContext="${context}DbContext"
+migrationsProject="src/$context/Nexus.$context.Infra.Data/Nexus.$context.Infra.Data.csproj"
+startupProject="src/$context/Nexus.$context.Web/Nexus.$context.Web.csproj"
+
+if [ "$context" == "EventSourcing" ]; then
+    migrationsProject="src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj"
+    startupProject="src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj"
+    dbContext="EventSourcingDbContext"
+fi
+
+addMigration "$context" "$name" "$migrationsProject" "$startupProject" "$dbContext"
