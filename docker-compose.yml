@@ -58,7 +58,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: "nexus_core_dev,keycloak"
+      POSTGRES_MULTIPLE_DATABASES: "nexus_dev,keycloak"
     ports:
       - "5432:5432"
     volumes:
@@ -105,6 +105,28 @@ services:
     ports:
       - "8003:80"
       - "4433:443"
+
+  hcm-web:
+    image: ${REGISTRY:-nexus.co}/nexus/hcm-web:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: hcm-web.nexus.co
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Hcm/Nexus.Hcm.Web/Dockerfile
+    ports:
+      - "8004:80"
+      - "4434:443"
+
+  hcm-worker:
+    image: ${REGISTRY:-nexus.co}/nexus/hcm-worker:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: hcm-worker.nexus.co
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Hcm/Nexus.Hcm.Worker/Dockerfile
+    ports:
+      - "8005:80"
+      - "4435:443"
 
 volumes:
   mssql-vol:

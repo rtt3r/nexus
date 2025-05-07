@@ -26,7 +26,7 @@ function addMigration {
 
 # Main logic
 if [ "$#" -eq 0 ]; then
-    echo "Enter context (Core/EventSourcing)"
+    echo "Enter context (Core/Hcm/EventSourcing)"
     read context
 
     echo "Enter migration name"
@@ -39,6 +39,12 @@ if [ "$#" -eq 0 ]; then
                 "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
+        Hcm)
+            addMigration "Hcm" "$name" \
+                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
+                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
+                "HcmDbContext"
+            ;;
         EventSourcing)
             addMigration "EventSourcing" "$name" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
@@ -46,7 +52,7 @@ if [ "$#" -eq 0 ]; then
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please enter 'Core' or 'EventSourcing'."
+            echo "Error: Invalid context. Please enter 'Core', 'Hcm' or 'EventSourcing'."
             exit 1
             ;;
     esac
@@ -58,6 +64,12 @@ else
                 "src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" \
                 "CoreDbContext"
             ;;
+        Hcm)
+            addMigration "Hcm" "$2" \
+                "src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" \
+                "src/Hcm/Nexus.Hcm.Web/Nexus.Hcm.Web.csproj" \
+                "HcmDbContext"
+            ;;
         EventSourcing)
             addMigration "EventSourcing" "$2" \
                 "src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" \
@@ -65,7 +77,7 @@ else
                 "EventSourcingDbContext"
             ;;
         *)
-            echo "Error: Invalid context. Please specify 'Core' or 'EventSourcing'."
+            echo "Error: Invalid context. Please specify 'Core', 'Hcm' or 'EventSourcing'."
             exit 1
             ;;
     esac
