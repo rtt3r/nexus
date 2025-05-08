@@ -26,12 +26,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
+    private static IServiceCollection AddRepositories(this IServiceCollection services) =>
         // services.AddScoped<ILegalEntityRepository, LegalEntityRepository>();
 
-        return services;
-    }
+        services;
 
     private static IServiceCollection AddHcmDbContext(this IServiceCollection services, string connectionString)
     {

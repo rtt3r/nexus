@@ -86,7 +86,7 @@ services:
 
   core-api:
     image: ${REGISTRY:-nexus.co}/nexus/core-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: core-web.nexus.co
+    container_name: core-api.nexus.co
     restart: always
     build:
       context: .
@@ -108,7 +108,7 @@ services:
 
   hcm-api:
     image: ${REGISTRY:-nexus.co}/nexus/hcm-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: hcm-web.nexus.co
+    container_name: hcm-api.nexus.co
     restart: always
     build:
       context: .

@@ -1,5 +1,3 @@
-using Nexus.Core.Api.Features.Companies.CreateCompany;
-
 namespace Nexus.Core.Api.Features.Companies.GetCompany;
 
 public class GetCompanyResponse

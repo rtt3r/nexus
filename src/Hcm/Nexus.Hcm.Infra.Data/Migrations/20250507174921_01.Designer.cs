@@ -25,7 +25,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.Document", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.Document", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -41,7 +41,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("Documents", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.DocumentAttribute", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.DocumentAttribute", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -67,7 +67,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("DocumentAttributes", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.Person", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.Person", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -88,12 +88,12 @@ namespace Nexus.Hcm.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons", "Core");
+                    b.ToTable("People", "Core");
 
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonAddress", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonAddress", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -158,7 +158,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("PersonAddresses", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonContact", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonContact", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -209,7 +209,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("PersonContacts", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocument", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonDocument", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -243,7 +243,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("PersonDocuments", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocumentAttribute", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonDocumentAttribute", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
@@ -277,9 +277,9 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.ToTable("PersonDocumentAttributes", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.NaturalPerson", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.NaturalPerson", b =>
                 {
-                    b.HasBaseType("Nexus.Hcm.Domain.Persons.Aggregates.Person");
+                    b.HasBaseType("Nexus.Hcm.Domain.People.Aggregates.Person");
 
                     b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("date");
@@ -288,12 +288,12 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("nvarchar(16)");
 
-                    b.ToTable("NaturalPersons", "Core");
+                    b.ToTable("NaturalPeople", "Core");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.DocumentAttribute", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.DocumentAttribute", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Document", "Document")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Document", "Document")
                         .WithMany("Attributes")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -302,9 +302,9 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Document");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonAddress", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonAddress", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Person", "Person")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -313,9 +313,9 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonContact", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonContact", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Person", "Person")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Person", "Person")
                         .WithMany("Contacts")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -324,15 +324,15 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocument", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonDocument", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Document", "Document")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Document", "Document")
                         .WithMany("PersonDocuments")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Person", "Person")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Person", "Person")
                         .WithMany("Documents")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -343,15 +343,15 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocumentAttribute", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonDocumentAttribute", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.DocumentAttribute", "Attribute")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.DocumentAttribute", "Attribute")
                         .WithMany()
                         .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocument", "Document")
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.PersonDocument", "Document")
                         .WithMany("Attributes")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -362,23 +362,23 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Document");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.NaturalPerson", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.NaturalPerson", b =>
                 {
-                    b.HasOne("Nexus.Hcm.Domain.Persons.Aggregates.Person", null)
+                    b.HasOne("Nexus.Hcm.Domain.People.Aggregates.Person", null)
                         .WithOne()
-                        .HasForeignKey("Nexus.Hcm.Domain.Persons.Aggregates.NaturalPerson", "Id")
+                        .HasForeignKey("Nexus.Hcm.Domain.People.Aggregates.NaturalPerson", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.Document", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.Document", b =>
                 {
                     b.Navigation("Attributes");
 
                     b.Navigation("PersonDocuments");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.Person", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.Person", b =>
                 {
                     b.Navigation("Addresses");
 
@@ -387,7 +387,7 @@ namespace Nexus.Hcm.Infra.Data.Migrations
                     b.Navigation("Documents");
                 });
 
-            modelBuilder.Entity("Nexus.Hcm.Domain.Persons.Aggregates.PersonDocument", b =>
+            modelBuilder.Entity("Nexus.Hcm.Domain.People.Aggregates.PersonDocument", b =>
                 {
                     b.Navigation("Attributes");
                 });

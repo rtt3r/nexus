@@ -1,4 +1,4 @@
-﻿using Nexus.Core.Domain.Companies.Aggregates;
+using Nexus.Core.Domain.Companies.Aggregates;
 using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Application.Companies.CreateCompany;

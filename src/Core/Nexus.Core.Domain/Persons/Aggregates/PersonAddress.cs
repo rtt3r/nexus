@@ -1,5 +1,4 @@
 using Goal.Domain.Aggregates;
-using Nexus.Core.Domain.Persons.Aggregates;
 
 namespace Nexus.Core.Domain.Persons.Aggregates;
 

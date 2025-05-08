@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Nexus.Hcm.Infra.Data.Query.Repositories.People;
 using Raven.DependencyInjection;
 
 namespace Nexus.Hcm.Infra.Data.Query.DependencyInjection;
@@ -19,7 +20,7 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        // services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
+        services.AddScoped<IEmployeeQueryRepository, EmployeeQueryRepository>();
 
         return services;
     }

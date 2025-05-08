@@ -1,7 +1,7 @@
 using Goal.Domain.Events;
 using MediatR;
 
-namespace Nexus.Hcm.Domain.Persons.Events;
+namespace Nexus.Hcm.Domain.People.Events;
 
 public sealed class PersonCreatedEvent(string aggregateId, string createdBy)
     : Event(aggregateId, nameof(PersonCreatedEvent)), INotification

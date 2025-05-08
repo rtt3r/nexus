@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nexus.Hcm.Domain.Persons.Aggregates;
+using Nexus.Hcm.Domain.People.Aggregates;
 
 namespace Nexus.Hcm.Infra.Data.Configurations;
 
@@ -8,7 +8,7 @@ internal sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {
-        builder.ToTable("Persons", "Core");
+        builder.ToTable("People", "Core");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -42,7 +42,7 @@ internal sealed class NaturalPersonConfiguration : IEntityTypeConfiguration<Natu
 {
     public void Configure(EntityTypeBuilder<NaturalPerson> builder)
     {
-        builder.ToTable("NaturalPersons", "Core");
+        builder.ToTable("NaturalPeople", "Core");
 
         builder.Property(p => p.Gender)
             .HasConversion<string>()

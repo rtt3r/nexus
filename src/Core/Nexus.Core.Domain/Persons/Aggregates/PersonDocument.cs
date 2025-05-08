@@ -28,7 +28,7 @@ public sealed class PersonDocument : Entity
     public bool Active { get; private set; } = true;
     public Person Person { get; private set; } = default!;
     public Document Document { get; private set; } = default!;
-    public IEnumerable<PersonDocumentAttribute> Attributes { get; private set; } = new List<PersonDocumentAttribute>();
+    public IEnumerable<PersonDocumentAttribute> Attributes { get; private set; } = [];
 
     public void Activate()
         => Active = true;

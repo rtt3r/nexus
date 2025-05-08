@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Nexus.Hcm.Domain.Persons.Aggregates;
+using Nexus.Hcm.Domain.People.Aggregates;
 using Nexus.Hcm.Infra.Data.Configurations;
 
 namespace Nexus.Hcm.Infra.Data;
@@ -7,8 +7,8 @@ namespace Nexus.Hcm.Infra.Data;
 internal sealed class HcmDbContext(DbContextOptions<HcmDbContext> options)
     : DbContext(options)
 {
-    public DbSet<Person> Persons { get; set; } = default!;
-    public DbSet<NaturalPerson> NaturalPersons { get; set; } = default!;
+    public DbSet<Person> People { get; set; } = default!;
+    public DbSet<NaturalPerson> NaturalPeople { get; set; } = default!;
     public DbSet<PersonDocument> PersonDocuments { get; set; } = default!;
     public DbSet<Document> Documents { get; set; } = default!;
     public DbSet<DocumentAttribute> DocumentAttributes { get; set; } = default!;

@@ -1,6 +1,6 @@
 using Goal.Domain.Aggregates;
 
-namespace Nexus.Hcm.Domain.Persons.Aggregates;
+namespace Nexus.Hcm.Domain.People.Aggregates;
 
 public sealed class PersonAddress : Entity
 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nexus.Hcm.Domain.Persons.Aggregates;
+using Nexus.Hcm.Domain.People.Aggregates;
 
 namespace Nexus.Hcm.Infra.Data.Configurations;
 

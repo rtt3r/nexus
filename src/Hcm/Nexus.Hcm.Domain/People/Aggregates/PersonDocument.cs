@@ -1,6 +1,6 @@
 using Goal.Domain.Aggregates;
 
-namespace Nexus.Hcm.Domain.Persons.Aggregates;
+namespace Nexus.Hcm.Domain.People.Aggregates;
 
 public sealed class PersonDocument : Entity
 {
@@ -28,7 +28,7 @@ public sealed class PersonDocument : Entity
     public bool Active { get; private set; } = true;
     public Person Person { get; private set; } = default!;
     public Document Document { get; private set; } = default!;
-    public IEnumerable<PersonDocumentAttribute> Attributes { get; private set; } = new List<PersonDocumentAttribute>();
+    public IEnumerable<PersonDocumentAttribute> Attributes { get; private set; } = [];
 
     public void Activate()
         => Active = true;

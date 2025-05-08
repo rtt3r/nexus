@@ -1,6 +1,5 @@
 using AutoMapper;
 using Goal.Infra.Crosscutting.Collections;
-using Nexus.Core.Api.Features.Companies.GetCompany;
 using Nexus.Core.Model.Companies;
 using Nexus.Core.Model.People;
 
