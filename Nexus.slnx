@@ -1,39 +1,58 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path=".dockerignore" />
-    <File Path=".editorconfig" />
-    <File Path=".gitattributes" />
-    <File Path=".gitignore" />
-    <File Path="api.http" />
-    <File Path="CHANGELOG.md" />
-    <File Path="CONTRIBUTING.md" />
-    <File Path="README.md" />
-  </Folder>
-  <Folder Name="/src/" />
-  <Folder Name="/src/0. Infra/">
-    <Project Path="src/Infra/Nexus.Infra.Crosscutting/Nexus.Infra.Crosscutting.csproj" />
-    <Project Path="src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" />
-    <Project Path="src/Infra/Nexus.Infra.Data.Query/Nexus.Infra.Data.Query.csproj" />
-    <Project Path="src/Infra/Nexus.Infra.Http/Nexus.Infra.Http.csproj" />
-  </Folder>
-  <Folder Name="/src/1. Core/" />
-  <Folder Name="/src/1. Core/1.1. Presentation/">
-    <Project Path="src/Core/Nexus.Core.Web/Nexus.Core.Web.csproj" />
-    <Project Path="src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" />
-  </Folder>
-  <Folder Name="/src/1. Core/1.2. Application/">
-    <Project Path="src/Core/Nexus.Core.Application/Nexus.Core.Application.csproj" />
-    <Project Path="src/Core/Nexus.Core.Model/Nexus.Core.Model.csproj" />
-  </Folder>
-  <Folder Name="/src/1. Core/1.3. Domain/">
-    <Project Path="src/Core/Nexus.Core.Domain/Nexus.Core.Domain.csproj" />
-  </Folder>
-  <Folder Name="/src/1. Core/1.4. Infrastructure/">
-    <Project Path="src/Core/Nexus.Core.Infra.Data.Query/Nexus.Core.Infra.Data.Query.csproj" />
-    <Project Path="src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" />
-    <Project Path="src/Core/Nexus.Core.Infra.IoC/Nexus.Core.Infra.IoC.csproj" />
-  </Folder>
-  <Project Path="docker-compose.dcproj" Id="666c1ed2-40b8-4c1d-a14b-848e0670bb9c">
-    <Build />
-  </Project>
+    <Folder Name="/Solution Items/">
+        <File Path=".dockerignore" />
+        <File Path=".editorconfig" />
+        <File Path=".gitattributes" />
+        <File Path=".gitignore" />
+        <File Path="api.http" />
+        <File Path="CHANGELOG.md" />
+        <File Path="CONTRIBUTING.md" />
+        <File Path="README.md" />
+    </Folder>
+    <Folder Name="/src/" />
+    <Folder Name="/src/0. Infra/">
+        <Project Path="src/Infra/Nexus.Infra.Crosscutting/Nexus.Infra.Crosscutting.csproj" />
+        <Project
+            Path="src/Infra/Nexus.Infra.Data.EventSourcing/Nexus.Infra.Data.EventSourcing.csproj" />
+        <Project Path="src/Infra/Nexus.Infra.Data.Query/Nexus.Infra.Data.Query.csproj" />
+        <Project Path="src/Infra/Nexus.Infra.Http/Nexus.Infra.Http.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Core/" />
+    <Folder Name="/src/1. Core/1.1. Presentation/">
+        <Project Path="src/Core/Nexus.Core.Api/Nexus.Core.Api.csproj" />
+        <Project Path="src/Core/Nexus.Core.Worker/Nexus.Core.Worker.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Core/1.2. Application/">
+        <Project Path="src/Core/Nexus.Core.Application/Nexus.Core.Application.csproj" />
+        <Project Path="src/Core/Nexus.Core.Model/Nexus.Core.Model.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Core/1.3. Domain/">
+        <Project Path="src/Core/Nexus.Core.Domain/Nexus.Core.Domain.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Core/1.4. Infrastructure/">
+        <Project Path="src/Core/Nexus.Core.Infra.Data.Query/Nexus.Core.Infra.Data.Query.csproj" />
+        <Project Path="src/Core/Nexus.Core.Infra.Data/Nexus.Core.Infra.Data.csproj" />
+        <Project Path="src/Core/Nexus.Core.Infra.IoC/Nexus.Core.Infra.IoC.csproj" />
+    </Folder>
+
+    <Folder Name="/src/1. Hcm/" />
+    <Folder Name="/src/1. Hcm/1.1. Presentation/">
+        <Project Path="src/Hcm/Nexus.Hcm.Api/Nexus.Hcm.Api.csproj" />
+        <Project Path="src/Hcm/Nexus.Hcm.Worker/Nexus.Hcm.Worker.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Hcm/1.2. Application/">
+        <Project Path="src/Hcm/Nexus.Hcm.Application/Nexus.Hcm.Application.csproj" />
+        <Project Path="src/Hcm/Nexus.Hcm.Model/Nexus.Hcm.Model.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Hcm/1.3. Domain/">
+        <Project Path="src/Hcm/Nexus.Hcm.Domain/Nexus.Hcm.Domain.csproj" />
+    </Folder>
+    <Folder Name="/src/1. Hcm/1.4. Infrastructure/">
+        <Project Path="src/Hcm/Nexus.Hcm.Infra.Data.Query/Nexus.Hcm.Infra.Data.Query.csproj" />
+        <Project Path="src/Hcm/Nexus.Hcm.Infra.Data/Nexus.Hcm.Infra.Data.csproj" />
+        <Project Path="src/Hcm/Nexus.Hcm.Infra.IoC/Nexus.Hcm.Infra.IoC.csproj" />
+    </Folder>
+    <Project Path="docker-compose.dcproj" Id="666c1ed2-40b8-4c1d-a14b-848e0670bb9c">
+        <Build />
+    </Project>
 </Solution>
