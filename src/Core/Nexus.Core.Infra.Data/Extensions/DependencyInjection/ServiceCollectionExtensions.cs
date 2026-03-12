@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<CoreDbContext>((provider, options) =>
         {
             options
-                .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(CoreDbContext).Assembly.GetName().Name))
+                .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(CoreDbContext).Assembly.GetName().Name))
                 .EnableSensitiveDataLogging();
         });
 

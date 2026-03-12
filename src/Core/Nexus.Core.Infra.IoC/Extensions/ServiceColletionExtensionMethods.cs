@@ -83,7 +83,10 @@ public static class ServiceColletionExtensionMethods
 
         action?.Invoke(options);
 
-        services.AddAutoMapper([.. options.AutoMapperAssemblies, typeof(CoreApplicationOptions).Assembly]);
+        services.AddAutoMapper(opts =>
+        {
+            opts.AddMaps([.. options.AutoMapperAssemblies, typeof(CoreApplicationOptions).Assembly]);
+        });
 
         services.AddSingleton<ITypeAdapterFactory, AutoMapperAdapterFactory>();
         services.AddSingleton(factory => factory.GetService<ITypeAdapterFactory>()!.Create());

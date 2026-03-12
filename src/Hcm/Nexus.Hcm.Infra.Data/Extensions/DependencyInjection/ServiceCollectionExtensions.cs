@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<HcmDbContext>((provider, options) =>
         {
             options
-                .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(HcmDbContext).Assembly.GetName().Name))
+                .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(HcmDbContext).Assembly.GetName().Name))
                 .EnableSensitiveDataLogging();
         });
 

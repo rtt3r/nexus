@@ -9,7 +9,7 @@
       "serviceActions": {
         "core-api": "StartDebugging",
         "core-worker": "StartDebugging",
-        "mysql": "StartWithoutDebugging",
+        "postgres": "StartWithoutDebugging",
         "keycloak": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging",
         "rabbitmq": "StartWithoutDebugging",

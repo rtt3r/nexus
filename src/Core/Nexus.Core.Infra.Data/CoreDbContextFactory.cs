@@ -8,7 +8,7 @@ internal class CoreDbContextFactory : DesignTimeDbContextFactory<CoreDbContext>
 {
     protected override CoreDbContext CreateNewInstance(DbContextOptionsBuilder<CoreDbContext> optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         return new CoreDbContext(optionsBuilder.Options);
     }
 }

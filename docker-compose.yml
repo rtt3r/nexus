@@ -5,7 +5,7 @@ services:
     image: ravendb/ravendb:ubuntu-latest-lts
     container_name: ravendb.nexus.co
     ports:
-      - 8080:8080
+      - 8082:8080
       - 38888:38888
     environment:
       - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
@@ -15,6 +15,23 @@ services:
     volumes:
       - ravendb-data:/var/lib/ravendb/data
       - ${APPDATA}\RavenDB\license:/ravendb/license
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres.nexus.co
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-vol:/var/lib/postgresql
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     hostname: "mabbit"
@@ -39,31 +56,6 @@ services:
     volumes:
       - seq-data:/var/lib/seq/data/
 
-  mssql:
-    image: "mcr.microsoft.com/mssql/server:2022-CU16-ubuntu-22.04"
-    container_name: mssql.nexus.co
-    hostname: mssql.nexus.co
-    user: root
-    ports:
-      - "1433:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${MSSQL_PASSWORD}
-    volumes:
-      - mssql-vol:/var/opt/mssql/data
-
-  postgres:
-    image: postgres:latest
-    container_name: postgres.nexus.co
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: keycloak
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-vol:/var/lib/postgresql/data
-
   keycloak:
     image: "quay.io/keycloak/keycloak:latest"
     container_name: keycloak.nexus.co
@@ -79,7 +71,7 @@ services:
       - KC_DB=postgres
       - KC_DB_USERNAME=${KC_DB_USERNAME}
       - KC_DB_PASSWORD=${KC_DB_PASSWORD}
-      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/nexus_kc_dev
     volumes:
       - keycloak-data:/opt/keycloak/data
 
@@ -105,31 +97,7 @@ services:
       - "8003:80"
       - "4433:443"
 
-  hcm-api:
-    image: ${REGISTRY:-nexus.co}/nexus/hcm-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: hcm-api.nexus.co
-    restart: always
-    build:
-      context: .
-      dockerfile: src/Hcm/Nexus.Hcm.Api/Dockerfile
-    ports:
-      - "8004:80"
-      - "4434:443"
-
-  hcm-worker:
-    image: ${REGISTRY:-nexus.co}/nexus/hcm-worker:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: hcm-worker.nexus.co
-    restart: always
-    build:
-      context: .
-      dockerfile: src/Hcm/Nexus.Hcm.Worker/Dockerfile
-    ports:
-      - "8005:80"
-      - "4435:443"
-
 volumes:
-  mssql-vol:
-    name: nexus.co.mssql-data-vol
   postgres-vol:
     name: nexus.co.postgres-vol
   ravendb-config:

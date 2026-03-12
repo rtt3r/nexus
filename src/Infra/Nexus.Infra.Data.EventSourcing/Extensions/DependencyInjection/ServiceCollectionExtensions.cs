@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<EventSourcingDbContext>((provider, options) =>
         {
             options
-                .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(EventSourcingDbContext).Assembly.GetName().Name))
+                .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(EventSourcingDbContext).Assembly.GetName().Name))
                 .EnableSensitiveDataLogging();
         });
 

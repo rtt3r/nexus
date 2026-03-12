@@ -8,7 +8,7 @@ internal class HcmDbContextFactory : DesignTimeDbContextFactory<HcmDbContext>
 {
     protected override HcmDbContext CreateNewInstance(DbContextOptionsBuilder<HcmDbContext> optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         return new HcmDbContext(optionsBuilder.Options);
     }
 }

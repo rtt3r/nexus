@@ -8,7 +8,7 @@ internal sealed class EventSourcingDbContextFactory : DesignTimeDbContextFactory
 {
     protected override EventSourcingDbContext CreateNewInstance(DbContextOptionsBuilder<EventSourcingDbContext> optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("EventSourcingConnection"));
+        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("EventSourcingConnection"));
         return new EventSourcingDbContext(optionsBuilder.Options);
     }
 }

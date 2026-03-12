@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Asp.Versioning;
 using Goal.Infra.Crosscutting.Localization;
@@ -70,14 +71,17 @@ public static class HostingExtensions
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        });
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddOpenApi("v1", options =>
         {
             options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
             options.AddDocumentTransformer<ServerHostTransformer>();
-            options.AddOperationTransformer<SnakeCaseQueryOperationTransformer>();
-            options.AddSchemaTransformer<SnakeCaseSchemaTransformer>();
         });
 
         builder.Services.AddKeycloak(builder.Configuration);
@@ -120,6 +124,7 @@ public static class HostingExtensions
         return builder.Build();
     }
 
+    [Obsolete]
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         app.UseRequestLocalization(new RequestLocalizationOptions

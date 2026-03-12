@@ -26,7 +26,7 @@ services:
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4432
-      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8082
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
@@ -65,7 +65,7 @@ services:
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4433
-      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8082
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
@@ -94,7 +94,7 @@ services:
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4434
-      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8082
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
@@ -133,7 +133,7 @@ services:
       - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4435
-      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8082
       - ASPNETCORE_RavenSettings__DatabaseName=NexusCore
       - ASPNETCORE_RavenSettings__CertFilePath=
       - ASPNETCORE_RavenSettings__CertPassword=
